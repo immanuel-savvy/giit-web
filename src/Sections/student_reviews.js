@@ -12,7 +12,7 @@ class Student_reviews extends React.Component {
     // fetch reviews
     let reviews = new Array({
       student: {
-        image: "https://via.placeholder.com/500x500",
+        image: "http://localhost:3000/Assets/img/learning_procedure.jpg",
         name: "lola grey",
         job: { organisation: "UNIZIK", position: "Student" },
       },

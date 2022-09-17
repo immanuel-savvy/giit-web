@@ -3,7 +3,7 @@ import "./Assets/css/plugins/bootstrap.min.css";
 import "./Assets/css/plugins/date-picker.css";
 import "./Assets/css/plugins/select2.css";
 import "./Assets/css/plugins/slick.css";
-// import "./Assets/css/plugins/slick-theme.css";
+import "./Assets/css/plugins/slick-theme.css";
 import "./Assets/css/plugins/themify.css";
 import "./Assets/css/plugins/morris.css";
 import "./Assets/css/plugins/font-awesome.css";

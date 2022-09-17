@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { to_title } from "../Assets/js/utils/functions";
 
 class Featured_course extends React.Component {
   constructor(props) {
@@ -55,7 +56,7 @@ class Featured_course extends React.Component {
               </Link>
             </div>
             <div class="crs_cates cl_1">
-              <span>{tags[0]}</span>
+              <span>{to_title(tags[0])}</span>
             </div>
             <div class="crs_title">
               <h4>
@@ -63,7 +64,7 @@ class Featured_course extends React.Component {
                   to={`/course-detail?course=${_id}`}
                   class="crs_title_link"
                 >
-                  {title}
+                  {to_title(title)}
                 </Link>
               </h4>
             </div>
@@ -89,7 +90,7 @@ class Featured_course extends React.Component {
                   class="progress-bar"
                   role="progressbar"
                   style={{ width: "50%" }}
-                  aria-valuenow={progress || 0}
+                  aria-valuenow={progress || 100}
                   aria-valuemin="0"
                   aria-valuemax="100"
                 ></div>

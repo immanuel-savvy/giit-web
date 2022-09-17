@@ -14,7 +14,8 @@ class Banner extends React.Component {
         className="hero_banner image-cover"
         style={{
           backgroundColor: "#03b97c",
-          backgroundImage: "url(https://via.placeholder.com/1920x1200)",
+          backgroundImage:
+            "url(http://localhost:3000/Assets/img/banner_001.jpg)",
           backgroundRepeat: "no-repeat",
         }}
         data-overlay="5"
@@ -29,7 +30,8 @@ class Banner extends React.Component {
                     Find the most exciting cources online
                   </h1>
                   <p className="font-lg mb-4">
-                    Connect with the world while at home
+                    Become certified and get high paying local and international
+                    jobs
                   </p>
                   <div className="input-group simple_search">
                     <i className="fa fa-search ico"></i>

@@ -10,7 +10,7 @@ class Courses extends React.Component {
     this.state = {
       courses: new Array({
         title: "UI/UX Design pattern for successfull software Applications",
-        views_strings: "92K",
+        views_string: "92K",
         enrollments_string: "10K",
         videos: 24,
         tags: new Array("design"),

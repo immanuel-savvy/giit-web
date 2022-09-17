@@ -68,7 +68,7 @@ class Footer extends React.Component {
                   </h4>
                   <p>
                     Receive updates, hot deals, tutorials, discounts sent
-                    straignt in your inbox every month
+                    straight in your inbox every month
                   </p>
                   <div className="foot-news-last">
                     <div className="input-group">

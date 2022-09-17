@@ -38,7 +38,7 @@ class Nav extends React.Component {
             />
           </Link>
           <div className="nav-toggle"></div>
-          {/* <div className="mobile_nav">
+          <div className="mobile_nav">
             <ul>
               <li>
                 <Link
@@ -53,7 +53,7 @@ class Nav extends React.Component {
                 </Link>
               </li>
             </ul>
-          </div> */}
+          </div>
         </div>
         <div className="nav-menus-wrapper">
           <ul className="nav-menu">

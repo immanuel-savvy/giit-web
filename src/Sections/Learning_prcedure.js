@@ -7,12 +7,12 @@ class Learning_procedure extends React.Component {
     this.state = {
       procedures: new Array(
         {
-          title: "Create account",
+          title: "Find a course",
           explain:
             "Oluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa.",
         },
         {
-          title: "Join Membership",
+          title: "Enroll",
           explain:
             "Error sit voluptatem actium doloremque laudantium, totam rem aperiam, eaque ipsa.",
         },
@@ -40,7 +40,7 @@ class Learning_procedure extends React.Component {
             <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
               <div className="lmp_thumb">
                 <img
-                  src="https://via.placeholder.com/1000x850"
+                  src="http://localhost:3000/Assets/img/learning_procedure.jpg"
                   className="img-fluid"
                   alt=""
                 />
@@ -49,14 +49,14 @@ class Learning_procedure extends React.Component {
             <div className="col-xl-5 col-lg-5 col-md-6 col-sm-12">
               <div className="lmp_caption">
                 <ol className="list-unstyled p-0">
-                  {procedures.map((procedure) => (
+                  {procedures.map((procedure, index) => (
                     <li
                       key={procedure.title}
                       className="d-flex align-items-start my-3 my-md-4"
                     >
                       <div className="rounded-circle p-3 p-sm-4 d-flex align-items-center justify-content-center theme-bg">
                         <div className="position-absolute text-white h5 mb-0">
-                          3
+                          {index + 1}
                         </div>
                       </div>
                       <div className="ml-3 ml-md-4">
