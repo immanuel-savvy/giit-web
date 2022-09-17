@@ -59,9 +59,8 @@ class Latest_news_and_articles extends React.Component {
                   Latest News & <span className="theme-cl">Articles</span>
                 </h2>
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam.
+                  We tell you about the lastest updates in the society of
+                  technology to foster awareness all-round
                 </p>
               </div>
             </div>

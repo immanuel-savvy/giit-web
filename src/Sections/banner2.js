@@ -11,25 +11,26 @@ class Banner extends React.Component {
   render() {
     return (
       <div
-        className="hero_banner image-cover"
+        className="hero_banner image-cover image_bottom"
         style={{
-          backgroundColor: "#03b97c",
-          backgroundImage: "url(https://via.placeholder.com/1920x1200)",
+          backgroundImage: `url("http://localhost:3000/Assets/img/banner-1.png")`,
+          backgroundColor: "#f7f8f9",
           backgroundRepeat: "no-repeat",
         }}
-        data-overlay="5"
       >
         <div className="container">
-          <div className="row align-items-center">
-            <div className="col-xl-6 col-lg-7 col-md-8 col-sm-12">
-              <div className="simple-search-wrap text-left">
-                <div className="hero_search-2">
-                  <div className="elsio_tag">RAISING GLOBALSTARS</div>
+          <div className="row justify-content-center">
+            <div className="col-lg-9 col-md-10 col-sm-12">
+              <div className="simple-search-wrap">
+                <div className="hero_search-2 text-center">
+                  <div className="elsio_tag">LISTEN TO OUR NEW ANTHEM</div>
                   <h1 className="banner_title mb-4">
-                    Find the most exciting cources online
+                    Crack CCNA CCNE - CCNP with Africa's best learning platform
                   </h1>
                   <p className="font-lg mb-4">
-                    Connect with the world while at home
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                    do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation.
                   </p>
                   <div className="input-group simple_search">
                     <i className="fa fa-search ico"></i>

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-class Course extends React.Component {
+class Featured_course extends React.Component {
   constructor(props) {
     super(props);
 
@@ -9,98 +9,111 @@ class Course extends React.Component {
   }
 
   render() {
+    let { progress } = this.state;
     let { course } = this.props;
     let {
-      cover,
+      image,
       title,
       tags,
-      enrollments,
-      duration_text,
-      audience,
-      lectures,
-      author,
-      price,
+      currency,
+      cost,
+      _id,
+      instructor,
+      videos,
+      enrollments_string,
+      views_string,
     } = course;
 
     return (
-      <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12">
-        <div className="crs_grid">
-          <div className="crs_grid_thumb">
-            <Link to="/course_detail" className="crs_detail_link">
+      <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+        <div class="crs_grid">
+          <div class="crs_grid_thumb">
+            <Link to={`/course-detail?course=${_id}`} class="crs_detail_link">
               <img
-                src={cover || "https://via.placeholder.com/1200x800"}
-                className="img-fluid rounded"
+                src={image || "https://via.placeholder.com/1200x800"}
+                class="img-fluid rounded"
                 alt=""
               />
             </Link>
-            <div className="crs_video_ico">
-              <i className="fa fa-play"></i>
+            <div class="crs_video_ico">
+              <i class="fa fa-play"></i>
             </div>
-            <div className="crs_locked_ico">
-              <i className="fa fa-lock"></i>
+            <div class="crs_locked_ico">
+              <i class="fa fa-lock"></i>
             </div>
           </div>
-          <div className="crs_grid_caption">
-            <div className="crs_flex">
-              <div className="crs_fl_first">
-                <div className="crs_cates cl_6">
-                  <span>{tags[0]}</span>
-                </div>
-              </div>
-              <div className="crs_fl_last">
-                <div className="crs_inrolled">
-                  <strong>{enrollments}</strong>Enrolled
-                </div>
-              </div>
+          <div class="crs_grid_caption">
+            <div class="crs_tutor_thumb overl_top">
+              <Link to={`/instructor-detail?instructor=${instructor?._id}`}>
+                <img
+                  src={
+                    instructor?.image || "https://via.placeholder.com/500x500"
+                  }
+                  class="img-fluid circle"
+                  alt=""
+                />
+              </Link>
             </div>
-            <div className="crs_title">
+            <div class="crs_cates cl_1">
+              <span>{tags[0]}</span>
+            </div>
+            <div class="crs_title">
               <h4>
-                <Link to="/course_detail" className="crs_title_link">
+                <Link
+                  to={`/course-detail?course=${_id}`}
+                  class="crs_title_link"
+                >
                   {title}
                 </Link>
               </h4>
             </div>
-            <div className="crs_info_detail">
+            <div class="crs_info_detail">
               <ul>
                 <li>
-                  <i className="fa fa-clock text-danger"></i>
-                  <span>{duration_text}</span>
+                  <i class="fa fa-video"></i>
+                  <span>{`${videos} Videos`}</span>
                 </li>
                 <li>
-                  <i className="fa fa-video text-success"></i>
-                  <span>{lectures} Lectures</span>
+                  <i class="fa fa-user"></i>
+                  <span>{`${enrollments_string} User`}</span>
                 </li>
                 <li>
-                  <i className="fa fa-signal text-warning"></i>
-                  <span>{audience}</span>
+                  <i class="fa fa-eye"></i>
+                  <span>{`${views_string} Views`}</span>
                 </li>
               </ul>
             </div>
+            <div class="preview_crs_info">
+              <div class="progress">
+                <div
+                  class="progress-bar"
+                  role="progressbar"
+                  style={{ width: "50%" }}
+                  aria-valuenow={progress || 0}
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                ></div>
+              </div>
+            </div>
           </div>
-          <div className="crs_grid_foot">
-            <div className="crs_flex">
-              <div className="crs_fl_first">
-                <div className="crs_tutor">
-                  <div className="crs_tutor_thumb">
-                    <Link to="/instructor_detail">
-                      <img
-                        src={author.image}
-                        className="img-fluid circle"
-                        alt=""
-                      />
-                    </Link>
-                  </div>
-                  <div className="crs_tutor_name">
-                    <Link to="instructor-detail.html">{author.name}</Link>
-                  </div>
+          <div class="crs_grid_foot">
+            <div class="crs_flex">
+              <div class="crs_fl_first">
+                <div class="crs_price">
+                  <h2>
+                    <span class="currency">{currency || "N"}</span>
+                    <span class="theme-cl">{cost}</span>
+                  </h2>
                 </div>
               </div>
-              <div className="crs_fl_last">
-                <div className="crs_price">
-                  <h2>
-                    <span className="currency">N</span>
-                    <span className="theme-cl">{price}</span>
-                  </h2>
+              <div class="crs_fl_last">
+                <div class="crs_linkview">
+                  <Link
+                    to={`/course-detail?course=${_id}`}
+                    class="btn btn_view_detail theme-bg text-light"
+                  >
+                    Enroll Now
+                  </Link>
                 </div>
               </div>
             </div>
@@ -111,4 +124,4 @@ class Course extends React.Component {
   }
 }
 
-export default Course;
+export default Featured_course;

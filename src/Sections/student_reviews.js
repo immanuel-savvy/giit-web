@@ -10,62 +10,15 @@ class Student_reviews extends React.Component {
 
   componentDidMount = async () => {
     // fetch reviews
-    let reviews = new Array(
-      {
-        student: {
-          image: "https://via.placeholder.com/500x500",
-          name: "lola grey",
-          job: { organisation: "UNIZIK", position: "Student" },
-        },
-        rating: 4.7,
-        text: "Deserunt irure et duis qui voluptate duis proident. Amet culpa eiusmod dolor ipsum proident in ullamco mollit.",
+    let reviews = new Array({
+      student: {
+        image: "https://via.placeholder.com/500x500",
+        name: "lola grey",
+        job: { organisation: "UNIZIK", position: "Student" },
       },
-      {
-        student: {
-          image: "https://via.placeholder.com/500x500",
-          name: "lola grey",
-          job: { organisation: "UNIZIK", position: "Student" },
-        },
-        rating: 4.7,
-        text: "Deserunt irure et duis qui voluptate duis proident. Amet culpa eiusmod dolor ipsum proident in ullamco mollit.",
-      },
-      {
-        student: {
-          image: "https://via.placeholder.com/500x500",
-          name: "lola grey",
-          job: { organisation: "UNIZIK", position: "Student" },
-        },
-        rating: 4.7,
-        text: "Deserunt irure et duis qui voluptate duis proident. Amet culpa eiusmod dolor ipsum proident in ullamco mollit.",
-      },
-      {
-        student: {
-          image: "https://via.placeholder.com/500x500",
-          name: "lola grey",
-          job: { organisation: "UNIZIK", position: "Student" },
-        },
-        rating: 4.7,
-        text: "Deserunt irure et duis qui voluptate duis proident. Amet culpa eiusmod dolor ipsum proident in ullamco mollit.",
-      },
-      {
-        student: {
-          image: "https://via.placeholder.com/500x500",
-          name: "lola grey",
-          job: { organisation: "UNIZIK", position: "Student" },
-        },
-        rating: 4.7,
-        text: "Deserunt irure et duis qui voluptate duis proident. Amet culpa eiusmod dolor ipsum proident in ullamco mollit.",
-      },
-      {
-        student: {
-          image: "https://via.placeholder.com/500x500",
-          name: "lola grey",
-          job: { organisation: "UNIZIK", position: "Student" },
-        },
-        rating: 4.7,
-        text: "Deserunt irure et duis qui voluptate duis proident. Amet culpa eiusmod dolor ipsum proident in ullamco mollit.",
-      }
-    ); // await fetch('')
+      rating: 4.7,
+      text: "Deserunt irure et duis qui voluptate duis proident. Amet culpa eiusmod dolor ipsum proident in ullamco mollit.",
+    }); // await fetch('')
 
     this.setState({ reviews });
   };
@@ -81,11 +34,7 @@ class Student_reviews extends React.Component {
                 <h2>
                   Our Students <span className="theme-cl">Reviews</span>
                 </h2>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam.
-                </p>
+                <p>Here's is what some of our happy clients has to say</p>
               </div>
             </div>
           </div>
@@ -93,8 +42,8 @@ class Student_reviews extends React.Component {
             <div className="col-xl-12 col-lg-12 col-sm-12">
               <div className="reviews-slide space">
                 {reviews && reviews.length
-                  ? reviews.map((review, index) => (
-                      <Review review={review} key={index} />
+                  ? new Array(1, 2, 3, 4, 5, 6, 7).map((review, index) => (
+                      <Review review={reviews[0]} key={index} />
                     ))
                   : null}
               </div>

@@ -41,7 +41,7 @@ class Article extends React.Component {
             </div>
             <div className="blg_title">
               <h4>
-                <Link to={`/blog_detail?blog=${_id}`}>{title}</Link>
+                <Link to={`/blog_detail?article=${_id}`}>{title}</Link>
               </h4>
             </div>
             <div className="blg_desc">

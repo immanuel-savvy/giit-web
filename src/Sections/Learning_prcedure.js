@@ -34,7 +34,7 @@ class Learning_procedure extends React.Component {
     let { procedures } = this.state;
 
     return (
-      <section className="pt-0">
+      <section className="pt-0 gray">
         <div className="container">
           <div className="row align-items-center justify-content-between">
             <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
