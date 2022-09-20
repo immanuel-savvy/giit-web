@@ -1492,18 +1492,18 @@ span.select2-selection.select2-selection--single {
 /**************************************
 	Header Navigation Styles
 ***************************************/
-.nav-brand,
+/* .nav-brand,
 .nav-brand:focus,
 .nav-brand:hover,
 .nav-menu > li > a {
   color: #eee;
-}
+} */
 
 .my_header_style .nav-brand,
 .my_header_style .nav-brand:focus,
 .my_header_style .nav-brand:hover,
 .my_header_style .nav-menu > li > a {
-  color: #000b47 !important;
+  color: #000b47;
 }
 
 .menu__list,
@@ -2609,6 +2609,12 @@ span.expiration {
 }
 /*----------Dark Menu --------*/
 @media (min-width: 993px) {
+  .nav-brand,
+.nav-brand:focus,
+.nav-brand:hover,
+.nav-menu > li > a {
+  color: #eee;
+}
   .nav-menu.nav-menu-social > li.add-listing.bg-white {
     background: #ffffff !important;
   }
@@ -2765,6 +2771,12 @@ span.expiration {
   }
 }
 @media (max-width: 992px) {
+  .nav-brand,
+  .nav-brand:focus,
+  .nav-brand:hover,
+  .nav-menu > li > a {
+    color: #000b47;
+  }
   .navigation-portrait .nav-brand {
     margin-left: 25px;
   }

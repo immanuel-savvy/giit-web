@@ -1,4 +1,8 @@
 import React from "react";
+import { Col } from "react-bootstrap";
+import Video from "../Components/video";
+import alan from "./../Assets/video/alan.mp4";
+import logo from "./../Assets/img/thumbnail.jpg";
 import Review from "./review";
 
 class Student_reviews extends React.Component {
@@ -28,17 +32,22 @@ class Student_reviews extends React.Component {
     let { reviews } = this.state;
 
     return (
-      <section className={page === "about" ? "" : "gray"}>
-        <div className="container">
-          <div className="row justify-content-center">
-            <div className="col-lg-7 col-md-8">
-              <div className="sec-heading center">
+      <section className={`${page === "about" ? "" : "gray"}`}>
+        <div className="container gray">
+          <div className="row mb-3 gray">
+            <div className="col-lg-6 col-md-6 col-sm-12 align-items-center d-flex">
+              <div className="">
                 <h2>
                   Our Students <span className="theme-cl">Reviews</span>
                 </h2>
-                <p>Here's is what some of our happy students has to say</p>
+                <p class="h5">
+                  Here's is what some of our happy students has to say
+                </p>
               </div>
             </div>
+            <Col lg={6} md={6} sm={12} className="align-items-center">
+              <Video url={alan} thumbnail={logo} />
+            </Col>
           </div>
           <div className="row justify-content-center">
             <div className="col-xl-12 col-lg-12 col-sm-12">

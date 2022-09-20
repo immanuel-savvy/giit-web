@@ -39,7 +39,7 @@ class Banner extends React.Component {
                   <div className="input-group simple_search">
                     <div className="input-group-append">
                       <button
-                        className="btn theme-bg rounded text-light"
+                        className="btn theme-bg ml-0 rounded text-light"
                         type="button"
                       >
                         Apply Now
