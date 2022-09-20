@@ -17,8 +17,12 @@ class Nav extends React.Component {
           path: "/courses",
         },
         {
+          title: "about",
+          path: "/about",
+        },
+        {
           title: "contact",
-          path: "/contact",
+          path: "/contact_us",
         }
       ),
     };
@@ -42,9 +46,7 @@ class Nav extends React.Component {
             <ul>
               <li>
                 <Link
-                  to="javascript:void(0);"
-                  data-toggle="modal"
-                  data-target="#login"
+                  to="/login"
                   className="crs_yuo12 w-auto text-white theme-bg"
                 >
                   <span className="embos_45">
@@ -60,10 +62,7 @@ class Nav extends React.Component {
             {navs
               ? navs.map((nav, index) => {
                   return (
-                    <li
-                      key={index}
-                      className={active_nav === nav.to ? "active" : ""}
-                    >
+                    <li key={index}>
                       <Link to={nav.path} key={nav.title}>
                         {to_title(nav.title)}
                         {nav.submenu ? (

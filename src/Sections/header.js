@@ -9,8 +9,16 @@ class Header extends React.Component {
   }
 
   render() {
+    let { page } = this.props;
+
     return (
-      <div className="header header-transparent dark-text">
+      <div
+        className={
+          page === "home" || !page
+            ? "header header-transparent dark-text my_header_style_init"
+            : "header header-light head-shadow my_header_style_init"
+        }
+      >
         <div className="container">
           <Nav />
           <div className="clearfix"></div>

@@ -40,7 +40,7 @@ class Learning_procedure extends React.Component {
             <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
               <div className="lmp_thumb">
                 <img
-                  src="http://localhost:3000/Assets/img/learning_procedure.jpg"
+                  src="../Assets/img/learning_procedure.jpg"
                   className="img-fluid"
                   alt=""
                 />

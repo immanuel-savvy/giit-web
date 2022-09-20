@@ -105,34 +105,9 @@ class Footer extends React.Component {
                               } col-md-7 ml-right`}
                             >
                               <ul className="footer-menu">
-                                {courses_categories[0].map((category) => (
-                                  <li>
-                                    <Link
-                                      to={
-                                        "/courses?category=" +
-                                        `${
-                                          category.name === "home"
-                                            ? "/"
-                                            : category.name.replace(/ /g, "_")
-                                        }`
-                                      }
-                                    >
-                                      {to_title(category.name)}
-                                      {category.created +
-                                        60 * 60 * 24 * 30 * 1000 >
-                                      Date.now() ? (
-                                        <span className="new">New</span>
-                                      ) : null}
-                                    </Link>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                            {courses_categories[1].length ? (
-                              <div className="col-lg-4 col-md-7 col-sm-4 ml-right">
-                                <ul className="footer-menu">
-                                  {courses_categories[1].map((category) => (
-                                    <li>
+                                {courses_categories[0].map(
+                                  (category, index) => (
+                                    <li key={index}>
                                       <Link
                                         to={
                                           "/courses?category=" +
@@ -151,7 +126,39 @@ class Footer extends React.Component {
                                         ) : null}
                                       </Link>
                                     </li>
-                                  ))}
+                                  )
+                                )}
+                              </ul>
+                            </div>
+                            {courses_categories[1].length ? (
+                              <div className="col-lg-4 col-md-7 col-sm-4 ml-right">
+                                <ul className="footer-menu">
+                                  {courses_categories[1].map(
+                                    (category, index) => (
+                                      <li key={index}>
+                                        <Link
+                                          to={
+                                            "/courses?category=" +
+                                            `${
+                                              category.name === "home"
+                                                ? "/"
+                                                : category.name.replace(
+                                                    / /g,
+                                                    "_"
+                                                  )
+                                            }`
+                                          }
+                                        >
+                                          {to_title(category.name)}
+                                          {category.created +
+                                            60 * 60 * 24 * 30 * 1000 >
+                                          Date.now() ? (
+                                            <span className="new">New</span>
+                                          ) : null}
+                                        </Link>
+                                      </li>
+                                    )
+                                  )}
                                 </ul>
                               </div>
                             ) : null}
@@ -197,10 +204,7 @@ class Footer extends React.Component {
           <div className="container">
             <div className="row align-items-center">
               <div className="col-lg-12 col-md-12 text-center">
-                <p className="mb-0">
-                  © 2022 GIIT Africa. Designed By
-                  <a href="https://github.com/immanuel-savvy"> Savvy</a>.
-                </p>
+                <p className="mb-0">© 2022 GIIT Africa. All rights reserved.</p>
               </div>
             </div>
           </div>

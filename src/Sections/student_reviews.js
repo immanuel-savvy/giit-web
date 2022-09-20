@@ -24,9 +24,11 @@ class Student_reviews extends React.Component {
   };
 
   render() {
+    let { page } = this.props;
     let { reviews } = this.state;
+
     return (
-      <section className="gray">
+      <section className={page === "about" ? "" : "gray"}>
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-lg-7 col-md-8">
@@ -34,7 +36,7 @@ class Student_reviews extends React.Component {
                 <h2>
                   Our Students <span className="theme-cl">Reviews</span>
                 </h2>
-                <p>Here's is what some of our happy clients has to say</p>
+                <p>Here's is what some of our happy students has to say</p>
               </div>
             </div>
           </div>

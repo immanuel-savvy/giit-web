@@ -12,7 +12,7 @@ class Review extends React.Component {
     let { student, rating, text } = review;
 
     return (
-      <div className="single_items lios_item">
+      <div className="single_items lios_item mb-3">
         <div className="_testimonial_wrios shadow_none">
           <div className="_testimonial_flex">
             <div className="_testimonial_flex_first">

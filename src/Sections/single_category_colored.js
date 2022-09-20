@@ -13,20 +13,20 @@ class Single_category_colored extends React.Component {
     let { title, courses, image } = category;
 
     return (
-      <div class="col-lg-4 col-md-4 col-sm-6">
-        <div class="edu_cat_2 cat-1">
-          <div class="edu_cat_icons">
-            <Link class="pic-main" to={`/courses?category=${title}`}>
-              <img src={image} class="img-fluid" alt="" />
+      <div className="col-lg-4 col-md-4 col-sm-6">
+        <div className="edu_cat_2 cat-1">
+          <div className="edu_cat_icons">
+            <Link className="pic-main" to={`/courses?category=${title}`}>
+              <img src={image} className="img-fluid" alt="" />
             </Link>
           </div>
-          <div class="edu_cat_data">
-            <h4 class="title">
+          <div className="edu_cat_data">
+            <h4 className="title">
               <Link to="#">{title}</Link>
             </h4>
-            <ul class="meta">
-              <li class="video">
-                <i class="ti-video-clapper"></i>
+            <ul className="meta">
+              <li className="video">
+                <i className="ti-video-clapper"></i>
                 {`${courses} Courses`}
               </li>
             </ul>

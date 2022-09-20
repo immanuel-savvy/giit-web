@@ -1,20 +1,15 @@
-import "./Assets/css/plugins/animation.css";
-import "./Assets/css/plugins/bootstrap.min.css";
-import "./Assets/css/plugins/date-picker.css";
-import "./Assets/css/plugins/select2.css";
-import "./Assets/css/plugins/slick.css";
-import "./Assets/css/plugins/slick-theme.css";
-import "./Assets/css/plugins/themify.css";
-import "./Assets/css/plugins/morris.css";
-import "./Assets/css/plugins/font-awesome.css";
-import "./Assets/css/plugins/flaticon.css";
-import "./Assets/css/plugins/summernote.min.css";
 import "./Assets/css/styles.css";
 
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./Pages/Home";
 import Courses from "./Pages/Courses";
+import Contact from "./Pages/Contact";
+import Signup from "./Pages/Signup";
+import Login from "./Pages/Login";
+import Page_not_found from "./Pages/404";
+import About from "./Pages/About";
+import Forgot_password from "./Pages/Forgot_password";
 
 class Giit extends React.Component {
   constructor(props) {
@@ -42,34 +37,36 @@ class Giit extends React.Component {
   };
 
   componentDidMount = () => {
-    document.title = "Globalstart Innovative Information Technology";
+    document.title = "Globalstar Innovative Information Technology";
 
     this.script_paths.map((script_path) => this.append_script(script_path));
   };
 
   render = () => {
     return (
-      <BrowserRouter>
-        <html lang="zxx">
-          <head>
-            <meta charSet="utf-8" />
-            <meta name="author" content="Themezhub" />
-            <meta
-              name="viewport"
-              content="width=device-width, initial-scale=1"
-            />
-            <link rel="shortcut icon" href="../assets/images/gt_favicon.png" />
-          </head>
+      <html lang="zxx">
+        <head>
+          <meta charSet="utf-8" />
+          <meta name="author" content="Themezhub" />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <link rel="shortcut icon" href="../assets/images/gt_favicon.png" />
+        </head>
 
-          <body>
+        <body>
+          <BrowserRouter>
             <Routes>
               <Route index element={<Index />} />
               <Route path="courses" element={<Courses />} />
+              <Route path="contact_us" element={<Contact />} />
+              <Route path="signup" element={<Signup />} />
+              <Route path="login" element={<Login />} />
+              <Route path="forgot_password" element={<Forgot_password />} />
+              <Route path="about" element={<About />} />
+              <Route path="*" element={<Page_not_found />} />
             </Routes>
-            <script>console.log('JSS')</script>
-          </body>
-        </html>
-      </BrowserRouter>
+          </BrowserRouter>
+        </body>
+      </html>
     );
   };
 }

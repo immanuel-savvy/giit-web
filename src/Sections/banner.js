@@ -1,5 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Container, Row, Col } from "react-bootstrap";
+import alan from "./../Assets/video/alan.mp4";
+import logo from "./../Assets/img/thumbnail.jpg";
+import Video from "../Components/video";
 
 class Banner extends React.Component {
   constructor(props) {
@@ -14,43 +18,42 @@ class Banner extends React.Component {
         className="hero_banner image-cover"
         style={{
           backgroundColor: "#03b97c",
-          backgroundImage:
-            "url(http://localhost:3000/Assets/img/banner_001.jpg)",
+          backgroundImage: "url(./../Assets/img/bannerbg.png)",
           backgroundRepeat: "no-repeat",
         }}
         data-overlay="5"
       >
-        <div className="container">
-          <div className="row align-items-center">
-            <div className="col-xl-6 col-lg-7 col-md-8 col-sm-12">
-              <div className="simple-search-wrap text-left">
+        <Container>
+          <Row className="align-items-center">
+            <Col xl={6} lg={6} md={6} sm={12}>
+              <div className="mb-3 simple-search-wrap text-left">
                 <div className="hero_search-2">
                   <div className="elsio_tag">RAISING GLOBALSTARS</div>
                   <h1 className="banner_title mb-4">
-                    Find the most exciting cources online
+                    Enjoy 100% practical sessions
                   </h1>
                   <p className="font-lg mb-4">
-                    Become certified and get high paying local and international
-                    jobs
+                    Every professional starts out as a beginner. At our hands-on
+                    class sessions, join other Global leaders.
                   </p>
                   <div className="input-group simple_search">
-                    <i className="fa fa-search ico"></i>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Search Your Cources"
-                    />
                     <div className="input-group-append">
-                      <button className="btn theme-bg" type="button">
-                        Search
+                      <button
+                        className="btn theme-bg rounded text-light"
+                        type="button"
+                      >
+                        Apply Now
                       </button>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
+            </Col>
+            <Col xl={6} lg={6} md={6} sm={12}>
+              <Video url={alan} thumbnail={logo} />
+            </Col>
+          </Row>
+        </Container>
       </div>
     );
   }

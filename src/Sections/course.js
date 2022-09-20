@@ -26,68 +26,71 @@ class Featured_course extends React.Component {
     } = course;
 
     return (
-      <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
-        <div class="crs_grid">
-          <div class="crs_grid_thumb">
-            <Link to={`/course-detail?course=${_id}`} class="crs_detail_link">
+      <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+        <div className="crs_grid">
+          <div className="crs_grid_thumb">
+            <Link
+              to={`/course-detail?course=${_id}`}
+              className="crs_detail_link"
+            >
               <img
                 src={image || "https://via.placeholder.com/1200x800"}
-                class="img-fluid rounded"
+                className="img-fluid rounded"
                 alt=""
               />
             </Link>
-            <div class="crs_video_ico">
-              <i class="fa fa-play"></i>
+            <div className="crs_video_ico">
+              <i className="fa fa-play"></i>
             </div>
-            <div class="crs_locked_ico">
-              <i class="fa fa-lock"></i>
+            <div className="crs_locked_ico">
+              <i className="fa fa-lock"></i>
             </div>
           </div>
-          <div class="crs_grid_caption">
-            <div class="crs_tutor_thumb overl_top">
+          <div className="crs_grid_caption">
+            <div className="crs_tutor_thumb overl_top">
               <Link to={`/instructor-detail?instructor=${instructor?._id}`}>
                 <img
                   src={
                     instructor?.image || "https://via.placeholder.com/500x500"
                   }
-                  class="img-fluid circle"
+                  className="img-fluid circle"
                   alt=""
                 />
               </Link>
             </div>
-            <div class="crs_cates cl_1">
+            <div className="crs_cates cl_1">
               <span>{to_title(tags[0])}</span>
             </div>
-            <div class="crs_title">
+            <div className="crs_title">
               <h4>
                 <Link
                   to={`/course-detail?course=${_id}`}
-                  class="crs_title_link"
+                  className="crs_title_link"
                 >
                   {to_title(title)}
                 </Link>
               </h4>
             </div>
-            <div class="crs_info_detail">
+            <div className="crs_info_detail">
               <ul>
                 <li>
-                  <i class="fa fa-video"></i>
+                  <i className="fa fa-video"></i>
                   <span>{`${videos} Videos`}</span>
                 </li>
                 <li>
-                  <i class="fa fa-user"></i>
+                  <i className="fa fa-user"></i>
                   <span>{`${enrollments_string} User`}</span>
                 </li>
                 <li>
-                  <i class="fa fa-eye"></i>
+                  <i className="fa fa-eye"></i>
                   <span>{`${views_string} Views`}</span>
                 </li>
               </ul>
             </div>
-            <div class="preview_crs_info">
-              <div class="progress">
+            <div className="preview_crs_info">
+              <div className="progress">
                 <div
-                  class="progress-bar"
+                  className="progress-bar"
                   role="progressbar"
                   style={{ width: "50%" }}
                   aria-valuenow={progress || 100}
@@ -97,21 +100,21 @@ class Featured_course extends React.Component {
               </div>
             </div>
           </div>
-          <div class="crs_grid_foot">
-            <div class="crs_flex">
-              <div class="crs_fl_first">
-                <div class="crs_price">
+          <div className="crs_grid_foot">
+            <div className="crs_flex">
+              <div className="crs_fl_first">
+                <div className="crs_price">
                   <h2>
-                    <span class="currency">{currency || "N"}</span>
-                    <span class="theme-cl">{cost}</span>
+                    <span className="currency">{currency || "N"}</span>
+                    <span className="theme-cl">{cost}</span>
                   </h2>
                 </div>
               </div>
-              <div class="crs_fl_last">
-                <div class="crs_linkview">
+              <div className="crs_fl_last">
+                <div className="crs_linkview">
                   <Link
                     to={`/course-detail?course=${_id}`}
-                    class="btn btn_view_detail theme-bg text-light"
+                    className="btn btn_view_detail theme-bg text-light"
                   >
                     Enroll Now
                   </Link>
