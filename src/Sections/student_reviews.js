@@ -16,7 +16,7 @@ class Student_reviews extends React.Component {
     // fetch reviews
     let reviews = new Array({
       student: {
-        image: "http://localhost:3000/Assets/img/learning_procedure.jpg",
+        image: "../Assets/img/learning_procedure.jpg",
         name: "lola grey",
         job: { organisation: "UNIZIK", position: "Student" },
       },
@@ -28,20 +28,20 @@ class Student_reviews extends React.Component {
   };
 
   render() {
-    let { page } = this.props;
+    let { gray } = this.props;
     let { reviews } = this.state;
 
     return (
-      <section className={`${page === "about" ? "" : "gray"}`}>
-        <div className="container gray">
-          <div className="row mb-3 gray">
+      <section className={`gray`}>
+        <div className="container">
+          <div className="row mb-3">
             <div className="col-lg-6 col-md-6 col-sm-12 align-items-center d-flex">
               <div className="">
                 <h2>
                   Our Students <span className="theme-cl">Reviews</span>
                 </h2>
                 <p class="h5">
-                  Here's is what some of our happy students has to say
+                  Here's is what some of our happy alumni has to say
                 </p>
               </div>
             </div>

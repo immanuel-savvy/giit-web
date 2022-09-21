@@ -51,7 +51,7 @@ class About extends React.Component {
         <section>
           <div className="container">
             <div className="row align-items-center justify-content-between">
-              <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+              <div className="col-xl-6 col-lg-6 col-md-7 col-sm-12 mb-3">
                 <div className="lmp_caption">
                   <span className="theme-cl">About Us</span>
                   <h2 className="mb-3">What We Do & Our Aim</h2>
@@ -72,31 +72,8 @@ class About extends React.Component {
                     and shaping up the future leaders.
                   </p>
                   <br />
-                  <h6>Our Core Values</h6>
-                  <div className="mb-3 mr-4 ml-lg-0 mr-lg-4">
-                    <div className="d-flex align-items-center">
-                      <div className="rounded-circle bg-light-success theme-cl p-2 small d-flex align-items-center justify-content-center">
-                        <i className="fas fa-check"></i>
-                      </div>
-                      <h6 className="mb-0 ml-3">Integrity</h6>
-                    </div>
-                  </div>
-                  <div className="mb-3 mr-4 ml-lg-0 mr-lg-4">
-                    <div className="d-flex align-items-center">
-                      <div className="rounded-circle bg-light-success theme-cl p-2 small d-flex align-items-center justify-content-center">
-                        <i className="fas fa-check"></i>
-                      </div>
-                      <h6 className="mb-0 ml-3">Responsibility</h6>
-                    </div>
-                  </div>
-                  <div className="mb-3 mr-4 ml-lg-0 mr-lg-4">
-                    <div className="d-flex align-items-center">
-                      <div className="rounded-circle bg-light-success theme-cl p-2 small d-flex align-items-center justify-content-center">
-                        <i className="fas fa-check"></i>
-                      </div>
-                      <h6 className="mb-0 ml-3">Diligence</h6>
-                    </div>
-                  </div>
+                  {/* <h6>Our Team</h6> */}
+
                   <div className="text-left mt-4">
                     <a href="#" className="btn btn-md text-light theme-bg">
                       Enrolled Today
@@ -105,7 +82,7 @@ class About extends React.Component {
                 </div>
               </div>
 
-              <div className="col-xl-5 col-lg-5 col-md-12 col-sm-12">
+              <div className="col-xl-5 col-lg-5 col-md-5 col-sm-12">
                 <div className="lmp_thumb">
                   <img
                     src="http://localhost:3000/Assets/img/logo.png"

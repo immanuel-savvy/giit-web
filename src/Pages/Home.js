@@ -1,13 +1,14 @@
 import React from "react";
 import Banner from "../Sections/banner";
+import Certification_courses from "../Sections/certification_courses";
+import Combo_courses from "../Sections/combo_courses";
 import Contact_us_today from "../Sections/contact_us_today";
 import Courses from "../Sections/courses";
-import Featured_course_categories from "../Sections/featured_course_categories";
 import Footer from "../Sections/footer";
 import Header from "../Sections/header";
 import Latest_news_and_articles from "../Sections/latest_news_and_articles";
-import Learning_procedure from "../Sections/Learning_prcedure";
 import Ratings from "../Sections/ratings";
+import Services from "../Sections/services";
 import Student_reviews from "../Sections/student_reviews";
 
 class Index extends React.Component {
@@ -42,9 +43,13 @@ class Index extends React.Component {
           subtitle="In less than six weeks, you’ll master in-demand skills that will prepare you for workforce."
         />
 
+        <Combo_courses gray />
+
+        <Certification_courses title="Certification Courses" />
         <Student_reviews />
         <Latest_news_and_articles />
         <Contact_us_today />
+        <Services />
         <Footer />
       </div>
     );

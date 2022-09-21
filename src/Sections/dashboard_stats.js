@@ -1,0 +1,70 @@
+import React from "react";
+import { to_title } from "../Assets/js/utils/functions";
+import Loadindicator from "../Components/loadindicator";
+
+class Dashboard_stats extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {};
+  }
+
+  componentDidMount = async () => {
+    let stats = new Array(
+      {
+        title: "number of courses",
+        figure: 607,
+        name: "courses",
+      },
+      {
+        title: "number of students",
+        figure: 78000,
+        name: "students",
+      },
+      {
+        title: "number of enrollment",
+        figure: 32000,
+        name: "enrollments",
+      }
+    );
+
+    this.setState({ stats });
+  };
+
+  stat_icon_et_name = {
+    courses: "fa-book",
+    students: "fa-users",
+    enrollments: "fa-gem",
+  };
+
+  format_figure = (figure) => figure;
+
+  stat_card = ({ title, figure, name }) => {
+    return (
+      <div key={name} class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+        <div class="dashboard_stats_wrap">
+          <div class="rounded-circle p-4 p-sm-4 d-inline-flex align-items-center justify-content-center theme-bg mb-2">
+            <div class="position-absolute text-white h5 mb-0">
+              <i class={`fas ${this.stat_icon_et_name[name]}`}></i>
+            </div>
+          </div>
+          <div class="dashboard_stats_wrap_content">
+            <h4>{this.format_figure(figure)}</h4> <span>{to_title(title)}</span>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  render() {
+    let { stats } = this.state;
+
+    return (
+      <div class="row">
+        {stats ? stats?.map((stat) => this.stat_card(stat)) : <Loadindicator />}
+      </div>
+    );
+  }
+}
+
+export default Dashboard_stats;

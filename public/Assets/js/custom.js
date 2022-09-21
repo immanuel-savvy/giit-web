@@ -143,15 +143,15 @@ $(function () {
         });
       var h = function () {
           n("body").addClass("no-scroll"),
-            // u.settings.overlay &&
-            (n(t).append("<div class='nav-overlay-panel'></div>"),
-            n(t)
-              .find(".nav-overlay-panel")
-              .css("background-color", u.settings.overlayColor)
-              .fadeIn(300)
-              .on("click touchstart", function (n) {
-                u.hideOffcanvas();
-              }));
+            u.settings.overlay &&
+              (n(t).append("<div class='nav-overlay-panel'></div>"),
+              n(t)
+                .find(".nav-overlay-panel")
+                .css("background-color", u.settings.overlayColor)
+                .fadeIn(300)
+                .on("click touchstart", function (n) {
+                  u.hideOffcanvas();
+                }));
         },
         p = function () {
           n("body").removeClass("no-scroll"),
@@ -442,11 +442,37 @@ $(function () {
 
     if (scroll >= 50) {
       $(".header").addClass("header-fixed my_header_style");
-      $(".header").removeClass("my_header_style_init");
     } else {
       $(".header").removeClass("header-fixed my_header_style");
-      $(".header").addClass("my_header_style_init");
     }
+  });
+
+  // Certification course Slide
+  $(".certification-slide").slick({
+    slidesToShow: 4,
+    arrows: true,
+    dots: false,
+    infinite: true,
+    autoplaySpeed: 2000,
+    autoplay: true,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          arrows: true,
+          dots: false,
+          slidesToShow: 3,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          arrows: true,
+          dots: false,
+          slidesToShow: 2,
+        },
+      },
+    ],
   });
 
   // Property Slide

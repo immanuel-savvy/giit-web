@@ -10,6 +10,7 @@ import Login from "./Pages/Login";
 import Page_not_found from "./Pages/404";
 import About from "./Pages/About";
 import Forgot_password from "./Pages/Forgot_password";
+import Adminstrator from "./Pages/Adminstrator";
 
 class Giit extends React.Component {
   constructor(props) {
@@ -26,7 +27,8 @@ class Giit extends React.Component {
     "../Assets/js/daterangepicker.js",
     "../Assets/js/summernote.min.js",
     "../Assets/js/metisMenu.min.js",
-    "../Assets/js/custom.js"
+    "../Assets/js/custom.js",
+    "../Assets/js/my_custom.js"
   );
 
   append_script = (path) => {
@@ -44,10 +46,13 @@ class Giit extends React.Component {
 
   render = () => {
     return (
-      <html lang="zxx">
+      <html lang="en">
         <head>
           <meta charSet="utf-8" />
-          <meta name="author" content="Themezhub" />
+          <meta
+            name="Savvy"
+            content="Globalstar Innovative Information Technology"
+          />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <link rel="shortcut icon" href="../assets/images/gt_favicon.png" />
         </head>
@@ -62,6 +67,7 @@ class Giit extends React.Component {
               <Route path="login" element={<Login />} />
               <Route path="forgot_password" element={<Forgot_password />} />
               <Route path="about" element={<About />} />
+              <Route path="adminstrator" element={<Adminstrator />} />
               <Route path="*" element={<Page_not_found />} />
             </Routes>
           </BrowserRouter>

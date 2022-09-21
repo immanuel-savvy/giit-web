@@ -46,14 +46,6 @@ class Services extends React.Component {
       {
         title: "car tracking",
         icon: "fa-code",
-      },
-      {
-        title: "solar & inverter",
-        icon: "fa-code",
-      },
-      {
-        title: "IT support",
-        icon: "fa-code",
       }
     );
     this.setState({ services });

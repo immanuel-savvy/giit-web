@@ -2610,11 +2610,11 @@ span.expiration {
 /*----------Dark Menu --------*/
 @media (min-width: 993px) {
   .nav-brand,
-.nav-brand:focus,
-.nav-brand:hover,
-.nav-menu > li > a {
-  color: #eee;
-}
+  .nav-brand:focus,
+  .nav-brand:hover,
+  .nav-menu > li > a {
+    color: #eee;
+  }
   .nav-menu.nav-menu-social > li.add-listing.bg-white {
     background: #ffffff !important;
   }
@@ -8514,6 +8514,8 @@ footer.skin-dark-footer ul.footer-bottom-social li a:focus {
   }
 }
 
+/* My Style */
+
 .my_header_style {
   color: blueviolet !important;
 }
@@ -8527,4 +8529,10 @@ footer.skin-dark-footer ul.footer-bottom-social li a:focus {
 }
 .my_header_style ul.nav-menu li {
   color: blueviolet !important;
+}
+
+.combo_hover {
+  background-color: #0a85d9 !important;
+  color: #fff !important;
+  border-radius: 10px;
 }
