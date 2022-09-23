@@ -5219,7 +5219,7 @@ span.tes_quote {
 .nav-pills .nav-link.active,
 .show > .nav-pills .nav-link {
   color: #fff;
-  background-color: #ff6905;
+  background-color: #ff6905 !important;
 }
 .nav-link {
   display: block;
@@ -6571,16 +6571,21 @@ a.filter_links {
   margin-bottom: 10px;
   width: 100%;
   cursor: pointer;
+  color: #ff6905;
   transition: all ease 0.4s;
 }
 #v-pills-tab .nav-link.active {
   border-color: #ff6905;
+  color: #fff;
 }
 #v-pills-tab .nav-link:hover,
 #v-pills-tab .nav-link:focus {
   background: rgba(3, 185, 124, 0.11);
   color: #ff6905;
   border: 1px solid rgba(3, 185, 124, 0.17);
+}
+#v-pills-tab .nav-link:focus {
+  color: #fff;
 }
 .nav-tabs {
   border: none;
@@ -7050,11 +7055,11 @@ ul.woo_info li {
 	Dashboard Design
 ==================================================*/
 .breadcrumb {
-  padding: 0.75rem 1rem;
-  margin-bottom: 1rem;
-  list-style: none;
-  background-color: #ffffff;
-  border-radius: 0.25rem;
+  padding: 0.75rem 1rem !important;
+  margin-bottom: 1rem !important;
+  list-style: none !important;
+  background-color: #ffffff !important;
+  border-radius: 0.25rem !important;
 }
 .breadcrumb-item.active {
   color: #ff6905;

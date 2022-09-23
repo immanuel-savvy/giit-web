@@ -6,13 +6,21 @@ class Loadindicator extends React.Component {
   }
 
   render() {
-    let { height, width } = this.props;
+    let { height, width, contained } = this.props;
 
     return (
-      <img
-        src="http://localhost:3000/Assets/css/plugins/ajax-loader.gif"
-        style={{ height: height || 64, width: width || 64 }}
-      />
+      <div
+        className={
+          contained
+            ? "d-flex align-items-center justify-content-center my-5"
+            : ""
+        }
+      >
+        <img
+          src="http://localhost:3000/Assets/css/plugins/ajax-loader.gif"
+          style={{ height: height || 64, width: width || 64 }}
+        />
+      </div>
     );
   }
 }

@@ -11,6 +11,9 @@ import Page_not_found from "./Pages/404";
 import About from "./Pages/About";
 import Forgot_password from "./Pages/Forgot_password";
 import Adminstrator from "./Pages/Adminstrator";
+import Emitter from "semitter";
+
+let emitter = new Emitter();
 
 class Giit extends React.Component {
   constructor(props) {
@@ -78,3 +81,4 @@ class Giit extends React.Component {
 }
 
 export default Giit;
+export { emitter };

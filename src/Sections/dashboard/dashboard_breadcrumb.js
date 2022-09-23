@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { to_title } from "../../Assets/js/utils/functions";
 
 class Dashboard_breadcrumb extends React.Component {
   constructor(props) {
@@ -9,16 +10,20 @@ class Dashboard_breadcrumb extends React.Component {
   }
 
   render() {
+    let { crumb } = this.props;
+
     return (
       <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 pb-4">
           <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
               <li class="breadcrumb-item">
-                <Link to="/">Home</Link>
+                <Link style={{ color: "#ff6905" }} to="/">
+                  Home
+                </Link>
               </li>
               <li class="breadcrumb-item active" aria-current="page">
-                Dashboard
+                {to_title(crumb)}
               </li>
             </ol>
           </nav>

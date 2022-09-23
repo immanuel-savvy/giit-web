@@ -23,7 +23,7 @@ class Signup extends React.Component {
                   <div className="crs_log_wrap">
                     <div className="crs_log__thumb">
                       <img
-                        src="http://localhost:3000/Assets/img/loginbg4.jpg"
+                        src="../Assets/img/loginbg4.jpg"
                         className="img-fluid"
                         alt=""
                       />
@@ -66,7 +66,7 @@ class Signup extends React.Component {
                           <input
                             type="text"
                             className="form-control"
-                            placeholder="immanuelsavvy@gmail.com"
+                            placeholder="you@mail.com"
                           />
                         </div>
                         <div className="form-group">

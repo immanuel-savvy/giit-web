@@ -11,12 +11,12 @@ class Admin_card extends React.Component {
     return (
       <div class="d-user-avater">
         <img
-          src="https://via.placeholder.com/500x500"
+          src="../../Assets/img/logo_single.png"
           class="img-fluid avater"
           alt=""
         />
-        <h4>Adam Harshvardhan</h4>
-        <span>Senior Designer</span>
+        <h4>GIIT</h4>
+        <span>Default Admin</span>
         <div class="elso_syu89">
           <ul>
             <li>
@@ -31,36 +31,19 @@ class Admin_card extends React.Component {
             </li>
             <li>
               <a href="#">
-                <i class="ti-instagram"></i>
-              </a>
-            </li>
-            <li>
-              <a href="#">
                 <i class="ti-linkedin"></i>
               </a>
             </li>
           </ul>
         </div>
-        <div class="elso_syu77">
-          <div class="one_third">
-            <div class="one_45ic text-warning bg-light-warning">
-              <i class="fas fa-star"></i>
-            </div>
-            <span>Ratings</span>
-          </div>
+        {/* <div class="elso_syu77">
           <div class="one_third">
             <div class="one_45ic text-success bg-light-success">
               <i class="fas fa-file-invoice"></i>
             </div>
             <span>Courses</span>
           </div>
-          <div class="one_third">
-            <div class="one_45ic text-purple bg-light-purple">
-              <i class="fas fa-user"></i>
-            </div>
-            <span>Enrolled User</span>
-          </div>
-        </div>
+        </div> */}
       </div>
     );
   }

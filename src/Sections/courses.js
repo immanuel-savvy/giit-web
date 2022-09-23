@@ -1,85 +1,66 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { to_title } from "../Assets/js/utils/functions";
+import { post_request } from "../Assets/js/utils/services";
+import Loadindicator from "../Components/loadindicator";
 import Featured_course from "./course";
 
 class Courses extends React.Component {
   constructor(props) {
     super(props);
-    let { section } = this.props;
 
-    this.state = {
-      courses:
-        section === "degree"
-          ? new Array({
-              title: "Data Science Master",
-              views_string: "92K",
-              enrollments_string: "10K",
-              videos: 24,
-              tags: new Array("design"),
-              _id: 1,
-              cost: 75000,
-            })
-          : section === "master"
-          ? new Array({
-              title: "Cyber Security Master",
-              views_string: "92K",
-              enrollments_string: "10K",
-              videos: 24,
-              tags: new Array("design"),
-              _id: 1,
-              cost: 75000,
-            })
-          : new Array({
-              title: "Azure Devops",
-              views_string: "92K",
-              enrollments_string: "10K",
-              videos: 24,
-              tags: new Array("design"),
-              _id: 1,
-              cost: 75000,
-            }),
-    };
+    this.state = {};
   }
 
+  componentDidMount = async () => {
+    let { category } = this.props;
+
+    let courses = await post_request(`category_courses/${category._id}`);
+    this.setState({ courses });
+  };
+
   render() {
-    let { title, subtitle, section, bg } = this.props;
+    let { category, gray } = this.props;
+    let { title, subtitle, section } = category;
     let { courses } = this.state;
-    if (!courses.length) return null;
+    if (courses && !courses.length) return null;
 
     return (
-      <section className={bg === "gray" ? "gray" : ""}>
+      <section className={gray ? `gray` : ""}>
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-lg-7 col-md-8">
               <div className="sec-heading center">
-                <h2>
-                  {/* Get Featured <span className="theme-cl">Cources</span> */}
-                  {title}
-                </h2>
+                <h2>{title}</h2>
                 <p>{subtitle}</p>
               </div>
             </div>
           </div>
           <div className="row justify-content-center">
-            {courses && courses.length
-              ? new Array(1, 2, 3, 4, 5, 6).map((course, index) => (
-                  <Featured_course course={courses[0]} key={index} />
-                ))
-              : null}
+            {courses && courses.length ? (
+              new Array(1, 2, 3, 4, 5, 6).map((course, index) => (
+                <Featured_course course={courses[0]} key={index} />
+              ))
+            ) : (
+              <div className="d-flex align-items-center justify-content-center my-5">
+                <Loadindicator />
+              </div>
+            )}
           </div>
-          <div className="row justify-content-center">
-            <div className="col-lg-7 col-md-8 mt-2">
-              <div className="text-center">
-                <Link
-                  to="/courses_layout"
-                  className="btn btn-md theme-bg-light theme-cl"
-                >
-                  {`Explore More ${to_title(section)} Courses`}
-                </Link>
+          {courses ? (
+            <div className="row justify-content-center">
+              <div className="col-lg-7 col-md-8 mt-2">
+                <div className="text-center">
+                  <Link
+                    to="/courses_layout"
+                    className="btn btn-md theme-bg-light theme-cl"
+                  >
+                    {`Explore More ${to_title(section)} Courses`}
+                  </Link>
+                </div>
               </div>
             </div>
-          </div>
+          ) : null}
         </div>
       </section>
     );

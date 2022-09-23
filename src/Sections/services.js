@@ -9,50 +9,11 @@ class Services extends React.Component {
     this.state = {};
   }
 
-  componentDidMount = async () => {
-    let services = new Array(
-      {
-        title: "web development",
-        icon: "fa-code",
-      },
-      {
-        title: "cloud computing",
-        icon: "fa-code",
-      },
-      {
-        title: "mobile app",
-        icon: "fa-code",
-      },
-      {
-        title: "software development",
-        icon: "fa-code",
-      },
-      {
-        title: "domain & hosting",
-        icon: "fa-code",
-      },
-      {
-        title: "social media",
-        icon: "fa-code",
-      },
-      {
-        title: "SEO",
-        icon: "fa-code",
-      },
-      {
-        title: "CCTV Installation",
-        icon: "fa-code",
-      },
-      {
-        title: "car tracking",
-        icon: "fa-code",
-      }
-    );
-    this.setState({ services });
-  };
+  componentDidMount = async () => {};
 
   render() {
     let { services } = this.state;
+    if (services && !services.length) return null;
 
     return (
       <section className="gray">
@@ -74,7 +35,7 @@ class Services extends React.Component {
                 <Service service={service} key={index} />
               ))
             ) : (
-              <Loadindicator />
+              <Loadindicator contained />
             )}
           </div>
         </div>

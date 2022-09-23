@@ -27,7 +27,7 @@ class Video extends React.Component {
               <div className="bb-video-box-inner">
                 <div className="bb-video-box-innerup">
                   <Link to="#" className="theme-cl">
-                    <i className="ti-control-play"></i>
+                    <i className="fa fa-play"></i>
                   </Link>
                 </div>
               </div>

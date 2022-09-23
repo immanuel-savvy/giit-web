@@ -1,6 +1,7 @@
 import React from "react";
-import { to_title } from "../Assets/js/utils/functions";
-import Loadindicator from "../Components/loadindicator";
+import { to_title } from "../../Assets/js/utils/functions";
+import { get_request } from "../../Assets/js/utils/services";
+import Loadindicator from "../../Components/loadindicator";
 
 class Dashboard_stats extends React.Component {
   constructor(props) {
@@ -10,24 +11,8 @@ class Dashboard_stats extends React.Component {
   }
 
   componentDidMount = async () => {
-    let stats = new Array(
-      {
-        title: "number of courses",
-        figure: 607,
-        name: "courses",
-      },
-      {
-        title: "number of students",
-        figure: 78000,
-        name: "students",
-      },
-      {
-        title: "number of enrollment",
-        figure: 32000,
-        name: "enrollments",
-      }
-    );
-
+    let stats = await get_request("stats");
+    console.log(stats);
     this.setState({ stats });
   };
 
@@ -61,7 +46,11 @@ class Dashboard_stats extends React.Component {
 
     return (
       <div class="row">
-        {stats ? stats?.map((stat) => this.stat_card(stat)) : <Loadindicator />}
+        {stats && stats.map ? (
+          stats?.map((stat) => this.stat_card(stat))
+        ) : (
+          <Loadindicator contained />
+        )}
       </div>
     );
   }

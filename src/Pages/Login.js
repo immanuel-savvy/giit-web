@@ -23,7 +23,7 @@ class Login extends React.Component {
                   <div className="crs_log_wrap">
                     <div className="crs_log__thumb">
                       <img
-                        src="http://localhost:3000/Assets/img/loginbg4.jpg"
+                        src="../Assets/img/loginbg4.jpg"
                         className="img-fluid"
                         alt=""
                       />
@@ -40,11 +40,11 @@ class Login extends React.Component {
                           <h4>Login Your Account</h4>
                         </div>
                         <div className="form-group">
-                          <label>User Name</label>
+                          <label>Email Address</label>
                           <input
                             type="text"
                             className="form-control"
-                            placeholder="immanuelsavvy@gmail.com"
+                            placeholder="you@mail.com"
                           />
                         </div>
                         <div className="form-group">

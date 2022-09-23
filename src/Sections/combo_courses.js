@@ -1,89 +1,18 @@
 import React from "react";
+import Loadindicator from "../Components/loadindicator";
 import Combo_course from "./combo_course";
 
 class Combo_courses extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      combos: new Array(
-        {
-          _id: 1,
-          title: "development",
-          courses: new Array(
-            {
-              title: "software",
-            },
-            { title: "devops" }
-          ),
-        },
-        {
-          _id: 2,
-          title: "web designing",
-          courses: new Array(
-            {
-              title: "excel",
-            },
-            { title: "power BI" }
-          ),
-        },
-        {
-          _id: 3,
-          title: "networking",
-          courses: new Array(
-            {
-              title: "software",
-            },
-            { title: "devops" }
-          ),
-        },
-        {
-          _id: 4,
-          title: "web designing",
-          courses: new Array(
-            {
-              title: "excel",
-            },
-            { title: "power BI" }
-          ),
-        },
-        {
-          _id: 5,
-          title: "networking",
-          courses: new Array(
-            {
-              title: "software",
-            },
-            { title: "devops" }
-          ),
-        },
-        {
-          _id: 6,
-          title: "web designing",
-          courses: new Array(
-            {
-              title: "excel",
-            },
-            { title: "power BI" }
-          ),
-        },
-        {
-          _id: 7,
-          title: "networking",
-          courses: new Array(
-            {
-              title: "software",
-            },
-            { title: "devops" }
-          ),
-        }
-      ),
-    };
+    this.state = {};
   }
 
   render() {
     let { gray } = this.props;
     let { combos } = this.state;
+    if (combos && !combos.length) return null;
 
     return (
       <section className={`${gray ? "gray" : ""} min`} id="combo_courses">
@@ -100,9 +29,13 @@ class Combo_courses extends React.Component {
             </div>
           </div>
           <div className="row justify-content-center">
-            {combos.map((combo, index) => (
-              <Combo_course combo={combo} key={index} />
-            ))}
+            {combos ? (
+              combos.map((combo, index) => (
+                <Combo_course combo={combo} key={index} />
+              ))
+            ) : (
+              <Loadindicator contained />
+            )}
           </div>
         </div>
       </section>

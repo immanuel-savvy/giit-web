@@ -1,29 +1,23 @@
 import React from "react";
+import Loadindicator from "../Components/loadindicator";
 import Certification_course from "./certification_course";
 
 class Certification_courses extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      courses: new Array(
-        { title: "microsoft certification" },
-        { title: "AWS certification" },
-        { title: "google cloud certification" },
-        { title: "AWS certification" },
-        { title: "cissp certification" },
-        { title: "google cloud certification" }
-      ),
-    };
+    this.state = {};
   }
 
   render() {
-    let { title, subtitle } = this.props;
+    let { title, gray, subtitle } = this.props;
     let { courses } = this.state;
+
+    if (courses && !courses.length) return null;
 
     return (
       <section
-        className={`gray`}
+        className={gray ? `gray` : ""}
         style={{
           background: "linear-gradient(#33bef0, #0a85d9)",
         }}
@@ -39,13 +33,15 @@ class Certification_courses extends React.Component {
           </div>
           <div className="row justify-content-center">
             <div className="col-xl-12 col-lg-12 col-sm-12">
-              <div className="certification-slide space">
-                {courses.length
-                  ? courses.map((course, index) => (
-                      <Certification_course key={index} course={course} />
-                    ))
-                  : null}
-              </div>
+              {courses ? (
+                <div className="certification-slide space">
+                  {courses.map((course, index) => (
+                    <Certification_course key={index} course={course} />
+                  ))}
+                </div>
+              ) : (
+                <Loadindicator contained />
+              )}
             </div>
           </div>
         </div>

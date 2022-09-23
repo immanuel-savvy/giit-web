@@ -4,6 +4,7 @@ import Video from "../Components/video";
 import alan from "./../Assets/video/alan.mp4";
 import logo from "./../Assets/img/thumbnail.jpg";
 import Review from "./review";
+import Loadindicator from "../Components/loadindicator";
 
 class Student_reviews extends React.Component {
   constructor(props) {
@@ -12,24 +13,12 @@ class Student_reviews extends React.Component {
     this.state = {};
   }
 
-  componentDidMount = async () => {
-    // fetch reviews
-    let reviews = new Array({
-      student: {
-        image: "../Assets/img/learning_procedure.jpg",
-        name: "lola grey",
-        job: { organisation: "UNIZIK", position: "Student" },
-      },
-      rating: 4.7,
-      text: "Deserunt irure et duis qui voluptate duis proident. Amet culpa eiusmod dolor ipsum proident in ullamco mollit.",
-    }); // await fetch('')
-
-    this.setState({ reviews });
-  };
+  componentDidMount = async () => {};
 
   render() {
-    let { gray } = this.props;
     let { reviews } = this.state;
+
+    if (reviews && !reviews.length) return null;
 
     return (
       <section className={`gray`}>
@@ -40,8 +29,8 @@ class Student_reviews extends React.Component {
                 <h2>
                   Our Students <span className="theme-cl">Reviews</span>
                 </h2>
-                <p class="h5">
-                  Here's is what some of our happy alumni has to say
+                <p className="h5">
+                  Here is what some of our happy alumni has to say
                 </p>
               </div>
             </div>
@@ -51,13 +40,15 @@ class Student_reviews extends React.Component {
           </div>
           <div className="row justify-content-center">
             <div className="col-xl-12 col-lg-12 col-sm-12">
-              <div className="reviews-slide space">
-                {reviews && reviews.length
-                  ? new Array(1, 2, 3, 4, 5, 6, 7).map((review, index) => (
-                      <Review review={reviews[0]} key={index} />
-                    ))
-                  : null}
-              </div>
+              {reviews ? (
+                <div className="reviews-slide space">
+                  {reviews.map((review, index) => (
+                    <Review review={review} key={index} />
+                  ))}
+                </div>
+              ) : (
+                <Loadindicator contained />
+              )}
             </div>
           </div>
         </div>

@@ -22,7 +22,7 @@ class Forgot_password extends React.Component {
                   <div className="crs_log_wrap">
                     <div className="crs_log__thumb">
                       <img
-                        src="http://localhost:3000/Assets/img/forgot_pass_bg2.jpg"
+                        src="../Assets/img/forgot_pass_bg2.jpg"
                         className="img-fluid"
                         alt=""
                       />
@@ -43,7 +43,7 @@ class Forgot_password extends React.Component {
                           <input
                             type="text"
                             className="form-control"
-                            placeholder="immanuelsavy@gmail.com"
+                            placeholder="you@mail.com"
                           />
                         </div>
                         <div className="form-group">

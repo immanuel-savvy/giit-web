@@ -9,35 +9,26 @@ class Featured_course extends React.Component {
     this.state = {};
   }
 
+  padd_length = 156;
+
   render() {
     let { progress } = this.state;
     let { course } = this.props;
-    let {
-      image,
-      title,
-      tags,
-      currency,
-      cost,
-      _id,
-      instructor,
-      videos,
-      enrollments_string,
-      views_string,
-    } = course;
+    let { image, title, short_desc, tags, currency, cost, _id, instructor } =
+      course;
+
+    if (short_desc) {
+      short_desc = short_desc.split("");
+      for (let i = short_desc.length; i < this.padd_length; i++)
+        short_desc.push("**");
+    }
 
     return (
       <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12">
         <div className="crs_grid">
           <div className="crs_grid_thumb">
-            <Link
-              to={`/course-detail?course=${_id}`}
-              className="crs_detail_link"
-            >
-              <img
-                src={image || "https://via.placeholder.com/1200x800"}
-                className="img-fluid rounded"
-                alt=""
-              />
+            <Link to={`/course?course=${_id}`} className="crs_detail_link">
+              <img src={image} className="img-fluid rounded" alt="" />
             </Link>
             <div className="crs_video_ico">
               <i className="fa fa-play"></i>
@@ -48,11 +39,9 @@ class Featured_course extends React.Component {
           </div>
           <div className="crs_grid_caption">
             <div className="crs_tutor_thumb overl_top">
-              <Link to={`/instructor-detail?instructor=${instructor?._id}`}>
+              <Link to={`/instructor?instructor=${instructor?._id}`}>
                 <img
-                  src={
-                    instructor?.image || "https://via.placeholder.com/500x500"
-                  }
+                  src={instructor?.image}
                   className="img-fluid circle"
                   alt=""
                 />
@@ -63,29 +52,19 @@ class Featured_course extends React.Component {
             </div>
             <div className="crs_title">
               <h4>
-                <Link
-                  to={`/course-detail?course=${_id}`}
-                  className="crs_title_link"
-                >
+                <Link to={`/course?course=${_id}`} className="crs_title_link">
                   {to_title(title)}
                 </Link>
               </h4>
             </div>
             <div className="crs_info_detail">
-              <ul>
-                <li>
-                  <i className="fa fa-video"></i>
-                  <span>{`${videos} Videos`}</span>
-                </li>
-                <li>
-                  <i className="fa fa-user"></i>
-                  <span>{`${enrollments_string} User`}</span>
-                </li>
-                <li>
-                  <i className="fa fa-eye"></i>
-                  <span>{`${views_string} Views`}</span>
-                </li>
-              </ul>
+              {short_desc ? (
+                <div style={{ flexWrap: "wrap", display: "flex" }}>
+                  {short_desc.map((d) =>
+                    d === "**" || d === " " ? <span>&nbsp;</span> : d
+                  )}
+                </div>
+              ) : null}
             </div>
             <div className="preview_crs_info">
               <div className="progress">
@@ -113,7 +92,7 @@ class Featured_course extends React.Component {
               <div className="crs_fl_last">
                 <div className="crs_linkview">
                   <Link
-                    to={`/course-detail?course=${_id}`}
+                    to={`/course?course=${_id}`}
                     className="btn btn_view_detail theme-bg text-light"
                   >
                     Enroll Now
