@@ -9,36 +9,52 @@ class Add_section_form extends React.Component {
     this.state = {};
   }
 
+  componentDidMount = () => {
+    let { section } = this.props;
+    section && this.setState({ ...section });
+
+    this.section_to_update = (section) => this.setState({ ...section });
+
+    emitter.listen("section_to_update", this.section_to_update);
+  };
+
+  componentWillUnmount = () => {
+    emitter.remove_listener("section_to_update", this.section_to_update);
+  };
+
   set_title = ({ target }) => this.setState({ title: target.value });
 
   set_text = ({ target }) => this.setState({ text: target.value });
 
   sumbit = async () => {
-    let { title, text } = this.state;
+    let { title, text, _id, courses, created } = this.state;
 
     let new_section = { title, text, courses: 0 };
 
-    let response = await post_request("new_section", new_section);
-    new_section._id = response._id;
-    new_section.created = response.created;
+    if (!_id) {
+      let response = await post_request("new_section", new_section);
+      new_section._id = response._id;
+      new_section.created = response.created;
 
-    emitter.emit("new_section", new_section);
+      emitter.emit("new_section", new_section);
+    } else {
+      new_section._id = _id;
+      new_section.courses = courses;
+      new_section.created = created;
+
+      await post_request("update_section", new_section);
+      emitter.emit("section_updated", new_section);
+    }
+
     this.props.toggle();
   };
 
   render() {
     let { toggle } = this.props;
-    let { title, text } = this.state;
+    let { title, text, _id } = this.state;
 
     return (
-      <div
-      // className="modal"
-      // id="catModal"
-      // tabindex="-1"
-      // role="dialog"
-      // aria-labelledby="catModalLabel"
-      // aria-hidden="true"
-      >
+      <div>
         <div className="modal-dialog" role="document">
           <div className="modal-content">
             <div className="modal-header">
@@ -78,11 +94,13 @@ class Add_section_form extends React.Component {
 
                 <div className="form-group smalls">
                   <button
-                    onClick={this.sumbit}
+                    onClick={title && text && this.sumbit}
                     type="button"
-                    className="btn full-width theme-bg text-white"
+                    className={`btn full-width ${
+                      title && text ? "theme-bg" : "grey"
+                    } text-white`}
                   >
-                    Add Section
+                    {_id ? "Update Section" : "Add Section"}
                   </button>
                 </div>
               </form>

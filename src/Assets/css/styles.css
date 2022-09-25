@@ -263,6 +263,9 @@ html body .db {
 .theme-bg {
   background: #ff6905 !important;
 }
+.grey {
+  background-color: #888 !important;
+}
 .theme-light {
   background: rgba(3, 185, 124, 0.1) !important;
 }

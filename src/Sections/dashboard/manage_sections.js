@@ -22,7 +22,8 @@ class Course_sections extends React.Component {
     emitter.emit("section_removed", section_id);
   };
 
-  section = ({ title, text, _id, courses }) => {
+  section = (section) => {
+    let { title, text, _id, courses } = section;
     return (
       <div key={_id} class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
         <div class="dash_crs_cat">
@@ -45,7 +46,11 @@ class Course_sections extends React.Component {
               <p className="mx-3">{text}</p>
             </div>
             <div class="dash_crs_cat_bottom">
-              <a href="#" class="btn full-width theme-bg-light theme-cl">
+              <a
+                href="#"
+                onClick={() => this.edit_section(section)}
+                class="btn full-width theme-bg-light theme-cl"
+              >
                 Edit Section
               </a>
             </div>
@@ -55,8 +60,16 @@ class Course_sections extends React.Component {
     );
   };
 
+  edit_section = (section) =>
+    this.state.show_form
+      ? emitter.emit("section_to_update", section)
+      : this.setState({ section_to_update: section, show_form: true });
+
   toggle_section_form = () =>
-    this.setState({ show_form: !this.state.show_form });
+    this.setState({
+      show_form: !this.state.show_form,
+      section_to_update: null,
+    });
 
   add_new_section_btn = () =>
     this.state.show_form ? null : (
@@ -82,18 +95,29 @@ class Course_sections extends React.Component {
     this.new_section = (section) => {
       let { sections } = this.state;
       sections = new Array(section, ...sections);
-      this.setState({ sections });
+      this.setState({ sections, section_to_update: null });
+    };
+
+    this.section_updated = (section) => {
+      let { sections } = this.state;
+      sections = sections.map((section_) => {
+        if (section_._id === section._id) return section;
+        return section_;
+      });
+      this.setState({ sections, section_to_update: null });
     };
 
     emitter.listen("new_section", this.new_section);
+    emitter.listen("section_updated", this.section_updated);
   };
 
   componentWillUnmount = () => {
+    emitter.remove_listener("section_updated", this.section_updated);
     emitter.remove_listener("new_section", this.new_section);
   };
 
   render() {
-    let { sections, show_form } = this.state;
+    let { sections, section_to_update, show_form } = this.state;
 
     return (
       <div className="col-lg-9 col-md-9 col-sm-12">
@@ -106,7 +130,10 @@ class Course_sections extends React.Component {
         <div class="row">
           {show_form ? (
             <div>
-              <Add_section_form toggle={this.toggle_section_form} />
+              <Add_section_form
+                section={section_to_update}
+                toggle={this.toggle_section_form}
+              />
               <hr />
             </div>
           ) : null}
