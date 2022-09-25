@@ -18,7 +18,8 @@ class Dashboard_nav_menu extends React.Component {
           subnav: new Array(
             { title: "manage_courses" },
             { title: "add_new_course" },
-            { title: "course_category" }
+            { title: "course_category" },
+            { title: "manage_sections" }
           ),
         },
         {

@@ -22,11 +22,9 @@ class Combo_course extends React.Component {
     return (
       <div className="col-lg-4 col-md-4 col-sm-6 d-flex">
         <div className="edu_cat_2 cat-1 combo_course">
-          <div className="row">
-            <div className="col-lg-10 col-md-10 col-xl-10">
-              {this.courses_string(courses)}
-            </div>
-            <div className="col-lg-2 col-md-2 col-xl-2">
+          <div className="d-flex align-items-center justify-content-between">
+            <div>{this.courses_string(courses)}</div>
+            <div>
               <img
                 src="../Assets/css/img/lightbox-next.png"
                 height="20"

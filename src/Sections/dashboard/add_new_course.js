@@ -1,7 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { to_title } from "../../Assets/js/utils/functions";
+import {
+  get_request,
+  post_request,
+  upload_file,
+} from "../../Assets/js/utils/services";
 import Loadindicator from "../../Components/loadindicator";
+import { SKILL_LEVEL } from "../../Constants/constants";
+import { emitter } from "../../Giit";
 import Dashboard_breadcrumb from "./dashboard_breadcrumb";
 
 class Add_new_course extends React.Component {
@@ -10,34 +17,56 @@ class Add_new_course extends React.Component {
 
     this.state = {
       current_pill: "basic",
+      sections: new Array(),
     };
   }
 
   tab_pills = new Array("basic", "pricing", "media", "finish");
 
-  render_tab_pills = () => {
-    let { current_pill } = this.state;
+  componentDidMount = async () => {
+    let course_sections = await get_request("sections");
+    let course_categories = await get_request("categories");
 
-    return this.tab_pills.map((pill) => (
-      <button
-        key={pill}
-        className={pill === current_pill ? "nav-link active" : "nav-link"}
-        id={`v-pills-${pill}-tab`}
-        data-toggle="pill"
-        data-target={`#v-pills-${pill}`}
-        type="button"
-        role="tab"
-        aria-controls={`v-pills-${pill}`}
-        aria-selected={pill === current_pill ? "true" : "false"}
-        onClick={() => this.setState({ current_pill: pill })}
-      >
-        {to_title(pill)}
-      </button>
-    ));
+    this.setState({ course_sections, course_categories });
+  };
+
+  render_tab_pills = () => {
+    let { current_pill, short_description, title, price, image } = this.state;
+    let finish = !!(
+      short_description &&
+      title &&
+      Number(price) &&
+      Number(price) > 0 &&
+      image
+    );
+
+    return this.tab_pills.map((pill) =>
+      !finish && pill === "finish" ? null : (
+        <button
+          key={pill}
+          className={pill === current_pill ? "nav-link active" : "nav-link"}
+          id={`v-pills-${pill}-tab`}
+          data-toggle="pill"
+          data-target={`#v-pills-${pill}`}
+          type="button"
+          role="tab"
+          aria-controls={`v-pills-${pill}`}
+          aria-selected={pill === current_pill ? "true" : "false"}
+          onClick={() =>
+            this.setState(
+              { current_pill: pill },
+              pill === "finish" ? this.on_finish : null
+            )
+          }
+        >
+          {to_title(pill)}
+        </button>
+      )
+    );
   };
 
   finish_tab_panel = () => {
-    let { new_course } = this.state;
+    let { uploading_course } = this.state;
 
     return (
       <div
@@ -50,7 +79,7 @@ class Add_new_course extends React.Component {
         role="tabpanel"
         aria-labelledby="v-pills-finish-tab"
       >
-        {new_course ? (
+        {!uploading_course ? (
           <div className="succ_wrap">
             <div className="succ_121">
               <i className="fas fa-thumbs-up"></i>
@@ -126,6 +155,7 @@ class Add_new_course extends React.Component {
   };
 
   basic_tab_panel = () => {
+    let { course_sections, course_categories } = this.state;
     return (
       <div
         className={
@@ -143,56 +173,68 @@ class Add_new_course extends React.Component {
             type="text"
             className="form-control"
             placeholder="Enter Course Title"
+            onChange={({ target }) => this.setState({ title: target.value })}
+            value={this.state.title}
           />
         </div>
 
         <div className="form-group smalls">
-          <label>Short Description</label>
-          <input type="text" className="form-control" />
+          <label>Short Description*</label>
+          <input
+            onChange={({ target }) =>
+              this.setState({ short_description: target.value })
+            }
+            value={this.state.short_description}
+            type="text"
+            className="form-control"
+          />
         </div>
 
         <div className="form-group smalls">
           <label>Description</label>
-          <textarea className="summernote"></textarea>
+          <textarea
+            onChange={({ target }) =>
+              this.setState({ description: target.value })
+            }
+            value={this.state.description}
+            className="summernote form-control"
+          ></textarea>
         </div>
 
-        <div className="form-group smalls">
-          <label>Category*</label>
-          <div className="simple-input">
-            <select id="cates" className="form-control">
-              <option value="">&nbsp;</option>
-              <option value="1">Parent</option>
-              <option value="2">Banking</option>
-              <option value="3">Medical</option>
-              <option value="4">Insurence</option>
-              <option value="5">Finance & Accounting</option>
-            </select>
+        {course_categories && !course_categories.length ? null : (
+          <div className="form-group smalls">
+            <label>Course Category</label>
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                flexDirection: "row",
+              }}
+            >
+              {course_categories ? (
+                course_categories.map((category) =>
+                  this.course_section_checkbox(category)
+                )
+              ) : (
+                <Loadindicator />
+              )}
+            </div>
           </div>
-        </div>
+        )}
 
         <div className="form-group smalls">
-          <label>Level</label>
-          <div className="simple-input">
-            <select id="lvl" className="form-control">
-              <option value="">&nbsp;</option>
-              <option value="1">Beginner</option>
-              <option value="2">Basic</option>
-              <option value="3">Mediam</option>
-              <option value="4">Advance</option>
-            </select>
+          <label>Course Section</label>
+          <div
+            style={{ display: "flex", flexWrap: "wrap", flexDirection: "row" }}
+          >
+            {course_sections ? (
+              course_sections.map((section) =>
+                this.course_section_checkbox(section)
+              )
+            ) : (
+              <Loadindicator />
+            )}
           </div>
-        </div>
-
-        <div className="form-group smalls">
-          <input
-            id="l2l"
-            className="checkbox-custom"
-            name="l2l"
-            type="checkbox"
-          />
-          <label for="l2l" className="checkbox-custom-label">
-            Check this for featured course
-          </label>
         </div>
 
         {this.pill_nav("basic")}
@@ -200,7 +242,61 @@ class Add_new_course extends React.Component {
     );
   };
 
+  course_category_checkbox = ({ title, _id }) => (
+    <div className="form-group smalls">
+      <input
+        id={_id}
+        className="checkbox-custom"
+        name="course_category"
+        type="checkbox"
+        checked={this.state.sections.includes(_id)}
+        onChange={() => this.handle_category_check(_id)}
+      />
+      <label for={_id} className="checkbox-custom-label">
+        {to_title(title)}
+      </label>
+    </div>
+  );
+
+  handle_section_check = (category) => {
+    let { categories } = this.state;
+    if (categories.includes(category))
+      categories = categories.filter((category_) => category_ !== category);
+    else categories.push(category);
+
+    this.setState({ categories });
+  };
+
+  handle_section_check = (section) => {
+    let { sections } = this.state;
+    if (sections.includes(section))
+      sections = sections.filter((section_) => section_ !== section);
+    else sections.push(section);
+
+    this.setState({ sections });
+  };
+
+  course_section_checkbox = ({ title, _id }) => (
+    <div className="form-group smalls">
+      <input
+        id={_id}
+        className="checkbox-custom"
+        name="course_sections"
+        type="checkbox"
+        checked={this.state.sections.includes(_id)}
+        onChange={() => this.handle_section_check(_id)}
+      />
+      <label for={_id} className="checkbox-custom-label">
+        {to_title(title)}
+      </label>
+    </div>
+  );
+
+  handle_price = ({ target }) => this.setState({ price: target.value });
+
   pricing_tab_panel = () => {
+    let { price } = this.state;
+
     return (
       <div
         className={
@@ -213,46 +309,14 @@ class Add_new_course extends React.Component {
         aria-labelledby="v-pills-pricing-tab"
       >
         <div className="form-group smalls">
-          <div className="drios">
-            <input
-              id="l23"
-              className="checkbox-custom"
-              name="l23"
-              type="checkbox"
-            />
-            <label for="l23" className="checkbox-custom-label">
-              Check this if Course id Free
-            </label>
-          </div>
-        </div>
-
-        <div className="form-group smalls">
-          <label>Course Price($)</label>
+          <label>Course Price(&#8358;) *</label>
           <input
-            type="text"
+            type="number"
             className="form-control"
             placeholder="Enter Course Price"
+            value={price}
+            onChange={this.handle_price}
           />
-        </div>
-
-        <div className="form-group smalls">
-          <label>Discount Price($)</label>
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Enter Discount Price"
-          />
-          <div className="drios">
-            <input
-              id="l22"
-              className="checkbox-custom"
-              name="l22"
-              type="checkbox"
-            />
-            <label for="l22" className="checkbox-custom-label">
-              Enable This Discount
-            </label>
-          </div>
         </div>
 
         {this.pill_nav("pricing")}
@@ -260,7 +324,16 @@ class Add_new_course extends React.Component {
     );
   };
 
+  handle_image = ({ target }) => {
+    let file = target.files[0];
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+
+    reader.onloadend = (e) => this.setState({ image: reader.result });
+  };
+
   media_tab_panel = () => {
+    let { image } = this.state;
     return (
       <div
         className={
@@ -278,16 +351,33 @@ class Add_new_course extends React.Component {
             type="text"
             className="form-control"
             placeholder="https://www.youtube.com/watch?v=ExXhmuH-cw8"
+            value={this.state.video}
+            onChange={({ target }) => this.setState({ video: target.value })}
           />
         </div>
 
         <div className="form-group smalls">
-          <label>Thumbnail</label>
+          <label>Image *</label>
           <div className="custom-file">
-            <input type="file" className="custom-file-input" id="customFile" />
+            <input
+              type="file"
+              className="custom-file-input"
+              id="customFile"
+              accept="image/**"
+              onChange={this.handle_image}
+            />
             <label className="custom-file-label" for="customFile">
               Choose file
             </label>
+          </div>
+          <div>
+            {image ? (
+              <img
+                className="py-3 rounded"
+                style={{ maxHeight: 200, maxWidth: 200 }}
+                src={this.state.image}
+              />
+            ) : null}
           </div>
         </div>
 
@@ -295,6 +385,51 @@ class Add_new_course extends React.Component {
       </div>
     );
   };
+
+  on_finish = async () => {
+    this.setState({ uploading_course: true });
+    let {
+      short_description,
+      sections,
+      categories,
+      title,
+      description,
+      price,
+      video,
+      image,
+    } = this.state;
+    let course = {
+      short_description,
+      sections,
+      categories,
+      title,
+      description,
+      price: Number(price),
+      video,
+      image,
+    };
+
+    let response = await post_request("add_course", { course });
+    course.image = response.image;
+    course._id = response._id;
+    course.created = response.created;
+
+    emitter.emit("new_course", course);
+    this.reset_state();
+  };
+
+  reset_state = () =>
+    this.setState({
+      short_description: "",
+      description: "",
+      image: "",
+      video: "",
+      price: "",
+      title: "",
+      uploading_course: false,
+      categories: new Array(),
+      sections: new Array(),
+    });
 
   render() {
     return (

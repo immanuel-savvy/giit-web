@@ -18,7 +18,7 @@ class Video extends React.Component {
       <div className="property_video">
         <div className="thumb">
           <img
-            className="pro_img img rounded "
+            className="pro_img img rounded"
             src={thumbnail}
             alt="About_us_video"
           />

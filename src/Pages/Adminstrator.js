@@ -6,6 +6,7 @@ import Add_new_course from "../Sections/dashboard/add_new_course";
 import Add_new_instructor from "../Sections/dashboard/add_new_instructor";
 import Add_new_student from "../Sections/dashboard/add_new_student";
 import Course_category from "../Sections/dashboard/course_category";
+import Manage_sections from "../Sections/dashboard/course_sections";
 import Dashboard_landing from "../Sections/dashboard/dashboard_landing";
 import Dashboard_navbar from "../Sections/dashboard/dashboard_navbar";
 import Enrollment_history from "../Sections/dashboard/enrollment_history";
@@ -21,7 +22,7 @@ class Adminstrator extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { current_nav: "dashboard" };
+    this.state = { current_nav: "add_new_course" };
   }
 
   script_paths = new Array(
@@ -57,6 +58,7 @@ class Adminstrator extends React.Component {
     manage_courses: <Manage_courses />,
     add_new_course: <Add_new_course />,
     course_category: <Course_category />,
+    manage_sections: <Manage_sections />,
     enrollment_history: <Enrollment_history />,
     enroll_a_student: <Enroll_a_student />,
     manage_admins: <Manage_admins />,

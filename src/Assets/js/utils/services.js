@@ -19,6 +19,34 @@ const get_request = async (path) => {
   }
 };
 
+const upload_file = async (file) => {
+  let form_data = new FormData();
+  if (!Array.isArray(file)) file = new Array(file);
+  file.map((f, index) => form_data.append(`file${index}`, f));
+
+  try {
+    let ftch = await fetch("/upload_file", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: form_data,
+    });
+    let res;
+    try {
+      res = await ftch.json();
+    } catch (e) {
+      return { _$not_sent: true };
+    }
+
+    return res.data;
+  } catch (e) {
+    console.log(e, domain);
+    return null;
+  }
+};
+
 const post_request = async (path, data) => {
   console.log(path);
   if (path && path.startsWith("/")) path = path.slice(1);
@@ -46,4 +74,4 @@ const post_request = async (path, data) => {
   }
 };
 
-export { post_request, get_request, domain };
+export { post_request, upload_file, get_request, domain };
