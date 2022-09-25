@@ -13,14 +13,14 @@ class Featured_course extends React.Component {
 
   render() {
     let { progress } = this.state;
-    let { course } = this.props;
-    let { image, title, short_desc, tags, currency, cost, _id, instructor } =
+    let { course, adminstrator, edit_course, delete_course } = this.props;
+    let { image, title, short_description, tags, price, _id, instructor } =
       course;
 
-    if (short_desc) {
-      short_desc = short_desc.split("");
-      for (let i = short_desc.length; i < this.padd_length; i++)
-        short_desc.push("**");
+    if (short_description) {
+      short_description = short_description.split("");
+      for (let i = short_description.length; i < this.padd_length; i++)
+        short_description.push("**");
     }
 
     return (
@@ -30,11 +30,11 @@ class Featured_course extends React.Component {
             <Link to={`/course?course=${_id}`} className="crs_detail_link">
               <img src={image} className="img-fluid rounded" alt="" />
             </Link>
-            <div className="crs_video_ico">
-              <i className="fa fa-play"></i>
+            <div className="crs_video_ico" onClick={edit_course}>
+              <i className={`fa fa-${edit_course ? "edit" : "play"}`}></i>
             </div>
-            <div className="crs_locked_ico">
-              <i className="fa fa-lock"></i>
+            <div className="crs_locked_ico" onClick={delete_course}>
+              <i className={`fa fa-${delete_course ? "trash" : "lock"}`}></i>
             </div>
           </div>
           <div className="crs_grid_caption">
@@ -47,9 +47,9 @@ class Featured_course extends React.Component {
                 />
               </Link>
             </div>
-            <div className="crs_cates cl_1">
+            {/* <div className="crs_cates cl_1">
               <span>{to_title(tags[0])}</span>
-            </div>
+            </div> */}
             <div className="crs_title">
               <h4>
                 <Link to={`/course?course=${_id}`} className="crs_title_link">
@@ -58,9 +58,9 @@ class Featured_course extends React.Component {
               </h4>
             </div>
             <div className="crs_info_detail">
-              {short_desc ? (
+              {short_description ? (
                 <div style={{ flexWrap: "wrap", display: "flex" }}>
-                  {short_desc.map((d) =>
+                  {short_description.map((d) =>
                     d === "**" || d === " " ? <span>&nbsp;</span> : d
                   )}
                 </div>
@@ -71,7 +71,7 @@ class Featured_course extends React.Component {
                 <div
                   className="progress-bar"
                   role="progressbar"
-                  style={{ width: "50%" }}
+                  style={{ width: "100%" }}
                   aria-valuenow={progress || 100}
                   aria-valuemin="0"
                   aria-valuemax="100"
@@ -84,8 +84,8 @@ class Featured_course extends React.Component {
               <div className="crs_fl_first">
                 <div className="crs_price">
                   <h2>
-                    <span className="currency">{currency || "N"}</span>
-                    <span className="theme-cl">{cost}</span>
+                    <span className="currency">&#8358;</span>
+                    <span className="theme-cl">{price}</span>
                   </h2>
                 </div>
               </div>
@@ -95,7 +95,7 @@ class Featured_course extends React.Component {
                     to={`/course?course=${_id}`}
                     className="btn btn_view_detail theme-bg text-light"
                   >
-                    Enroll Now
+                    {adminstrator ? "View Course" : "Enroll Now"}
                   </Link>
                 </div>
               </div>

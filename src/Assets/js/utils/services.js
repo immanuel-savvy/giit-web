@@ -28,7 +28,7 @@ const upload_file = async (file) => {
     let ftch = await fetch("/upload_file", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
         Accept: "application/json",
       },
       body: form_data,

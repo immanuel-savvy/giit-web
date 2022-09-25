@@ -21,7 +21,12 @@ class Breadcrumb extends React.Component {
                 <nav className="transparent">
                   <ol className="breadcrumb p-0">
                     <li className="breadcrumb-item">
-                      <Link to="/">Home</Link>
+                      <Link
+                        to="/"
+                        style={{ color: "#333", backgroundColor: "#f7f8f9" }}
+                      >
+                        Home
+                      </Link>
                     </li>
                     <li
                       className="breadcrumb-item active theme-cl"

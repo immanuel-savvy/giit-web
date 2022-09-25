@@ -7475,7 +7475,7 @@ a.remove_tools {
   opacity: 1;
 }
 nav.transparent .breadcrumb {
-  background: transparent;
+  background: transparent !important;
   box-shadow: none;
   padding: 0;
   margin: 0;

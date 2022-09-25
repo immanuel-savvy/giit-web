@@ -13,15 +13,16 @@ class Courses extends React.Component {
   }
 
   componentDidMount = async () => {
-    let { category } = this.props;
+    let { section } = this.props;
 
-    let courses = await post_request(`category_courses/${category._id}`);
+    let courses = await post_request(`section_courses/${section._id}`);
+
     this.setState({ courses });
   };
 
   render() {
-    let { category, gray } = this.props;
-    let { title, subtitle, section } = category;
+    let { section, gray } = this.props;
+    let { title, text, _id } = section;
     let { courses } = this.state;
     if (courses && !courses.length) return null;
 
@@ -32,14 +33,14 @@ class Courses extends React.Component {
             <div className="col-lg-7 col-md-8">
               <div className="sec-heading center">
                 <h2>{title}</h2>
-                <p>{subtitle}</p>
+                <p>{text}</p>
               </div>
             </div>
           </div>
           <div className="row justify-content-center">
             {courses && courses.length ? (
-              new Array(1, 2, 3, 4, 5, 6).map((course, index) => (
-                <Featured_course course={courses[0]} key={index} />
+              courses.map((course, index) => (
+                <Featured_course course={course} key={index} />
               ))
             ) : (
               <div className="d-flex align-items-center justify-content-center my-5">
@@ -52,10 +53,10 @@ class Courses extends React.Component {
               <div className="col-lg-7 col-md-8 mt-2">
                 <div className="text-center">
                   <Link
-                    to="/courses_layout"
+                    to={`/courses?section=${_id}`}
                     className="btn btn-md theme-bg-light theme-cl"
                   >
-                    {`Explore More ${to_title(section)} Courses`}
+                    {`Explore More ${to_title(title)}`}
                   </Link>
                 </div>
               </div>

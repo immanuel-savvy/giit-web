@@ -20,36 +20,37 @@ class Index extends React.Component {
   }
 
   componentDidMount = async () => {
-    let categories = await get_request("categories");
-    this.setState({ categories });
+    let sections = await get_request("sections");
+    console.log(sections);
+    this.setState({ sections });
   };
 
   render = () => {
-    let { categories } = this.state;
+    let { sections } = this.state;
 
     return (
       <div id="main-wrapper">
         <Header />
         <Banner />
         <Ratings />
-        {categories && categories.map ? (
-          categories.map((category, index) => {
-            if (category.name === "combo")
-              return <Combo_courses gray={!!(index % 2)} key={category._id} />;
-            else if (category.name === "certification")
+        {sections && sections.map ? (
+          sections.map((section, index) => {
+            if (section.title === "combo")
+              return <Combo_courses gray={!!(index % 2)} key={section._id} />;
+            else if (section.title === "certification")
               return (
                 <Certification_courses
                   gray={!!(index % 2)}
                   title="Certification Courses"
-                  key={category._id}
+                  key={section._id}
                 />
               );
             else
               return (
                 <Courses
                   gray={!!(index % 2)}
-                  category={category}
-                  key={category._id}
+                  section={section}
+                  key={section._id}
                 />
               );
           })

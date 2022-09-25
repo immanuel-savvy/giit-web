@@ -7,7 +7,6 @@ import {
   upload_file,
 } from "../../Assets/js/utils/services";
 import Loadindicator from "../../Components/loadindicator";
-import { SKILL_LEVEL } from "../../Constants/constants";
 import { emitter } from "../../Giit";
 import Dashboard_breadcrumb from "./dashboard_breadcrumb";
 
@@ -329,7 +328,7 @@ class Add_new_course extends React.Component {
     let reader = new FileReader();
     reader.readAsDataURL(file);
 
-    reader.onloadend = (e) => this.setState({ image: reader.result });
+    reader.onloadend = (e) => this.setState({ file, image: reader.result });
   };
 
   media_tab_panel = () => {
@@ -397,6 +396,7 @@ class Add_new_course extends React.Component {
       price,
       video,
       image,
+      file,
     } = this.state;
     let course = {
       short_description,
@@ -414,8 +414,12 @@ class Add_new_course extends React.Component {
     course._id = response._id;
     course.created = response.created;
 
-    emitter.emit("new_course", course);
-    this.reset_state();
+    if (response._id) {
+      this.setState({ new_course: course });
+
+      emitter.emit("new_course", course);
+      this.reset_state();
+    }
   };
 
   reset_state = () =>

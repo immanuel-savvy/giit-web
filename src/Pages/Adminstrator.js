@@ -6,7 +6,7 @@ import Add_new_course from "../Sections/dashboard/add_new_course";
 import Add_new_instructor from "../Sections/dashboard/add_new_instructor";
 import Add_new_student from "../Sections/dashboard/add_new_student";
 import Course_category from "../Sections/dashboard/course_category";
-import Manage_sections from "../Sections/dashboard/course_sections";
+import Manage_sections from "../Sections/dashboard/manage_sections";
 import Dashboard_landing from "../Sections/dashboard/dashboard_landing";
 import Dashboard_navbar from "../Sections/dashboard/dashboard_navbar";
 import Enrollment_history from "../Sections/dashboard/enrollment_history";
@@ -44,30 +44,39 @@ class Adminstrator extends React.Component {
     this.script_paths.map((script_path) => this.append_script(script_path));
 
     this.dash_nav_click = (nav_title) =>
-      this.setState({ current_nav: nav_title });
+      this.setState({ current_nav: nav_title, course: null });
+
+    this.edit_course = (course) =>
+      this.setState({ current_nav: "add_new_course", course });
 
     emitter.listen("dash_nav_click", this.dash_nav_click);
+    emitter.listen("edit_course", this.edit_course);
+
+    document.title =
+      "Adminstrator | Globalstar Innovative Information Technology";
   };
 
   componentWillUnmount = () => {
+    emitter.remove_listener("edit_course", this.edit_course);
     emitter.remove_listener("dash_nav_click", this.dash_nav_click);
   };
 
-  nav_et_component = new Object({
-    dashboard: <Dashboard_landing />,
-    manage_courses: <Manage_courses />,
-    add_new_course: <Add_new_course />,
-    course_category: <Course_category />,
-    manage_sections: <Manage_sections />,
-    enrollment_history: <Enrollment_history />,
-    enroll_a_student: <Enroll_a_student />,
-    manage_admins: <Manage_admins />,
-    add_new_admin: <Add_new_admins />,
-    manage_instructors: <Manage_instructors />,
-    add_new_instructor: <Add_new_instructor />,
-    manage_students: <Manage_students />,
-    add_new_student: <Add_new_student />,
-  });
+  nav_et_component = () =>
+    new Object({
+      dashboard: <Dashboard_landing />,
+      manage_courses: <Manage_courses />,
+      add_new_course: <Add_new_course course={this.state.course} />,
+      course_category: <Course_category />,
+      manage_sections: <Manage_sections />,
+      enrollment_history: <Enrollment_history />,
+      enroll_a_student: <Enroll_a_student />,
+      manage_admins: <Manage_admins />,
+      add_new_admin: <Add_new_admins />,
+      manage_instructors: <Manage_instructors />,
+      add_new_instructor: <Add_new_instructor />,
+      manage_students: <Manage_students />,
+      add_new_student: <Add_new_student />,
+    });
 
   render() {
     let { current_nav } = this.state;
@@ -80,7 +89,7 @@ class Adminstrator extends React.Component {
           <div class="container-fluid">
             <div class="row">
               <Dashboard_navbar />
-              {this.nav_et_component[current_nav]}
+              {this.nav_et_component()[current_nav]}
             </div>
           </div>
         </section>
