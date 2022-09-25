@@ -16,6 +16,7 @@ class Featured_course extends React.Component {
     let { course, adminstrator, edit_course, delete_course } = this.props;
     let { image, title, short_description, tags, price, _id, instructor } =
       course;
+    if (!title) return null;
 
     if (short_description) {
       short_description = short_description.split("");

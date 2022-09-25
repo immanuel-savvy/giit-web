@@ -1,6 +1,6 @@
 import React from "react";
 import { to_title } from "../../Assets/js/utils/functions";
-import { get_request } from "../../Assets/js/utils/services";
+import { get_request, post_request } from "../../Assets/js/utils/services";
 import Loadindicator from "../../Components/loadindicator";
 import { emitter } from "../../Giit";
 import Add_section_form from "./add_section_form";
@@ -13,11 +13,27 @@ class Course_sections extends React.Component {
     this.state = {};
   }
 
+  remove_section = async (section_id) => {
+    let { sections } = this.state;
+    sections = sections.filter((section) => section._id !== section_id);
+    this.setState({ sections });
+
+    await post_request(`remove_section/${section_id}`);
+    emitter.emit("section_removed", section_id);
+  };
+
   section = ({ title, text, _id, courses }) => {
     return (
       <div key={_id} class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
         <div class="dash_crs_cat">
-          <a href="#" class="remove_tools">
+          <a
+            onClick={() =>
+              window.confirm("Are you sure to remove section? ") &&
+              this.remove_section(_id)
+            }
+            href="#"
+            class="remove_tools"
+          >
             <i class="fas fa-trash-alt"></i>
           </a>
           <div class="dash_crs_cat_caption">
