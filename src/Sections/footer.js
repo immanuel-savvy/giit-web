@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { to_title } from "../Assets/js/utils/functions";
+import { get_request } from "../Assets/js/utils/services";
 import Loadindicator from "../Components/loadindicator";
 
 class Footer extends React.Component {
@@ -11,32 +12,7 @@ class Footer extends React.Component {
   }
 
   componentDidMount = async () => {
-    let courses_categories = new Array(
-      {
-        name: "development",
-        created: Date.now(),
-      },
-      {
-        name: "web designing",
-        created: Date.now(),
-      },
-      {
-        name: "networking",
-        created: Date.now(),
-      },
-      {
-        name: "cybersecurity",
-        created: Date.now(),
-      },
-      {
-        name: "graphic design",
-        created: Date.now(),
-      },
-      {
-        name: "digital marketing",
-        created: Date.now(),
-      }
-    );
+    let courses_categories = await get_request("categories");
     this.setState({
       courses_categories: new Array(
         courses_categories.slice(0, 4),
@@ -57,7 +33,7 @@ class Footer extends React.Component {
               <div className="col-lg-5 col-md-5">
                 <div className="footer_widget">
                   <img
-                    src={`http://localhost:3000/Assets/img/logo.png`}
+                    src="../Assets/img/logo.png"
                     className="img-footer small mb-2"
                     alt=""
                   />
@@ -109,16 +85,9 @@ class Footer extends React.Component {
                                   (category, index) => (
                                     <li key={index}>
                                       <Link
-                                        to={
-                                          "/courses?category=" +
-                                          `${
-                                            category.name === "home"
-                                              ? "/"
-                                              : category.name.replace(/ /g, "_")
-                                          }`
-                                        }
+                                        to={"/courses?category=" + category._id}
                                       >
-                                        {to_title(category.name)}
+                                        {to_title(category.title)}
                                         {category.created +
                                           60 * 60 * 24 * 30 * 1000 >
                                         Date.now() ? (
@@ -138,18 +107,10 @@ class Footer extends React.Component {
                                       <li key={index}>
                                         <Link
                                           to={
-                                            "/courses?category=" +
-                                            `${
-                                              category.name === "home"
-                                                ? "/"
-                                                : category.name.replace(
-                                                    / /g,
-                                                    "_"
-                                                  )
-                                            }`
+                                            "/courses?category=" + category._id
                                           }
                                         >
-                                          {to_title(category.name)}
+                                          {to_title(category.title)}
                                           {category.created +
                                             60 * 60 * 24 * 30 * 1000 >
                                           Date.now() ? (
@@ -210,8 +171,8 @@ class Footer extends React.Component {
           </div>
         </div>
 
-        <a id="back2Top" class="top-scroll" title="Back to top" href="#">
-          <i class="ti-arrow-up"></i>
+        <a id="back2Top" className="top-scroll" title="Back to top" href="#">
+          <i className="ti-arrow-up"></i>
         </a>
       </footer>
     );

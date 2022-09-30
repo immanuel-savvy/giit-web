@@ -21,16 +21,17 @@ class Index extends React.Component {
 
   componentDidMount = async () => {
     let sections = await get_request("sections");
-    console.log(sections);
+
     this.setState({ sections });
   };
 
   render = () => {
     let { sections } = this.state;
+    let { navs } = this.props;
 
     return (
       <div id="main-wrapper">
-        <Header />
+        <Header navs={navs} />
         <Banner />
         <Ratings />
         {sections && sections.map ? (

@@ -1,4 +1,5 @@
 import React from "react";
+import { get_request } from "../Assets/js/utils/services";
 import Loadindicator from "../Components/loadindicator";
 import Service from "./service";
 
@@ -9,7 +10,10 @@ class Services extends React.Component {
     this.state = {};
   }
 
-  componentDidMount = async () => {};
+  componentDidMount = async () => {
+    let services = await get_request("services");
+    this.setState({ services });
+  };
 
   render() {
     let { services } = this.state;
@@ -30,7 +34,7 @@ class Services extends React.Component {
             </div>
           </div>
           <div className="row justify-content-center">
-            {services ? (
+            {services && services.map ? (
               services.map((service, index) => (
                 <Service service={service} key={index} />
               ))

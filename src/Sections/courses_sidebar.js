@@ -1,16 +1,36 @@
 import React from "react";
 import { to_title } from "../Assets/js/utils/functions";
+import { get_request } from "../Assets/js/utils/services";
 import { COST_SPREAD, SKILL_LEVEL } from "../Constants/constants";
 
 class Courses_sidebar extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = { skill_levels: new Array(), cates: true };
   }
 
-  componentDidMount = () => {
-    this.setState({ categories: new Array() });
+  set_search_param = ({ target }) =>
+    this.setState({ search_param: target.value });
+
+  set_category = ({ target }) => this.setState({ category: target.value });
+
+  set_section = ({ target }) => this.setState({ section: target.value });
+
+  set_skill_level = (level) => {
+    let { skill_levels } = this.state;
+
+    if (skill_levels.includes(level))
+      skill_levels = skill_levels.filter((level_) => level_ !== level);
+    else skill_levels.push(level);
+
+    this.setState({ skill_levels });
+  };
+
+  componentDidMount = async () => {
+    let categories = await get_request("categories");
+    let sections = await get_request("sections");
+    this.setState({ categories, sections });
   };
 
   render_categories = () => {
@@ -19,12 +39,17 @@ class Courses_sidebar extends React.Component {
 
     return (
       <div className="form-group">
+        <h6>Course Categories</h6>
         <div className="simple-input">
-          <select id="cates" className="form-control">
-            <option value="">--Select a category--</option>
+          <select
+            id="cates"
+            onChange={this.set_category}
+            className="form-control"
+          >
+            <option value="">-- All Categories--</option>
             {categories.map((category) => (
               <option key={category._id} value={category._id}>
-                IT & Software
+                {to_title(category.title)}
               </option>
             ))}
           </select>
@@ -33,29 +58,27 @@ class Courses_sidebar extends React.Component {
     );
   };
 
-  render_top_instructors = () => {
-    let { top_instructors } = this.state;
-    if (!top_instructors || (top_instructors && !top_instructors.length))
-      return null;
+  render_sections = () => {
+    let { sections } = this.state;
+    if (!sections || (sections && !sections.length)) return null;
 
     return (
       <div className="form-group">
-        <h6>Top Instructor</h6>
-        <ul className="no-ul-list mb-3">
-          {top_instructors.map((instructor) => (
-            <li key={instructor._id}>
-              <input
-                id={instructor._id}
-                className="checkbox-custom"
-                name="aa-41"
-                type="checkbox"
-              />
-              <label for="aa-41" className="checkbox-custom-label">
-                Keny White<i className="count">{instructor.courses}</i>
-              </label>
-            </li>
-          ))}
-        </ul>
+        <h6>Course Sections</h6>
+        <div className="simple-input">
+          <select
+            id="sects"
+            onChange={this.set_section}
+            className="form-control"
+          >
+            <option value="">-- All Sections--</option>
+            {sections.map((section) => (
+              <option key={section._id} value={section._id}>
+                {to_title(section.title)}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
     );
   };
@@ -71,8 +94,10 @@ class Courses_sidebar extends React.Component {
               className="checkbox-custom"
               name="l1"
               type="checkbox"
+              onChange={() => this.set_skill_level(level)}
+              checked={this.state.skill_levels.includes(level)}
             />
-            <label for="l1" className="checkbox-custom-label">
+            <label for={level} className="checkbox-custom-label">
               {to_title(level)}
             </label>
           </li>
@@ -81,41 +106,26 @@ class Courses_sidebar extends React.Component {
     </div>
   );
 
-  render_cost_spread = () => (
-    <div className="form-group">
-      <h6>Price</h6>
-      <ul className="no-ul-list mb-3">
-        {COST_SPREAD.map((spread, index) => {
-          let course_count = 0;
-          let { courses } = this.props;
-          if (spread !== COST_SPREAD[0] && courses && Array.isArray(courses))
-            courses.map((course) => {
-              if (course.is_free && spread === COST_SPREAD[1]) course_count++;
-              else if (!course.is_free && spread === COST_SPREAD[2])
-                course_count++;
-            });
-          else course_count = (courses && courses.length) || 0;
+  filter = (e) => {
+    e.preventDefault();
 
-          return (
-            <li key={index}>
-              <input
-                id={spread}
-                className="checkbox-custom"
-                name="p1"
-                type="checkbox"
-              />
-              <label for="p1" className="checkbox-custom-label">
-                {to_title(spread)}
-                <i className="count">{course_count}</i>
-              </label>
-            </li>
-          );
-        })}
-      </ul>
-    </div>
-  );
+    let { search_param, section, category, skill_levels } = this.state;
+    let filter = { search_param, section, category, skill_levels };
+
+    this.setState(
+      {
+        search_param: "",
+        category: "",
+        skill_levels: new Array(),
+        cates: false,
+      },
+      () => this.setState({ cates: true })
+    );
+  };
 
   render() {
+    let { search_param, cates } = this.state;
+
     return (
       <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12">
         <div className="page-sidebar p-0">
@@ -136,23 +146,27 @@ class Courses_sidebar extends React.Component {
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="Search Your Cources"
+                    placeholder="Search Your Courses"
+                    value={search_param}
+                    onChange={this.set_search_param}
                   />
                   <i className="ti-search"></i>
                 </div>
               </div>
 
-              {this.render_categories()}
+              {cates ? this.render_categories() : null}
 
-              {this.render_top_instructors()}
+              {cates ? this.render_sections() : null}
 
               {this.render_skill_level()}
 
-              {this.render_cost_spread()}
-
               <div className="row">
                 <div className="col-lg-12 col-md-12 col-sm-12 pt-4">
-                  <button className="btn theme-bg rounded full-width">
+                  <button
+                    onClick={this.filter}
+                    style={{ color: "#fff" }}
+                    className="btn theme-bg rounded full-width"
+                  >
                     Apply Filter
                   </button>
                 </div>

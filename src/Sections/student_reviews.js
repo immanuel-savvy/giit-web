@@ -5,6 +5,7 @@ import alan from "./../Assets/video/alan.mp4";
 import logo from "./../Assets/img/thumbnail.jpg";
 import Review from "./review";
 import Loadindicator from "../Components/loadindicator";
+import { get_request, post_request } from "../Assets/js/utils/services";
 
 class Student_reviews extends React.Component {
   constructor(props) {
@@ -13,12 +14,13 @@ class Student_reviews extends React.Component {
     this.state = {};
   }
 
-  componentDidMount = async () => {};
+  componentDidMount = async () => {
+    let reviews = await post_request("reviews", { subject: "giit", limit: 10 });
+    this.setState({ reviews });
+  };
 
   render() {
     let { reviews } = this.state;
-
-    if (reviews && !reviews.length) return null;
 
     return (
       <section className={`gray`}>
@@ -41,11 +43,13 @@ class Student_reviews extends React.Component {
           <div className="row justify-content-center">
             <div className="col-xl-12 col-lg-12 col-sm-12">
               {reviews ? (
-                <div className="reviews-slide space">
-                  {reviews.map((review, index) => (
-                    <Review review={review} key={index} />
-                  ))}
-                </div>
+                reviews && !reviews.length ? null : (
+                  <div className="reviews-slide space">
+                    {reviews.map((review, index) => (
+                      <Review review={review} key={index} />
+                    ))}
+                  </div>
+                )
               ) : (
                 <Loadindicator contained />
               )}

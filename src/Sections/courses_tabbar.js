@@ -1,6 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-class Couses_tabbar extends React.Component {
+class Courses_tabbar extends React.Component {
   constructor(props) {
     super(props);
 
@@ -8,58 +9,38 @@ class Couses_tabbar extends React.Component {
   }
 
   render() {
+    let { list_view, toggle_list_view } = this.props;
+
     return (
-      <div class="row">
-        <div class="col-lg-12 col-md-12 col-sm-12">
-          <div class="short_wraping">
-            <div class="row m-0 align-items-center justify-content-between">
-              <div class="col-lg-4 col-md-5 col-sm-12  col-sm-6">
-                <div class="shorting_pagination_laft">
-                  <h6 class="m-0">Showing 1-25 of 72</h6>
+      <div className="row">
+        <div className="col-lg-12 col-md-12 col-sm-12">
+          <div className="short_wraping">
+            <div className="row m-0 align-items-center justify-content-between">
+              <div className="col-lg-4 col-md-5 col-sm-12  col-sm-6">
+                <div className="shorting_pagination_laft">
+                  <h6 className="m-0">Showing 1-25 of 72</h6>
                 </div>
               </div>
 
-              <div class="col-lg-8 col-md-7 col-sm-12 col-sm-6">
-                <div class="dlks_152">
-                  <div class="shorting-right mr-2">
-                    <label>Short By:</label>
-                    <div class="dropdown show">
-                      <a
-                        class="btn btn-filter dropdown-toggle"
-                        href="#"
-                        data-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                      >
-                        <span class="selection">Most Rated</span>
-                      </a>
-                      <div class="drp-select dropdown-menu">
-                        <a class="dropdown-item" href="JavaScript:Void(0);">
-                          Most Rated
-                        </a>
-                        <a class="dropdown-item" href="JavaScript:Void(0);">
-                          Most Viewd
-                        </a>
-                        <a class="dropdown-item" href="JavaScript:Void(0);">
-                          News Listings
-                        </a>
-                        <a class="dropdown-item" href="JavaScript:Void(0);">
-                          High Rated
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="lmk_485">
-                    <ul class="shorting_grid">
-                      <li class="list-inline-item">
-                        <a href="grid-layout-with-sidebar.html" class="active">
-                          <span class="ti-layout-grid2"></span>
-                        </a>
+              <div className="col-lg-8 col-md-7 col-sm-12 col-sm-6">
+                <div className="dlks_152">
+                  <div className="lmk_485">
+                    <ul className="shorting_grid">
+                      <li className="list-inline-item">
+                        <Link
+                          onClick={toggle_list_view}
+                          className={!list_view ? "active" : ""}
+                        >
+                          <span className="ti-layout-grid2"></span>
+                        </Link>
                       </li>
-                      <li class="list-inline-item">
-                        <a href="list-layout-with-sidebar.html">
-                          <span class="ti-view-list"></span>
-                        </a>
+                      <li className="list-inline-item">
+                        <Link
+                          onClick={toggle_list_view}
+                          className={list_view ? "active" : ""}
+                        >
+                          <span className="ti-view-list"></span>
+                        </Link>
                       </li>
                     </ul>
                   </div>
@@ -73,4 +54,4 @@ class Couses_tabbar extends React.Component {
   }
 }
 
-export default Couses_tabbar;
+export default Courses_tabbar;

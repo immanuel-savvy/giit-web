@@ -5,31 +5,10 @@ import { to_title } from "../Assets/js/utils/functions";
 class Nav extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      navs: new Array(
-        {
-          title: "home",
-          path: "/",
-        },
-        {
-          title: "courses",
-          path: "/courses",
-        },
-        {
-          title: "about",
-          path: "/about",
-        },
-        {
-          title: "contact",
-          path: "/contact_us",
-        }
-      ),
-    };
   }
 
   render() {
-    let { navs, active_nav } = this.state;
+    let { navs, active_nav } = this.props;
 
     return (
       <nav id="navigation" className="navigation navigation-landscape">
@@ -71,11 +50,9 @@ class Nav extends React.Component {
                       </Link>
                       {nav.submenu ? (
                         <ul className="nav-dropdown nav-submenu">
-                          {nav.submenu.map((submenu) => (
-                            <li>
-                              <Link key={submenu.title} to={submenu.path}>
-                                {submenu.title}
-                              </Link>
+                          {nav.submenu.map((submenu, index) => (
+                            <li key={index}>
+                              <Link to={submenu.path}>{submenu.title}</Link>
                               {submenu.submenu ? (
                                 <span className="submenu-indicator"></span>
                               ) : null}

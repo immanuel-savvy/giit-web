@@ -11,9 +11,11 @@ class Contact extends React.Component {
   }
 
   render() {
+    let { navs } = this.props;
+
     return (
       <div id="main-wrapper">
-        <Header page="contact" />
+        <Header navs={navs} page="contact" />
         <div className="clearfix"></div>
         <Breadcrumb page_text="Contact Us" page_title="Get In Touch" />
         <section>

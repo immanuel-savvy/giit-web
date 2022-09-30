@@ -9,7 +9,7 @@ class Header extends React.Component {
   }
 
   render() {
-    let { page } = this.props;
+    let { page, navs } = this.props;
 
     return (
       <div
@@ -20,7 +20,7 @@ class Header extends React.Component {
         }
       >
         <div className="container">
-          <Nav />
+          <Nav navs={navs} />
           <div className="clearfix"></div>
         </div>
       </div>

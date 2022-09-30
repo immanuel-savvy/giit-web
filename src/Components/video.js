@@ -1,4 +1,5 @@
 import React from "react";
+import ReactPlayer from "react-player";
 import { Link } from "react-router-dom";
 
 class Video extends React.Component {
@@ -11,37 +12,52 @@ class Video extends React.Component {
   tap_play = () => this.setState({ play: !this.state.play });
 
   render() {
-    let { url, thumbnail } = this.props;
+    let { url, thumbnail, thumbnail_class } = this.props;
     let { play } = this.state;
 
-    return thumbnail && !play ? (
+    return (thumbnail && !play) || !url ? (
       <div className="property_video">
         <div className="thumb">
           <img
-            className="pro_img img rounded"
+            className={thumbnail_class || "pro_img img rounded"}
             src={thumbnail}
             alt="About_us_video"
           />
           <div className="overlay_icon">
-            <div className="bb-video-box" onClick={this.tap_play}>
-              <div className="bb-video-box-inner">
-                <div className="bb-video-box-innerup">
-                  <Link to="#" className="theme-cl">
-                    <i className="fa fa-play"></i>
-                  </Link>
+            {url ? (
+              <div className="bb-video-box" onClick={this.tap_play}>
+                <div className="bb-video-box-inner">
+                  <div className="bb-video-box-innerup">
+                    <Link to="#" className="theme-cl">
+                      <i className="fa fa-play"></i>
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
+            ) : null}
           </div>
         </div>
       </div>
+    ) : typeof url === "string" && url.startsWith("http") ? (
+      <ReactPlayer
+        url={url}
+        height="100%"
+        width="100%"
+        autoPlay
+        className="react-players embed-responsive embed-responsive-16by9 rounded"
+      />
     ) : (
       <video
         className="embed-responsive embed-responsive-16by9 rounded"
         autoPlay
         controls
       >
-        <source className="embed-responsive-item" src={url} type="video/mp4" />
+        <source
+          crossOrigin="true"
+          className="embed-responsive-item"
+          src={url}
+          type="video/mp4"
+        />
       </video>
     );
   }

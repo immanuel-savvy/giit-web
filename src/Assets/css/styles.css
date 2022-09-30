@@ -22,17 +22,17 @@
 ------------- List Of Table ----------*/
 
 /* CSS Document */
-@import url("http://localhost:3000/Assets/css/plugins/animation.css");
-@import url("http://localhost:3000/Assets/css/plugins/bootstrap.min.css");
-@import url("http://localhost:3000/Assets/css/plugins/date-picker.css");
-@import url("http://localhost:3000/Assets/css/plugins/select2.css");
-@import url("http://localhost:3000/Assets/css/plugins/slick.css");
-/* @import url('http://localhost:3000/Assets/css/plugins/slick-theme.css'); */
-@import url("http://localhost:3000/Assets/css/plugins/themify.css");
-@import url("http://localhost:3000/Assets/css/plugins/morris.css");
-@import url("http://localhost:3000/Assets/css/plugins/font-awesome.css");
-@import url("http://localhost:3000/Assets/css/plugins/flaticon.css");
-@import url("http://localhost:3000/Assets/css/plugins/summernote.min.css");
+@import url("http://192.168.0.102:3000/Assets/css/plugins/animation.css");
+@import url("http://192.168.0.102:3000/Assets/css/plugins/bootstrap.min.css");
+@import url("http://192.168.0.102:3000/Assets/css/plugins/date-picker.css");
+@import url("http://192.168.0.102:3000/Assets/css/plugins/select2.css");
+@import url("http://192.168.0.102:3000/Assets/css/plugins/slick.css");
+/* @import url('http://192.168.0.102:3000/Assets/css/plugins/slick-theme.css'); */
+@import url("http://192.168.0.102:3000/Assets/css/plugins/themify.css");
+@import url("http://192.168.0.102:3000/Assets/css/plugins/morris.css");
+@import url("http://192.168.0.102:3000/Assets/css/plugins/font-awesome.css");
+@import url("http://192.168.0.102:3000/Assets/css/plugins/flaticon.css");
+@import url("http://192.168.0.102:3000/Assets/css/plugins/summernote.min.css");
 
 /*------------------------------------
 	Fonts

@@ -15,36 +15,16 @@ class About extends React.Component {
     this.state = {};
   }
 
-  script_paths = new Array(
-    "../Assets/js/jquery.min.js",
-    "../Assets/js/popper.min.js",
-    "../Assets/js/bootstrap.min.js",
-    "../Assets/js/select2.min.js",
-    "../Assets/js/slick.js",
-    "../Assets/js/moment.min.js",
-    "../Assets/js/daterangepicker.js",
-    "../Assets/js/summernote.min.js",
-    "../Assets/js/metisMenu.min.js",
-    "../Assets/js/custom.js"
-  );
-
-  append_script = (path) => {
-    const script = document.createElement("script");
-    script.src = path;
-    // script.async = true;
-    document.getElementById("main-wrapper").appendChild(script);
-  };
-
   componentDidMount = () => {
     document.title = "About | Globalstar Innovative Information Technology";
-
-    // this.script_paths.map((script_path) => this.append_script(script_path));
   };
 
   render() {
+    let { navs } = this.props;
+
     return (
       <div id="main-wrapper">
-        <Header page="about" />
+        <Header navs={navs} page="about" />
         <div className="clearfix"></div>
         <Breadcrumb page_title="Who we are?" page_text="About Us" />
 
@@ -99,12 +79,6 @@ class About extends React.Component {
         <Student_reviews />
         <Contact_us_today />
         <Footer />
-
-        <Head>
-          {this.script_paths.map((path) => (
-            <script scr={path}></script>
-          ))}
-        </Head>
       </div>
     );
   }

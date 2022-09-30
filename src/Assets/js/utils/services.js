@@ -1,4 +1,4 @@
-let domain = `http://localhost:3300`;
+let domain = `http://192.168.0.102:3300`;
 
 const get_request = async (path) => {
   console.log(path);

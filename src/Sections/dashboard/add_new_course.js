@@ -1,11 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { to_title } from "../../Assets/js/utils/functions";
-import {
-  get_request,
-  post_request,
-  upload_file,
-} from "../../Assets/js/utils/services";
+import { get_request, post_request } from "../../Assets/js/utils/services";
 import Loadindicator from "../../Components/loadindicator";
 import { emitter } from "../../Giit";
 import Dashboard_breadcrumb from "./dashboard_breadcrumb";
@@ -17,6 +13,7 @@ class Add_new_course extends React.Component {
     this.state = {
       current_pill: "basic",
       sections: new Array(),
+      categories: new Array(),
     };
   }
 
@@ -29,15 +26,20 @@ class Add_new_course extends React.Component {
     this.setState({ course_sections, course_categories });
   };
 
-  render_tab_pills = () => {
-    let { current_pill, short_description, title, price, image } = this.state;
-    let finish = !!(
+  is_set = () => {
+    let { short_description, title, price, image } = this.state;
+    return !!(
       short_description &&
       title &&
       Number(price) &&
       Number(price) > 0 &&
       image
     );
+  };
+
+  render_tab_pills = () => {
+    let { current_pill } = this.state;
+    let finish = this.is_set();
 
     return this.tab_pills.map((pill) =>
       !finish && pill === "finish" ? null : (
@@ -65,7 +67,7 @@ class Add_new_course extends React.Component {
   };
 
   finish_tab_panel = () => {
-    let { uploading_course } = this.state;
+    let { uploading_course, new_course } = this.state;
 
     return (
       <div
@@ -85,10 +87,7 @@ class Add_new_course extends React.Component {
             </div>
             <div className="succ_122">
               <h4>Course Successfully Added</h4>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              </p>
+              <p>{new_course?.short_description}</p>
             </div>
             <div className="succ_123">
               <Link
@@ -116,7 +115,7 @@ class Add_new_course extends React.Component {
           <li>
             <a
               href="#"
-              onClick={() => this.prev_pill(pill)}
+              onClick={pill === "basic" ? null : () => this.prev_pill(pill)}
               className={
                 pill === "basic" ? "btn btn_slide disabled" : "btn btn_slide"
               }
@@ -127,9 +126,15 @@ class Add_new_course extends React.Component {
           <li>
             <a
               href="#"
-              onClick={() => this.next_pill(pill)}
+              onClick={
+                pill === "finish" || (pill === "media" && !this.is_set())
+                  ? null
+                  : () => this.next_pill(pill)
+              }
               className={
-                pill === "finish" ? "btn btn_slide disabled" : "btn btn_slide"
+                pill === "finish" || (pill === "media" && !this.is_set())
+                  ? "btn btn_slide disabled"
+                  : "btn btn_slide"
               }
             >
               <i className="fas fa-arrow-right"></i>
@@ -144,7 +149,10 @@ class Add_new_course extends React.Component {
     let current_pill_index = this.tab_pills.findIndex((p) => p === pill);
 
     current_pill_index < this.tab_pills.length - 1 &&
-      this.setState({ current_pill: this.tab_pills[current_pill_index + 1] });
+      this.setState(
+        { current_pill: this.tab_pills[current_pill_index + 1] },
+        pill === "media" ? this.on_finish : null
+      );
   };
 
   prev_pill = (pill) => {
@@ -212,7 +220,7 @@ class Add_new_course extends React.Component {
             >
               {course_categories ? (
                 course_categories.map((category) =>
-                  this.course_section_checkbox(category)
+                  this.course_category_checkbox(category)
                 )
               ) : (
                 <Loadindicator />
@@ -241,23 +249,7 @@ class Add_new_course extends React.Component {
     );
   };
 
-  course_category_checkbox = ({ title, _id }) => (
-    <div className="form-group smalls">
-      <input
-        id={_id}
-        className="checkbox-custom"
-        name="course_category"
-        type="checkbox"
-        checked={this.state.sections.includes(_id)}
-        onChange={() => this.handle_category_check(_id)}
-      />
-      <label for={_id} className="checkbox-custom-label">
-        {to_title(title)}
-      </label>
-    </div>
-  );
-
-  handle_section_check = (category) => {
+  handle_category_check = (category) => {
     let { categories } = this.state;
     if (categories.includes(category))
       categories = categories.filter((category_) => category_ !== category);
@@ -274,6 +266,22 @@ class Add_new_course extends React.Component {
 
     this.setState({ sections });
   };
+
+  course_category_checkbox = ({ title, _id }) => (
+    <div className="form-group smalls">
+      <input
+        id={_id}
+        className="checkbox-custom"
+        name="course_category"
+        type="checkbox"
+        checked={this.state.categories.includes(_id)}
+        onChange={() => this.handle_category_check(_id)}
+      />
+      <label for={_id} className="checkbox-custom-label">
+        {to_title(title)}
+      </label>
+    </div>
+  );
 
   course_section_checkbox = ({ title, _id }) => (
     <div className="form-group smalls">
@@ -362,7 +370,7 @@ class Add_new_course extends React.Component {
               type="file"
               className="custom-file-input"
               id="customFile"
-              accept="image/**"
+              accept="image/*"
               onChange={this.handle_image}
             />
             <label className="custom-file-label" for="customFile">
@@ -413,6 +421,7 @@ class Add_new_course extends React.Component {
     course.image = response.image;
     course._id = response._id;
     course.created = response.created;
+    console.log(course);
 
     if (response._id) {
       this.setState({ new_course: course });
