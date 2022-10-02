@@ -3,11 +3,9 @@ import Loadindicator from "../Components/loadindicator";
 import Contact_us_today from "../Sections/contact_us_today";
 import Course_banner from "../Sections/course_banner";
 import Course_details from "../Sections/course_details";
-import Course_reviews from "../Sections/course_reviews";
 import Course_sidebar from "../Sections/course_sidebar";
 import Footer from "../Sections/footer";
 import Header from "../Sections/header";
-import Nav from "../Sections/nav";
 
 class Course extends React.Component {
   constructor(props) {
@@ -20,7 +18,6 @@ class Course extends React.Component {
     let course = window.sessionStorage.getItem("course");
     if (course) {
       course = JSON.parse(course);
-      console.log(course);
       this.setState({ course });
     }
   };

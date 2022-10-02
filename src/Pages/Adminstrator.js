@@ -17,6 +17,8 @@ import Manage_instructors from "../Sections/dashboard/manage_instructors";
 import Manage_students from "../Sections/dashboard/manage_students";
 import Footer from "../Sections/footer";
 import Header from "../Sections/header";
+import Add_certification from "../Sections/dashboard/add_certification";
+import Manage_flash_promo from "../Sections/dashboard/manage_flash_promo";
 
 class Adminstrator extends React.Component {
   constructor(props) {
@@ -76,6 +78,8 @@ class Adminstrator extends React.Component {
       add_new_instructor: <Add_new_instructor />,
       manage_students: <Manage_students />,
       add_new_student: <Add_new_student />,
+      add_certification: <Add_certification />,
+      manage_flash_promo: <Manage_flash_promo />,
     });
 
   render() {

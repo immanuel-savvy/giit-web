@@ -123,9 +123,9 @@ class Course_sections extends React.Component {
       <div className="col-lg-9 col-md-9 col-sm-12">
         <Dashboard_breadcrumb
           crumb="manage sections"
-          right_btn={
-            sections && sections.length ? this.add_new_section_btn() : null
-          }
+          on_click={this.toggle_section_form}
+          hide={show_form || !sections || (sections && !sections.length)}
+          title="add new section"
         />
         <div class="row">
           {show_form ? (

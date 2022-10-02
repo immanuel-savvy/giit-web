@@ -141,9 +141,9 @@ class Course_category extends React.Component {
       <div className="col-lg-9 col-md-9 col-sm-12">
         <Dashboard_breadcrumb
           crumb="course categories"
-          right_btn={
-            categories && categories.length ? this.add_new_category_btn() : null
-          }
+          on_click={this.toggle_category_form}
+          hide={show_form || !categories || (categories && !categories.length)}
+          title="add new category"
         />
 
         <div class="row">

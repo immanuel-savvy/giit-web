@@ -78,7 +78,7 @@ class Course_reviews extends React.Component {
           <div className="list-single-main-item-title fl-wrap">
             {reviews && reviews.length ? (
               <h3>
-                Item Reviews - <span> {reviews.length} </span>
+                Course Reviews (<span> {reviews.length} </span>)
               </h3>
             ) : (
               <h3>No reviews yet.</h3>

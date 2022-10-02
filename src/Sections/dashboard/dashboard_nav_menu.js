@@ -19,7 +19,9 @@ class Dashboard_nav_menu extends React.Component {
             { title: "manage_courses" },
             { title: "add_new_course" },
             { title: "course_category" },
-            { title: "manage_sections" }
+            { title: "manage_sections" },
+            { title: "add_certification" },
+            { title: "manage_flash_promo" }
           ),
         },
         {

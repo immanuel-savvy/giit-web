@@ -1,13 +1,14 @@
 import React from "react";
 import { to_title } from "../Assets/js/utils/functions";
 import { get_request } from "../Assets/js/utils/services";
-import { COST_SPREAD, SKILL_LEVEL } from "../Constants/constants";
+import { SKILL_LEVEL } from "../Constants/constants";
 
 class Courses_sidebar extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { skill_levels: new Array(), cates: true };
+    let { category, section } = this.props;
+    this.state = { skill_levels: new Array(), category, section, cates: true };
   }
 
   set_search_param = ({ target }) =>
@@ -34,7 +35,7 @@ class Courses_sidebar extends React.Component {
   };
 
   render_categories = () => {
-    let { categories } = this.state;
+    let { categories, category: cat } = this.state;
     if (!categories || (categories && !categories.length)) return null;
 
     return (
@@ -43,6 +44,7 @@ class Courses_sidebar extends React.Component {
         <div className="simple-input">
           <select
             id="cates"
+            defaultValue={cat}
             onChange={this.set_category}
             className="form-control"
           >
@@ -59,7 +61,7 @@ class Courses_sidebar extends React.Component {
   };
 
   render_sections = () => {
-    let { sections } = this.state;
+    let { sections, section: sect } = this.state;
     if (!sections || (sections && !sections.length)) return null;
 
     return (
@@ -68,6 +70,7 @@ class Courses_sidebar extends React.Component {
         <div className="simple-input">
           <select
             id="sects"
+            defaultValue={sect}
             onChange={this.set_section}
             className="form-control"
           >
@@ -106,11 +109,18 @@ class Courses_sidebar extends React.Component {
     </div>
   );
 
-  filter = (e) => {
+  filter = async (e) => {
     e.preventDefault();
 
     let { search_param, section, category, skill_levels } = this.state;
-    let filter = { search_param, section, category, skill_levels };
+
+    let filter = new Object();
+    if (search_param) filter.search_param = search_param;
+    if (section) filter.section = section;
+    if (category) filter.category = category;
+    if (skill_levels.length) filter.skill_levels = skill_levels;
+
+    await this.props.fetch_courses(filter);
 
     this.setState(
       {

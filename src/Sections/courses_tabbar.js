@@ -9,7 +9,14 @@ class Courses_tabbar extends React.Component {
   }
 
   render() {
-    let { list_view, toggle_list_view } = this.props;
+    let {
+      list_view,
+      toggle_list_view,
+      total_courses,
+      page,
+      courses_length,
+      page_size,
+    } = this.props;
 
     return (
       <div className="row">
@@ -18,7 +25,11 @@ class Courses_tabbar extends React.Component {
             <div className="row m-0 align-items-center justify-content-between">
               <div className="col-lg-4 col-md-5 col-sm-12  col-sm-6">
                 <div className="shorting_pagination_laft">
-                  <h6 className="m-0">Showing 1-25 of 72</h6>
+                  <h6 className="m-0">{`Showing ${
+                    (page_size * page || 0) + 1
+                  }-${
+                    page_size > courses_length ? courses_length : page_size
+                  } of ${total_courses}`}</h6>
                 </div>
               </div>
 

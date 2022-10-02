@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { to_title } from "../../Assets/js/utils/functions";
 import { get_request, post_request } from "../../Assets/js/utils/services";
 import Loadindicator from "../../Components/loadindicator";
+import { client_domain } from "../../Constants/constants";
 import { emitter } from "../../Giit";
 import Dashboard_breadcrumb from "./dashboard_breadcrumb";
 
@@ -14,16 +15,24 @@ class Add_new_course extends React.Component {
       current_pill: "basic",
       sections: new Array(),
       categories: new Array(),
+      certifications: new Array(),
+      requirements: new Array(),
+      what_you_will_learn: new Array(),
     };
   }
 
-  tab_pills = new Array("basic", "pricing", "media", "finish");
+  tab_pills = new Array("basic", "pricing", "media", "meta_info", "finish");
 
   componentDidMount = async () => {
     let course_sections = await get_request("sections");
     let course_categories = await get_request("categories");
+    let course_certifications = await get_request("certifications");
 
-    this.setState({ course_sections, course_categories });
+    this.setState({
+      course_sections,
+      course_categories,
+      course_certifications,
+    });
   };
 
   is_set = () => {
@@ -60,10 +69,16 @@ class Add_new_course extends React.Component {
             )
           }
         >
-          {to_title(pill)}
+          {to_title(pill.replace(/_/g, " "))}
         </button>
       )
     );
+  };
+
+  handle_course = () => {
+    let { new_course: course } = this.state;
+    window.sessionStorage.setItem("course", JSON.stringify(course));
+    window.location.assign(`${client_domain}/course`);
   };
 
   finish_tab_panel = () => {
@@ -91,7 +106,7 @@ class Add_new_course extends React.Component {
             </div>
             <div className="succ_123">
               <Link
-                to={`/course?course=${this.state.new_course?._id}`}
+                onClick={this.handle_course}
                 className="btn theme-bg text-white"
               >
                 View Course
@@ -160,6 +175,150 @@ class Add_new_course extends React.Component {
     current_pill_index &&
       this.setState({ current_pill: this.tab_pills[current_pill_index - 1] });
   };
+
+  add_to_learn = () => {
+    let { what_you_will_learn_in_edit, what_you_will_learn } = this.state;
+
+    what_you_will_learn = new Array(
+      ...what_you_will_learn,
+      what_you_will_learn_in_edit
+    );
+
+    this.setState({ what_you_will_learn, what_you_will_learn_in_edit: "" });
+  };
+
+  add_requirement = () => {
+    let { requirement_in_edit, requirements } = this.state;
+
+    requirements = new Array(...requirements, requirement_in_edit);
+
+    this.setState({ requirements, requirement_in_edit: "" });
+  };
+
+  meta_info_tab_panel = () => {
+    let {
+      course_certifications,
+      what_you_will_learn,
+      requirements,
+      what_you_will_learn_in_edit,
+      requirement_in_edit,
+    } = this.state;
+
+    return (
+      <div
+        className={
+          this.state.current_pill === "meta_info"
+            ? "tab-pane fade show active"
+            : "tab-pane fade"
+        }
+        id="v-pills-meta_info"
+        role="tabpanel"
+        aria-labelledby="v-pills-meta_info-tab"
+      >
+        {course_certifications && course_certifications.length ? (
+          <div className="form-group smalls">
+            <label>Course Certifications</label>
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                flexDirection: "row",
+              }}
+            >
+              {course_certifications ? (
+                course_certifications.map((certification) =>
+                  this.course_certification_checkbox(certification)
+                )
+              ) : (
+                <Loadindicator />
+              )}
+            </div>
+          </div>
+        ) : null}
+
+        <div className="form-group smalls">
+          <label>Requirements</label>
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Type requirement"
+            value={requirement_in_edit}
+            onChange={({ target }) =>
+              this.setState({ requirement_in_edit: target.value })
+            }
+          />
+          {requirement_in_edit ? (
+            <a
+              onClick={this.add_requirement}
+              href="#"
+              class="btn theme-bg text-light mt-2"
+            >
+              Add
+            </a>
+          ) : null}
+        </div>
+        {requirements.length ? (
+          <ul class="simple-list p-0">
+            {requirements.map((requirement, i) => (
+              <li key={i}>{requirement}</li>
+            ))}
+          </ul>
+        ) : null}
+
+        {requirements.length ? <br /> : null}
+        <div className="form-group smalls">
+          <label>What you'll learn</label>
+          <input
+            type="text"
+            className="form-control"
+            placeholder="What you will learn..."
+            value={what_you_will_learn_in_edit}
+            onChange={({ target }) =>
+              this.setState({ what_you_will_learn_in_edit: target.value })
+            }
+          />
+          {what_you_will_learn_in_edit ? (
+            <a
+              onClick={this.add_to_learn}
+              href="#"
+              class="btn theme-bg text-light mt-2"
+            >
+              Add
+            </a>
+          ) : null}
+        </div>
+
+        {what_you_will_learn.length ? (
+          <div class="edu_wraper">
+            <h4 class="edu_title">What you'll learn</h4>
+            <ul class="lists-3 row">
+              {what_you_will_learn.map((learn, i) => (
+                <li key={i} class="col-xl-4 col-lg-6 col-md-6 m-0">
+                  {learn}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
+      </div>
+    );
+  };
+
+  course_certification_checkbox = ({ title, _id }) => (
+    <div className="form-group smalls">
+      <input
+        id={_id}
+        className="checkbox-custom"
+        name="course_certication"
+        type="checkbox"
+        checked={this.state.certifications.includes(_id)}
+        onChange={() => this.handle_check(_id, "certifications")}
+      />
+      <label for={_id} className="checkbox-custom-label">
+        {to_title(title)}
+      </label>
+    </div>
+  );
 
   basic_tab_panel = () => {
     let { course_sections, course_categories } = this.state;
@@ -249,22 +408,12 @@ class Add_new_course extends React.Component {
     );
   };
 
-  handle_category_check = (category) => {
-    let { categories } = this.state;
-    if (categories.includes(category))
-      categories = categories.filter((category_) => category_ !== category);
-    else categories.push(category);
+  handle_check = (value, state_prop) => {
+    let arr = this.state[state_prop];
+    if (arr.includes(value)) arr = arr.filter((val) => val !== value);
+    else arr.push(value);
 
-    this.setState({ categories });
-  };
-
-  handle_section_check = (section) => {
-    let { sections } = this.state;
-    if (sections.includes(section))
-      sections = sections.filter((section_) => section_ !== section);
-    else sections.push(section);
-
-    this.setState({ sections });
+    this.setState({ [state_prop]: arr });
   };
 
   course_category_checkbox = ({ title, _id }) => (
@@ -275,7 +424,7 @@ class Add_new_course extends React.Component {
         name="course_category"
         type="checkbox"
         checked={this.state.categories.includes(_id)}
-        onChange={() => this.handle_category_check(_id)}
+        onChange={() => this.handle_check(_id, "categories")}
       />
       <label for={_id} className="checkbox-custom-label">
         {to_title(title)}
@@ -291,7 +440,7 @@ class Add_new_course extends React.Component {
         name="course_sections"
         type="checkbox"
         checked={this.state.sections.includes(_id)}
-        onChange={() => this.handle_section_check(_id)}
+        onChange={() => this.handle_check(_id, "sections")}
       />
       <label for={_id} className="checkbox-custom-label">
         {to_title(title)}
@@ -404,7 +553,9 @@ class Add_new_course extends React.Component {
       price,
       video,
       image,
-      file,
+      requirements,
+      what_you_will_learn,
+      certifications,
     } = this.state;
     let course = {
       short_description,
@@ -416,12 +567,15 @@ class Add_new_course extends React.Component {
       video,
       image,
     };
+    if (what_you_will_learn.length)
+      course.what_you_will_learn = what_you_will_learn;
+    if (certifications.length) course.certifications = certifications;
+    if (requirements.length) course.requirements = requirements;
 
     let response = await post_request("add_course", { course });
     course.image = response.image;
     course._id = response._id;
     course.created = response.created;
-    console.log(course);
 
     if (response._id) {
       this.setState({ new_course: course });
@@ -442,6 +596,9 @@ class Add_new_course extends React.Component {
       uploading_course: false,
       categories: new Array(),
       sections: new Array(),
+      certifications: new Array(),
+      requirements: new Array(),
+      what_you_will_learn: new Array(),
     });
 
   render() {
@@ -469,6 +626,7 @@ class Add_new_course extends React.Component {
                         {this.basic_tab_panel()}
                         {this.pricing_tab_panel()}
                         {this.media_tab_panel()}
+                        {this.meta_info_tab_panel()}
                         {this.finish_tab_panel()}
                       </div>
                     </div>

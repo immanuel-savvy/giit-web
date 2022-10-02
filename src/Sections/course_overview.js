@@ -36,17 +36,17 @@ class Course_overview extends React.Component {
             <p key={i}>{d}</p>
           ))}
 
-          {requirements ? <h6>Requirements</h6> : null}
-          {requirements ? (
+          {requirements && requirements.length ? <h6>Requirements</h6> : null}
+          {requirements && requirements.length ? (
             <ul class="simple-list p-0">
               {requirements.map((requirement, i) => (
-                <li key={1}>{requirement}</li>
+                <li key={i}>{requirement}</li>
               ))}
             </ul>
           ) : null}
         </div>
 
-        {certifications ? (
+        {certifications && certifications.length ? (
           <div class="edu_wraper">
             <h4 class="edu_title">Certification</h4>
             <p>
@@ -66,7 +66,7 @@ class Course_overview extends React.Component {
           </div>
         ) : null}
 
-        {what_you_will_learn ? (
+        {what_you_will_learn && what_you_will_learn.length ? (
           <div class="edu_wraper">
             <h4 class="edu_title">What you'll learn</h4>
             <ul class="lists-3 row">
