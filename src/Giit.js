@@ -75,7 +75,7 @@ class Giit extends React.Component {
     let courses_categories = await get_request("categories");
     let courses_nav = navs.find((nav) => nav.title === "courses");
 
-    if (courses_categories.length) {
+    if (courses_categories.length && courses_categories.map) {
       courses_nav.submenu = new Array();
       courses_categories.map((cat) =>
         courses_nav.submenu.push({
