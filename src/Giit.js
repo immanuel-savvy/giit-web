@@ -14,6 +14,7 @@ import Adminstrator from "./Pages/Adminstrator";
 import Emitter from "semitter";
 import { get_request } from "./Assets/js/utils/services";
 import Course from "./Pages/Course";
+import { Logged_admin } from "./Contexts";
 
 let emitter = new Emitter();
 
@@ -89,8 +90,10 @@ class Giit extends React.Component {
     this.setState({ navs });
   };
 
+  log_admin = async (admin) => this.setState({ admin_logged: admin });
+
   render = () => {
-    let { navs } = this.state;
+    let { navs, admin_logged } = this.state;
 
     return (
       <html lang="en">
@@ -105,26 +108,30 @@ class Giit extends React.Component {
         </head>
 
         <body>
-          <BrowserRouter>
-            <Routes>
-              <Route index element={<Index navs={navs} />} />
-              <Route path="courses" element={<Courses navs={navs} />} />
-              <Route path="contact_us" element={<Contact navs={navs} />} />
-              <Route path="signup" element={<Signup navs={navs} />} />
-              <Route path="login" element={<Login navs={navs} />} />
-              <Route
-                path="forgot_password"
-                element={<Forgot_password navs={navs} />}
-              />
-              <Route path="about" element={<About navs={navs} />} />
-              <Route path="course" element={<Course navs={navs} />} />
-              <Route
-                path="adminstrator"
-                element={<Adminstrator navs={navs} />}
-              />
-              <Route path="*" element={<Page_not_found navs={navs} />} />
-            </Routes>
-          </BrowserRouter>
+          <Logged_admin.Provider
+            value={{ admin_logged, log_admin: this.log_admin }}
+          >
+            <BrowserRouter>
+              <Routes>
+                <Route index element={<Index navs={navs} />} />
+                <Route path="courses" element={<Courses navs={navs} />} />
+                <Route path="contact_us" element={<Contact navs={navs} />} />
+                <Route path="signup" element={<Signup navs={navs} />} />
+                <Route path="login" element={<Login navs={navs} />} />
+                <Route
+                  path="forgot_password"
+                  element={<Forgot_password navs={navs} />}
+                />
+                <Route path="about" element={<About navs={navs} />} />
+                <Route path="course" element={<Course navs={navs} />} />
+                <Route
+                  path="adminstrator"
+                  element={<Adminstrator navs={navs} />}
+                />
+                <Route path="*" element={<Page_not_found navs={navs} />} />
+              </Routes>
+            </BrowserRouter>
+          </Logged_admin.Provider>
         </body>
       </html>
     );

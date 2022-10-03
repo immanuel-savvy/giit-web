@@ -38,21 +38,21 @@ class Courses extends React.Component {
   };
 
   fetch_courses = async (filter) => {
+    this.setState({ fetching_courses: true });
     let { total_courses, courses } = await post_request("courses", {
       filter,
       total_courses: true,
       limit: this.page_size,
     });
 
-    console.log("here", courses, total_courses, filter);
-    this.setState({ courses, total_courses, filter });
+    this.setState({ courses, fetching_courses: false, total_courses, filter });
   };
 
   page_size = 25;
 
   render = () => {
     let { navs } = this.props;
-    let { courses, total_courses, filter } = this.state;
+    let { courses, fetching_courses, total_courses, filter } = this.state;
 
     return (
       <div id="main-wrapper">
@@ -76,7 +76,7 @@ class Courses extends React.Component {
                   total_courses={total_courses || ""}
                 />
                 <div class="row justify-content-center">
-                  {courses ? (
+                  {courses && !fetching_courses ? (
                     courses.length ? (
                       courses.map((course) => (
                         <Featured_course

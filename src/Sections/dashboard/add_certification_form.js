@@ -1,5 +1,5 @@
 import React from "react";
-import { post_request } from "../../Assets/js/utils/services";
+import { domain, post_request } from "../../Assets/js/utils/services";
 import { emitter } from "../../Giit";
 
 class Add_certification_form extends React.Component {
@@ -11,7 +11,11 @@ class Add_certification_form extends React.Component {
 
   componentDidMount = () => {
     let { certification } = this.props;
-    certification && this.setState({ ...certification });
+    certification &&
+      this.setState({
+        ...certification,
+        image: `${domain}/Images/${certification.image}`,
+      });
 
     this.certification_to_update = (certification) =>
       this.setState({ ...certification });
@@ -54,6 +58,9 @@ class Add_certification_form extends React.Component {
       new_certification._id = _id;
       new_certification.courses = courses;
       new_certification.created = created;
+      if (new_certification.image)
+        if (new_certification.image.startsWith("http"))
+          new_certification.image = this.props.certification.image;
 
       await post_request("update_certification", new_certification);
       emitter.emit("certification_updated", new_certification);
@@ -103,7 +110,7 @@ class Add_certification_form extends React.Component {
                   <div class="d-flex align-items-center justify-content-center">
                     {image ? (
                       <img
-                        className="py-3 rounded-circle"
+                        className="py-3"
                         style={{
                           maxHeight: 200,
                           maxWidth: 200,
@@ -133,10 +140,10 @@ class Add_certification_form extends React.Component {
                     className="form-control"
                   ></textarea>
                 </div>
-
+                <br />
                 <div className="form-group smalls">
                   <button
-                    onClick={title && description && this.sumbit}
+                    onClick={title && description && this.submit}
                     type="button"
                     className={`btn full-width ${
                       title && description ? "theme-bg" : "grey"

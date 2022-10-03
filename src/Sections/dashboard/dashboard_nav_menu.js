@@ -12,20 +12,24 @@ class Dashboard_nav_menu extends React.Component {
       navs: new Array(
         {
           title: "dashboard",
+          icon: "fa-th",
         },
         {
           title: "courses",
+          icon: "fa-shopping-basket",
           subnav: new Array(
             { title: "manage_courses" },
             { title: "add_new_course" },
             { title: "course_category" },
             { title: "manage_sections" },
             { title: "add_certification" },
+            { title: "manage_combo_courses" },
             { title: "manage_flash_promo" }
           ),
         },
         {
           title: "enrollment",
+          icon: "fa-gem",
           subnav: new Array(
             { title: "enrollment_history" },
             { title: "enroll_a_student" }
@@ -33,6 +37,7 @@ class Dashboard_nav_menu extends React.Component {
         },
         {
           title: "admins",
+          icon: "fa-user-shield",
           subnav: new Array(
             { title: "manage_admins" },
             { title: "add_new_admin" }
@@ -40,6 +45,7 @@ class Dashboard_nav_menu extends React.Component {
         },
         {
           title: "instructors",
+          icon: "fa-user",
           subnav: new Array(
             { title: "manage_instructors" },
             { title: "add_new_instructor" }

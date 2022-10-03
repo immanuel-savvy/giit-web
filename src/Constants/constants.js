@@ -5,13 +5,15 @@ const SKILL_LEVEL = new Array(
   "advance"
 );
 
-const hostname = "http://192.168.43.203";
+const hostname = "http://192.168.0.102";
 
 const client_domain = `${hostname}:3000`;
 
 const COST_SPREAD = new Array("all", "free", "paid");
 
 const domain = `${hostname}:3300`;
+
+const default_admin = "adminstrators~123giitafrica~1234567890123";
 
 const month_index = new Object({
   0: "jan",
@@ -37,5 +39,6 @@ export {
   hostname,
   client_domain,
   month_index,
+  default_admin,
   organisation_name,
 };

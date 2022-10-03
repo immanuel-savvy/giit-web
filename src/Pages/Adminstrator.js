@@ -19,6 +19,9 @@ import Footer from "../Sections/footer";
 import Header from "../Sections/header";
 import Add_certification from "../Sections/dashboard/add_certification";
 import Manage_flash_promo from "../Sections/dashboard/manage_flash_promo";
+import { Logged_admin } from "../Contexts";
+import Admin_login from "../Sections/dashboard/admin_login";
+import Manage_combo_courses from "../Sections/dashboard/manage_combo_courses";
 
 class Adminstrator extends React.Component {
   constructor(props) {
@@ -78,6 +81,7 @@ class Adminstrator extends React.Component {
       add_new_instructor: <Add_new_instructor />,
       manage_students: <Manage_students />,
       add_new_student: <Add_new_student />,
+      manage_combo_courses: <Manage_combo_courses />,
       add_certification: <Add_certification />,
       manage_flash_promo: <Manage_flash_promo />,
     });
@@ -86,21 +90,29 @@ class Adminstrator extends React.Component {
     let { current_nav } = this.state;
 
     return (
-      <div id="main-wrapper">
-        <Header page="dashboard" />
-        <div class="clearfix"></div>
-        <section class="gray pt-4">
-          <div class="container-fluid">
-            <div class="row">
-              <Dashboard_navbar />
-              {this.nav_et_component()[current_nav]}
-            </div>
-          </div>
-        </section>
+      <Logged_admin.Consumer>
+        {({ admin_logged, log_admin }) => {
+          return admin_logged ? (
+            <div id="main-wrapper">
+              <Header page="dashboard" />
+              <div class="clearfix"></div>
+              <section class="gray pt-4">
+                <div class="container-fluid">
+                  <div class="row">
+                    <Dashboard_navbar />
+                    {this.nav_et_component()[current_nav]}
+                  </div>
+                </div>
+              </section>
 
-        <Contact_us_today />
-        <Footer />
-      </div>
+              <Contact_us_today />
+              <Footer />
+            </div>
+          ) : (
+            <Admin_login log_admin={log_admin} />
+          );
+        }}
+      </Logged_admin.Consumer>
     );
   }
 }

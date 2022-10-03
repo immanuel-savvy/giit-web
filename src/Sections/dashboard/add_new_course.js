@@ -305,7 +305,7 @@ class Add_new_course extends React.Component {
   };
 
   course_certification_checkbox = ({ title, _id }) => (
-    <div className="form-group smalls">
+    <div className="form-group smalls" key={_id}>
       <input
         id={_id}
         className="checkbox-custom"
@@ -417,7 +417,7 @@ class Add_new_course extends React.Component {
   };
 
   course_category_checkbox = ({ title, _id }) => (
-    <div className="form-group smalls">
+    <div className="form-group smalls" key={_id}>
       <input
         id={_id}
         className="checkbox-custom"
@@ -433,7 +433,7 @@ class Add_new_course extends React.Component {
   );
 
   course_section_checkbox = ({ title, _id }) => (
-    <div className="form-group smalls">
+    <div className="form-group smalls" key={_id}>
       <input
         id={_id}
         className="checkbox-custom"

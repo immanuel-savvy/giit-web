@@ -9,8 +9,8 @@ class Certification_course extends React.Component {
   }
 
   render() {
-    let { course } = this.props;
-    let { title } = course;
+    let { certification } = this.props;
+    let { title } = certification;
 
     return (
       <div className="single_items lios_item mb-3">

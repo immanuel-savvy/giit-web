@@ -14,11 +14,12 @@ class Course_sidebar extends React.Component {
 
   render() {
     let { show_full } = this.state;
-    let { course } = this.props;
+    let { course, cummulative_price } = this.props;
     let { image, video, price, short_description } = course;
+    price = price || cummulative_price || 0;
 
     return (
-      <div className="col-lg-4 col-md-12  order-lg-last">
+      <div className="col-lg-4 col-md-12 order-lg-last">
         <div className="ed_view_box style_3 ovrlio stick_top">
           <Video
             thumbnail_class="pro_img img-fluid w100"
@@ -36,7 +37,9 @@ class Course_sidebar extends React.Component {
             className="ed_view_short pl-4 pr-4 pb-2"
           >
             <p>
-              {show_full ? short_description : short_description.slice(0, 150)}
+              {show_full
+                ? short_description
+                : `${short_description.slice(0, 150)}...`}
             </p>
           </div>
 

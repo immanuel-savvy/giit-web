@@ -1,4 +1,5 @@
 import React from "react";
+import { get_request } from "../Assets/js/utils/services";
 import Loadindicator from "../Components/loadindicator";
 import Certification_course from "./certification_course";
 
@@ -9,11 +10,17 @@ class Certification_courses extends React.Component {
     this.state = {};
   }
 
+  componentDidMount = async () => {
+    let certifications = await get_request("certifications");
+
+    this.setState({ certifications });
+  };
+
   render() {
     let { title, gray, subtitle } = this.props;
-    let { courses } = this.state;
+    let { certifications } = this.state;
 
-    if (courses && !courses.length) return null;
+    if (certifications && !certifications.length) return null;
 
     return (
       <section
@@ -26,17 +33,20 @@ class Certification_courses extends React.Component {
           <div className="row justify-content-center">
             <div className="col-lg-7 col-md-8">
               <div className="sec-heading center">
-                <h2 className="text-light">{title}</h2>
+                <h2 className="text-light">Certification Courses</h2>
                 {subtitle ? <p>{subtitle}</p> : null}
               </div>
             </div>
           </div>
           <div className="row justify-content-center">
             <div className="col-xl-12 col-lg-12 col-sm-12">
-              {courses ? (
+              {certifications ? (
                 <div className="certification-slide space">
-                  {courses.map((course, index) => (
-                    <Certification_course key={index} course={course} />
+                  {certifications.map((certification) => (
+                    <Certification_course
+                      key={certification._id}
+                      certification={certification}
+                    />
                   ))}
                 </div>
               ) : (

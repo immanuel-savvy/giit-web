@@ -1,4 +1,7 @@
 import React from "react";
+import { to_title } from "../../Assets/js/utils/functions";
+import { domain, default_admin } from "../../Constants/constants";
+import { Logged_admin } from "../../Contexts";
 
 class Admin_card extends React.Component {
   constructor(props) {
@@ -9,42 +12,31 @@ class Admin_card extends React.Component {
 
   render() {
     return (
-      <div class="d-user-avater">
-        <img
-          src="../../Assets/img/logo_single.png"
-          class="img-fluid avater"
-          alt=""
-        />
-        <h4>GIIT</h4>
-        <span>Default Admin</span>
-        <div class="elso_syu89">
-          <ul>
-            <li>
-              <a href="#">
-                <i class="ti-facebook"></i>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <i class="ti-twitter"></i>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <i class="ti-linkedin"></i>
-              </a>
-            </li>
-          </ul>
-        </div>
-        {/* <div class="elso_syu77">
-          <div class="one_third">
-            <div class="one_45ic text-success bg-light-success">
-              <i class="fas fa-file-invoice"></i>
+      <Logged_admin.Consumer>
+        {({ admin_logged }) => {
+          let { firstname, lastname, image: _image, _id } = admin_logged;
+          return (
+            <div class="d-user-avater">
+              <img
+                src={`${domain}/Images/${_image || "logo_single.png"}`}
+                class="img-fluid avater"
+                alt=""
+              />
+              <h4>{to_title(`${firstname} ${lastname}`.trim())}</h4>
+              <span>{_id === default_admin ? "Default Admin" : "Admin"}</span>
+              <div class="elso_syu89">
+                <ul>
+                  <li>
+                    <a href="#">
+                      <i class="ti-pencil"></i>
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </div>
-            <span>Courses</span>
-          </div>
-        </div> */}
-      </div>
+          );
+        }}
+      </Logged_admin.Consumer>
     );
   }
 }

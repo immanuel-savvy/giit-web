@@ -1,4 +1,5 @@
 import React from "react";
+import { get_request } from "../Assets/js/utils/services";
 import Loadindicator from "../Components/loadindicator";
 import Combo_course from "./combo_course";
 
@@ -8,6 +9,12 @@ class Combo_courses extends React.Component {
 
     this.state = {};
   }
+
+  componentDidMount = async () => {
+    let combos = await get_request("combo_courses");
+
+    this.setState({ combos });
+  };
 
   render() {
     let { gray } = this.props;

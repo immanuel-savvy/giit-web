@@ -1,5 +1,6 @@
 import React from "react";
 import { to_title } from "../Assets/js/utils/functions";
+import { domain } from "../Constants/constants";
 
 class Course_banner extends React.Component {
   constructor(props) {
@@ -17,7 +18,7 @@ class Course_banner extends React.Component {
         class="ed_detail_head bg-cover"
         style={{
           backgroundColor: "#03b97c",
-          backgroundImage: `url(http://192.168.0.101:3300/Images/${image})`,
+          backgroundImage: `url(${domain}/Images/${image})`,
           backgroundRepeat: "no-repeat",
         }}
         data-overlay="8"
@@ -50,7 +51,8 @@ class Course_banner extends React.Component {
                   </div>
                   <div class="review_counter">
                     <strong class="high">{stars || 0}</strong>
-                    {` ${reviews || 0} Reviews`}
+                    &nbsp;&nbsp;
+                    {reviews ? ` ${reviews} Reviews` : null}
                   </div>
                 </div>
               </div>

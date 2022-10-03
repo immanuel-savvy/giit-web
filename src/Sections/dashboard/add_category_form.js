@@ -52,6 +52,9 @@ class Add_category_form extends React.Component {
       new_category._id = _id;
       new_category.courses = courses;
       new_category.created = created;
+      if (new_category.image)
+        if (new_category.image.startsWith("http"))
+          new_category.image = this.props.category.image;
 
       await post_request("update_category", new_category);
       emitter.emit("category_updated", new_category);
@@ -85,35 +88,34 @@ class Add_category_form extends React.Component {
             <div className="modal-body">
               <form className="forms_block">
                 <div className="form-group smalls">
-                  <div className="form-group smalls">
-                    <label>Category Image</label>
-                    <div className="custom-file">
-                      <input
-                        type="file"
-                        className="custom-file-input"
-                        id="customFile"
-                        accept="image/*"
-                        onChange={this.handle_image}
-                      />
-                      <label className="custom-file-label" for="customFile">
-                        Choose file
-                      </label>
-                    </div>
-                    <div class="d-flex align-items-center justify-content-center">
-                      {image ? (
-                        <img
-                          className="py-3 rounded-circle"
-                          style={{
-                            maxHeight: 200,
-                            maxWidth: 200,
-                            resize: "both",
-                          }}
-                          src={this.state.image}
-                        />
-                      ) : null}
-                    </div>
+                  <label>Category Image</label>
+                  <div className="custom-file">
+                    <input
+                      type="file"
+                      className="custom-file-input"
+                      id="customFile"
+                      accept="image/*"
+                      onChange={this.handle_image}
+                    />
+                    <label className="custom-file-label" for="customFile">
+                      Choose image
+                    </label>
                   </div>
-
+                  <div class="d-flex align-items-center justify-content-center">
+                    {image ? (
+                      <img
+                        className="py-3 rounded-circle"
+                        style={{
+                          maxHeight: 200,
+                          maxWidth: 200,
+                          resize: "both",
+                        }}
+                        src={this.state.image}
+                      />
+                    ) : null}
+                  </div>
+                </div>
+                <div className="form-group smalls">
                   <label>Category Title*</label>
                   <input
                     type="text"

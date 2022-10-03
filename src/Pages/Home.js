@@ -21,6 +21,7 @@ class Index extends React.Component {
 
   componentDidMount = async () => {
     let sections = await get_request("sections");
+    sections.push("certification", "combo");
 
     this.setState({ sections });
   };
@@ -36,23 +37,13 @@ class Index extends React.Component {
         <Ratings />
         {sections && sections.map ? (
           sections.map((section, index) => {
-            if (section.title === "combo")
-              return <Combo_courses gray={!!(index % 2)} key={section._id} />;
-            else if (section.title === "certification")
-              return (
-                <Certification_courses
-                  gray={!!(index % 2)}
-                  title="Certification Courses"
-                  key={section._id}
-                />
-              );
+            if (section === "combo")
+              return <Combo_courses gray={!!(index % 2)} key={index} />;
+            else if (section === "certification")
+              return <Certification_courses gray={!!(index % 2)} key={index} />;
             else
               return (
-                <Courses
-                  gray={!!(index % 2)}
-                  section={section}
-                  key={section._id}
-                />
+                <Courses gray={!!(index % 2)} section={section} key={index} />
               );
           })
         ) : (

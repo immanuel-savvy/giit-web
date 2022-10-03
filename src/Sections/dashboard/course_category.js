@@ -1,6 +1,10 @@
 import React from "react";
 import { to_title } from "../../Assets/js/utils/functions";
-import { get_request, post_request } from "../../Assets/js/utils/services";
+import {
+  domain,
+  get_request,
+  post_request,
+} from "../../Assets/js/utils/services";
 import Loadindicator from "../../Components/loadindicator";
 import { emitter } from "../../Giit";
 import Add_category_form from "./add_category_form";
@@ -97,7 +101,7 @@ class Course_category extends React.Component {
           {image ? (
             <div class="dash_crs_cat_thumb">
               <img
-                src={`http://localhost:3300/Images/${image}`}
+                src={`${domain}/Images/${image}`}
                 style={{ maxHeight: 200, width: "100%" }}
                 alt=""
                 class="img-fluid"

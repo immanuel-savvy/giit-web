@@ -18,6 +18,9 @@ class Courses_sidebar extends React.Component {
 
   set_section = ({ target }) => this.setState({ section: target.value });
 
+  set_certification = ({ target }) =>
+    this.setState({ certification: target.value });
+
   set_skill_level = (level) => {
     let { skill_levels } = this.state;
 
@@ -31,53 +34,34 @@ class Courses_sidebar extends React.Component {
   componentDidMount = async () => {
     let categories = await get_request("categories");
     let sections = await get_request("sections");
-    this.setState({ categories, sections });
+    let certifications = await get_request("certifications");
+
+    this.setState({ categories, sections, certifications });
   };
 
-  render_categories = () => {
-    let { categories, category: cat } = this.state;
-    if (!categories || (categories && !categories.length)) return null;
+  render_selections = (prop) => {
+    let state_prop = this.state[prop];
+    let prop_singular =
+      prop === "categories" ? "category" : prop.slice(1, prop.length - 1);
+    let state_prop_single = this.state[prop_singular];
+
+    if (!state_prop || (state_prop && !state_prop.length)) return null;
 
     return (
       <div className="form-group">
-        <h6>Course Categories</h6>
+        <br />
+        <h6>{`${to_title(prop)}`}</h6>
         <div className="simple-input">
           <select
-            id="cates"
-            defaultValue={cat}
-            onChange={this.set_category}
+            id={prop}
+            defaultValue={state_prop_single}
+            onChange={this[`set_${prop_singular}`]}
             className="form-control"
           >
-            <option value="">-- All Categories--</option>
-            {categories.map((category) => (
-              <option key={category._id} value={category._id}>
-                {to_title(category.title)}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-    );
-  };
-
-  render_sections = () => {
-    let { sections, section: sect } = this.state;
-    if (!sections || (sections && !sections.length)) return null;
-
-    return (
-      <div className="form-group">
-        <h6>Course Sections</h6>
-        <div className="simple-input">
-          <select
-            id="sects"
-            defaultValue={sect}
-            onChange={this.set_section}
-            className="form-control"
-          >
-            <option value="">-- All Sections--</option>
-            {sections.map((section) => (
-              <option key={section._id} value={section._id}>
-                {to_title(section.title)}
+            <option value="">{`-- All ${to_title(prop)}--`}</option>
+            {state_prop.map((prop_item) => (
+              <option key={prop_item._id} value={prop_item._id}>
+                {to_title(prop_item.title)}
               </option>
             ))}
           </select>
@@ -88,6 +72,7 @@ class Courses_sidebar extends React.Component {
 
   render_skill_level = () => (
     <div className="form-group">
+      <br />
       <h6>Skill Level</h6>
       <ul className="no-ul-list mb-3">
         {SKILL_LEVEL.map((level, index) => (
@@ -112,12 +97,14 @@ class Courses_sidebar extends React.Component {
   filter = async (e) => {
     e.preventDefault();
 
-    let { search_param, section, category, skill_levels } = this.state;
+    let { search_param, certification, section, category, skill_levels } =
+      this.state;
 
     let filter = new Object();
     if (search_param) filter.search_param = search_param;
     if (section) filter.section = section;
     if (category) filter.category = category;
+    if (certification) filter.certification = certification;
     if (skill_levels.length) filter.skill_levels = skill_levels;
 
     await this.props.fetch_courses(filter);
@@ -164,9 +151,11 @@ class Courses_sidebar extends React.Component {
                 </div>
               </div>
 
-              {cates ? this.render_categories() : null}
+              {cates ? this.render_selections("categories") : null}
 
-              {cates ? this.render_sections() : null}
+              {cates ? this.render_selections("sections") : null}
+
+              {cates ? this.render_selections("certifications") : null}
 
               {this.render_skill_level()}
 
