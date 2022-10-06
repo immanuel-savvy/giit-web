@@ -30,4 +30,16 @@ const generate_random_string = (len, combination) => {
 const gen_random_int = (max_int, min_int = 0) =>
   min_int + Math.floor(Math.random() * max_int);
 
-export { to_title, gen_random_int, generate_random_string };
+let phone_regex =
+  /^(\+{0,})(\d{0,})([(]{1}\d{1,3}[)]{0,}){0,}(\s?\d+|\+\d{2,3}\s{1}\d+|\d+){1}[\s|-]?\d+([\s|-]?\d+){1,2}(\s){0,}$/gm;
+
+let email_regex =
+  /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+
+export {
+  to_title,
+  gen_random_int,
+  generate_random_string,
+  email_regex,
+  phone_regex,
+};

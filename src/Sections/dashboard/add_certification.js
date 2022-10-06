@@ -86,7 +86,7 @@ class Add_certification extends React.Component {
           <div class="dash_crs_cat_caption">
             <div class="dash_crs_cat_head">
               <h4>{to_title(title)}</h4>
-              <span>{`Courses: ${courses}`}</span>
+              <span>{`Courses: ${(courses && courses.length) || 0}`}</span>
             </div>
             <div
               onClick={() => this.toggle_full_text(_id)}

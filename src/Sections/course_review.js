@@ -17,7 +17,7 @@ class Course_review extends React.Component {
 
   format_date = (timestamp) => {
     let date = new Date(timestamp);
-    return `${date.getDay()} ${
+    return `${date.getDate()} ${
       month_index[date.getMonth()]
     } ${date.getFullYear()}`;
   };

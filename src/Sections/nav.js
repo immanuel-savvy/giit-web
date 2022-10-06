@@ -52,7 +52,9 @@ class Nav extends React.Component {
                         <ul className="nav-dropdown nav-submenu">
                           {nav.submenu.map((submenu, index) => (
                             <li key={index}>
-                              <Link to={submenu.path}>{submenu.title}</Link>
+                              <Link onClick={submenu.action} to="#">
+                                {submenu.title}
+                              </Link>
                               {submenu.submenu ? (
                                 <span className="submenu-indicator"></span>
                               ) : null}

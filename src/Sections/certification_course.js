@@ -13,7 +13,7 @@ class Certification_course extends React.Component {
     let { title } = certification;
 
     return (
-      <div className="single_items lios_item mb-3">
+      <div className="single_items lios_item mb-3 col-md-4">
         <div className="_testimonial_wrios shadow_none">
           <div className="_testimonial_flex">
             <div

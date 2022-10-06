@@ -10,11 +10,13 @@ class Dashboard_navbar extends React.Component {
   }
 
   render() {
+    let { admin } = this.props;
+
     return (
       <div class="col-lg-3 col-md-3">
         <div class="dashboard-navbar">
           <Admin_card />
-          <Dashboard_nav_menu />
+          <Dashboard_nav_menu admin={admin} />
         </div>
       </div>
     );

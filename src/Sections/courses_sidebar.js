@@ -7,14 +7,19 @@ class Courses_sidebar extends React.Component {
   constructor(props) {
     super(props);
 
-    let { category, section } = this.props;
-    this.state = { skill_levels: new Array(), category, section, cates: true };
+    let { master_course, section } = this.props;
+    this.state = {
+      skill_levels: new Array(),
+      master_course,
+      section,
+      cates: true,
+    };
   }
 
   set_search_param = ({ target }) =>
     this.setState({ search_param: target.value });
 
-  set_category = ({ target }) => this.setState({ category: target.value });
+  set_category = ({ target }) => this.setState({ master_course: target.value });
 
   set_section = ({ target }) => this.setState({ section: target.value });
 
@@ -32,17 +37,19 @@ class Courses_sidebar extends React.Component {
   };
 
   componentDidMount = async () => {
-    let categories = await get_request("categories");
+    let master_courses = await get_request("master_courses");
     let sections = await get_request("sections");
     let certifications = await get_request("certifications");
 
-    this.setState({ categories, sections, certifications });
+    this.setState({ master_courses, sections, certifications });
   };
 
   render_selections = (prop) => {
     let state_prop = this.state[prop];
     let prop_singular =
-      prop === "categories" ? "category" : prop.slice(1, prop.length - 1);
+      prop === "master_courses"
+        ? "master_course"
+        : prop.slice(1, prop.length - 1);
     let state_prop_single = this.state[prop_singular];
 
     if (!state_prop || (state_prop && !state_prop.length)) return null;
@@ -97,13 +104,13 @@ class Courses_sidebar extends React.Component {
   filter = async (e) => {
     e.preventDefault();
 
-    let { search_param, certification, section, category, skill_levels } =
+    let { search_param, certification, section, master_course, skill_levels } =
       this.state;
 
     let filter = new Object();
     if (search_param) filter.search_param = search_param;
     if (section) filter.section = section;
-    if (category) filter.category = category;
+    if (master_course) filter.master_course = master_course;
     if (certification) filter.certification = certification;
     if (skill_levels.length) filter.skill_levels = skill_levels;
 
@@ -112,7 +119,7 @@ class Courses_sidebar extends React.Component {
     this.setState(
       {
         search_param: "",
-        category: "",
+        master_course: "",
         skill_levels: new Array(),
         cates: false,
       },
@@ -151,7 +158,7 @@ class Courses_sidebar extends React.Component {
                 </div>
               </div>
 
-              {cates ? this.render_selections("categories") : null}
+              {cates ? this.render_selections("master_courses") : null}
 
               {cates ? this.render_selections("sections") : null}
 

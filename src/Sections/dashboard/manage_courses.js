@@ -31,15 +31,15 @@ class Manage_courses extends React.Component {
 
   select_filter = async () => {
     let sections = await get_request("sections");
-    let categories = await get_request("categories");
+    let master_courses = await get_request("master_courses");
 
     return new Array(
       {
         _id: "cates",
         label_text: "category",
         options: new Array(
-          { title: "-- All categories --", default: true },
-          ...categories.map(
+          { title: "-- All master_courses --", default: true },
+          ...master_courses.map(
             (category) =>
               new Object({ title: category.title, value: category._id })
           )

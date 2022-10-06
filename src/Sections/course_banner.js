@@ -12,6 +12,7 @@ class Course_banner extends React.Component {
   render() {
     let { course } = this.props;
     let { image, tags, title, stars, reviews, short_description } = course;
+    tags = tags && tags.split(",");
 
     return (
       <div
@@ -28,8 +29,8 @@ class Course_banner extends React.Component {
             <div class="col-lg-7 col-md-7">
               <div class="ed_detail_wrap light">
                 {tags && tags.length
-                  ? tags.map((tag) => (
-                      <div class="crs_cates cl_1">
+                  ? tags.map((tag, index) => (
+                      <div key={index} class="crs_cates cl_1">
                         <span>{tag}</span>
                       </div>
                     ))

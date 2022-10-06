@@ -5,7 +5,7 @@ import Add_new_admins from "../Sections/dashboard/add_new_admins";
 import Add_new_course from "../Sections/dashboard/add_new_course";
 import Add_new_instructor from "../Sections/dashboard/add_new_instructor";
 import Add_new_student from "../Sections/dashboard/add_new_student";
-import Course_category from "../Sections/dashboard/course_category";
+import Manage_master_courses from "../Sections/dashboard/manage_master_courses";
 import Manage_sections from "../Sections/dashboard/manage_sections";
 import Dashboard_landing from "../Sections/dashboard/dashboard_landing";
 import Dashboard_navbar from "../Sections/dashboard/dashboard_navbar";
@@ -27,7 +27,7 @@ class Adminstrator extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { current_nav: "add_new_course" };
+    this.state = { current_nav: "dashboard" };
   }
 
   script_paths = new Array(
@@ -71,7 +71,7 @@ class Adminstrator extends React.Component {
       dashboard: <Dashboard_landing />,
       manage_courses: <Manage_courses />,
       add_new_course: <Add_new_course course={this.state.course} />,
-      course_category: <Course_category />,
+      manage_master_courses: <Manage_master_courses />,
       manage_sections: <Manage_sections />,
       enrollment_history: <Enrollment_history />,
       enroll_a_student: <Enroll_a_student />,
@@ -99,7 +99,7 @@ class Adminstrator extends React.Component {
               <section class="gray pt-4">
                 <div class="container-fluid">
                   <div class="row">
-                    <Dashboard_navbar />
+                    <Dashboard_navbar admin={admin_logged} />
                     {this.nav_et_component()[current_nav]}
                   </div>
                 </div>

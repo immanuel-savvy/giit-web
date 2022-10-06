@@ -1,5 +1,5 @@
 import React from "react";
-import { get_request } from "../Assets/js/utils/services";
+import { get_request, post_request } from "../Assets/js/utils/services";
 import Loadindicator from "../Components/loadindicator";
 import Certification_course from "./certification_course";
 
@@ -11,13 +11,18 @@ class Certification_courses extends React.Component {
   }
 
   componentDidMount = async () => {
-    let certifications = await get_request("certifications");
+    let { certifications: cert_ids } = this.props;
+
+    let certifications =
+      cert_ids && cert_ids.length
+        ? await post_request("get_certifications", cert_ids)
+        : await get_request("certifications");
 
     this.setState({ certifications });
   };
 
   render() {
-    let { title, gray, subtitle } = this.props;
+    let { certifications: cert_ids, gray, subtitle } = this.props;
     let { certifications } = this.state;
 
     if (certifications && !certifications.length) return null;
@@ -30,16 +35,18 @@ class Certification_courses extends React.Component {
         }}
       >
         <div className="container">
-          <div className="row justify-content-center">
-            <div className="col-lg-7 col-md-8">
-              <div className="sec-heading center">
-                <h2 className="text-light">Certification Courses</h2>
-                {subtitle ? <p>{subtitle}</p> : null}
+          {cert_ids && cert_ids.length ? null : (
+            <div className="row justify-content-center">
+              <div className="col-lg-7 col-md-8">
+                <div className="sec-heading center">
+                  <h2 className="text-light">Certification Courses</h2>
+                  {subtitle ? <p>{subtitle}</p> : null}
+                </div>
               </div>
             </div>
-          </div>
-          <div className="row justify-content-center">
-            <div className="col-xl-12 col-lg-12 col-sm-12">
+          )}
+          <div className="row justify-content-center rounded">
+            <div className="col-xl-12 col-lg-12 col-sm-12 rounded">
               {certifications ? (
                 <div className="certification-slide space">
                   {certifications.map((certification) => (

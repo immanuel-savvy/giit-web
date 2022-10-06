@@ -17,7 +17,7 @@ class Banner extends React.Component {
       <div
         className="hero_banner image-cover"
         style={{
-          backgroundColor: "#03b97c",
+          backgroundColor: "brown",
           backgroundImage: "url(./../Assets/img/bannerbg.png)",
           backgroundRepeat: "no-repeat",
         }}

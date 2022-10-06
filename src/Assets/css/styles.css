@@ -22,17 +22,17 @@
 ------------- List Of Table ----------*/
 
 /* CSS Document */
-@import url("http://localhost:3000/Assets/css/plugins/animation.css");
-@import url("http://localhost:3000/Assets/css/plugins/bootstrap.min.css");
-@import url("http://localhost:3000/Assets/css/plugins/date-picker.css");
-@import url("http://localhost:3000/Assets/css/plugins/select2.css");
-@import url("http://localhost:3000/Assets/css/plugins/slick.css");
-/* @import url('http://localhost:3000/Assets/css/plugins/slick-theme.css'); */
-@import url("http://localhost:3000/Assets/css/plugins/themify.css");
-@import url("http://localhost:3000/Assets/css/plugins/morris.css");
-@import url("http://localhost:3000/Assets/css/plugins/font-awesome.css");
-@import url("http://localhost:3000/Assets/css/plugins/flaticon.css");
-@import url("http://localhost:3000/Assets/css/plugins/summernote.min.css");
+@import url("./plugins/animation.css");
+@import url("./plugins/bootstrap.min.css");
+@import url("./plugins/date-picker.css");
+@import url("./plugins/select2.css");
+@import url("./plugins/slick.css");
+/* @import url('./plugins/slick-theme.css'); */
+@import url("./plugins/themify.css");
+@import url("./plugins/morris.css");
+@import url("./plugins/font-awesome.css");
+@import url("./plugins/flaticon.css");
+@import url("./plugins/summernote.min.css");
 
 /*------------------------------------
 	Fonts

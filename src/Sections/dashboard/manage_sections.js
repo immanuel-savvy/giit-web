@@ -40,7 +40,7 @@ class Course_sections extends React.Component {
           <div class="dash_crs_cat_caption">
             <div class="dash_crs_cat_head">
               <h4>{to_title(title)}</h4>
-              <span>{`Courses: ${courses}`}</span>
+              <span>{`Courses: ${courses.length}`}</span>
             </div>
             <div class="dash_crs_cat_body">
               <p className="mx-3">{text}</p>

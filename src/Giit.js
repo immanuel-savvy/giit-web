@@ -15,6 +15,7 @@ import Emitter from "semitter";
 import { get_request } from "./Assets/js/utils/services";
 import Course from "./Pages/Course";
 import { Logged_admin } from "./Contexts";
+import { client_domain } from "./Constants/constants";
 
 let emitter = new Emitter();
 
@@ -65,6 +66,11 @@ class Giit extends React.Component {
     document.body.appendChild(script);
   };
 
+  handle_course = (course) => {
+    window.sessionStorage.setItem("course", JSON.stringify(course));
+    window.location.assign(`${client_domain}/course`);
+  };
+
   componentDidMount = async () => {
     document.title = "Globalstar Innovative Information Technology";
 
@@ -73,15 +79,15 @@ class Giit extends React.Component {
 
     let { navs } = this.state;
 
-    let courses_categories = await get_request("categories");
+    let master_courses = await get_request("master_courses");
     let courses_nav = navs.find((nav) => nav.title === "courses");
 
-    if (courses_categories.length && courses_categories.map) {
+    if (master_courses.length && master_courses.map) {
       courses_nav.submenu = new Array();
-      courses_categories.map((cat) =>
+      master_courses.map((cat) =>
         courses_nav.submenu.push({
           title: cat.title,
-          path: `/courses?category=${cat._id}`,
+          action: () => this.handle_course(cat),
         })
       );
       navs[1] = courses_nav;

@@ -18,6 +18,7 @@ class Courses extends React.Component {
 
     let courses = await post_request(`section_courses/${section._id}`);
 
+    console.log(courses, section.title);
     this.setState({ courses });
 
     this.section_removed = (section_id) =>

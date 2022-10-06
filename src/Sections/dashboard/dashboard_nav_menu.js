@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { to_title } from "../../Assets/js/utils/functions";
+import { default_admin } from "../../Constants/constants";
 import { emitter } from "../../Giit";
 
 class Dashboard_nav_menu extends React.Component {
@@ -20,7 +21,7 @@ class Dashboard_nav_menu extends React.Component {
           subnav: new Array(
             { title: "manage_courses" },
             { title: "add_new_course" },
-            { title: "course_category" },
+            { title: "manage_master_courses" },
             { title: "manage_sections" },
             { title: "add_certification" },
             { title: "manage_combo_courses" },
@@ -105,11 +106,18 @@ class Dashboard_nav_menu extends React.Component {
   };
 
   render = () => {
+    let { admin } = this.props;
     let { navs } = this.state;
 
     return (
       <div className="d-navigation">
-        <ul id="side-menu">{navs.map((nav) => this.render_nav(nav))}</ul>
+        <ul id="side-menu">
+          {navs.map((nav) =>
+            admin && admin._id !== default_admin && nav.title === "admins"
+              ? null
+              : this.render_nav(nav)
+          )}
+        </ul>
       </div>
     );
   };

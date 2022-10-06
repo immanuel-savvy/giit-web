@@ -12,7 +12,7 @@ class Course_sections extends React.Component {
   }
 
   componentDidMount = async () => {
-    let sections = await get_request("categories");
+    let sections = await get_request("sections");
 
     this.setState({ sections });
   };
@@ -31,7 +31,7 @@ class Course_sections extends React.Component {
         <div class="grousp_crs_right">
           <div class="frt_125">
             <i class="fas fa-book text-warning mr-1"></i>
-            {courses || 124}
+            {courses.length || 0}
           </div>
           <div class="frt_but">
             <Link class="btn text-white theme-bg">View Courses</Link>

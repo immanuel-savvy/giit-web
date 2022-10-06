@@ -29,7 +29,7 @@ class Course_sidebar extends React.Component {
 
           <div className="ed_view_price pl-4">
             <span>Actual Price</span>
-            <h2 className="theme-cl">&#8358; {price.toFixed(2)}</h2>
+            <h2 className="theme-cl">&#8358; {Number(price).toFixed(2)}</h2>
           </div>
 
           <div

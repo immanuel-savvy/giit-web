@@ -8,6 +8,7 @@ import Contact_us_today from "../Sections/contact_us_today";
 import Courses from "../Sections/courses";
 import Footer from "../Sections/footer";
 import Header from "../Sections/header";
+import Master_courses from "../Sections/Master_courses";
 import Ratings from "../Sections/ratings";
 import Services from "../Sections/services";
 import Student_reviews from "../Sections/student_reviews";
@@ -21,7 +22,9 @@ class Index extends React.Component {
 
   componentDidMount = async () => {
     let sections = await get_request("sections");
-    sections.push("certification", "combo");
+    sections &&
+      sections.push &&
+      sections.push("master_course", "combo", "certification");
 
     this.setState({ sections });
   };
@@ -41,6 +44,8 @@ class Index extends React.Component {
               return <Combo_courses gray={!!(index % 2)} key={index} />;
             else if (section === "certification")
               return <Certification_courses gray={!!(index % 2)} key={index} />;
+            else if (section === "master_course")
+              return <Master_courses gray={!!(index % 2)} key={index} />;
             else
               return (
                 <Courses gray={!!(index % 2)} section={section} key={index} />

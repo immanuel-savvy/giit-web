@@ -1,4 +1,5 @@
 import React from "react";
+import Certification_courses from "./certification_courses";
 
 class Course_overview extends React.Component {
   constructor(props) {
@@ -49,7 +50,8 @@ class Course_overview extends React.Component {
         {certifications && certifications.length ? (
           <div class="edu_wraper">
             <h4 class="edu_title">Certification</h4>
-            <p>
+            <Certification_courses certifications={certifications} />
+            {/* <p>
               At vero eos et accusamus et iusto odio dignissimos ducimus qui
               blanditiis praesentium voluptatum deleniti atque corrupti quos
               dolores et quas molestias excepturi sint occaecati cupiditate non
@@ -62,7 +64,7 @@ class Course_overview extends React.Component {
               architecto. Sam voluptatem quia voluptas sit aspernatur aut odit
               aut fugit, sed quia consequuntur magni dolores eos qui ratione
               voluptatem sequi nesciunt.
-            </p>
+            </p> */}
           </div>
         ) : null}
 

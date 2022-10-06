@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { to_title } from "../Assets/js/utils/functions";
 import { get_request } from "../Assets/js/utils/services";
 import Loadindicator from "../Components/loadindicator";
+import { client_domain } from "../Constants/constants";
 
 class Footer extends React.Component {
   constructor(props) {
@@ -12,18 +13,23 @@ class Footer extends React.Component {
   }
 
   componentDidMount = async () => {
-    let courses_categories = await get_request("categories");
+    let master_courses = await get_request("master_courses");
     this.setState({
-      courses_categories: new Array(
-        courses_categories.slice(0, 4),
-        courses_categories.slice(4)
+      master_courses: new Array(
+        master_courses.slice(0, 4),
+        master_courses.slice(4)
       ),
-      total_length: courses_categories.length,
+      total_length: master_courses.length,
     });
   };
 
+  handle_course = (course) => {
+    window.sessionStorage.setItem("course", JSON.stringify(course));
+    window.location.assign(`${client_domain}/course`);
+  };
+
   render() {
-    let { courses_categories, total_length } = this.state;
+    let { master_courses, total_length } = this.state;
 
     return (
       <footer className="dark-footer skin-dark-footer style-2">
@@ -70,56 +76,64 @@ class Footer extends React.Component {
                   {total_length ? (
                     <div className="col-lg-8 col-md-8">
                       <div className="footer_widget">
-                        <h4 className="widget_title">Courses Categories</h4>
-                        {courses_categories ? (
+                        <h4 className="widget_title">Master Courses</h4>
+                        {master_courses ? (
                           <div className="row">
                             <div
                               className={`col-lg-${
-                                courses_categories[1] ? "6" : "8"
+                                master_courses[1] ? "6" : "8"
                               } col-sm-${
-                                courses_categories[1] ? "6" : "8"
+                                master_courses[1] ? "6" : "8"
                               } col-md-7 ml-right`}
                             >
                               <ul className="footer-menu">
-                                {courses_categories[0].map(
-                                  (category, index) => (
-                                    <li key={index}>
-                                      <Link
-                                        to={"/courses?category=" + category._id}
-                                      >
-                                        {to_title(category.title)}
-                                        {category.created +
-                                          60 * 60 * 24 * 30 * 1000 >
-                                        Date.now() ? (
-                                          <span className="new">New</span>
-                                        ) : null}
-                                      </Link>
-                                    </li>
-                                  )
-                                )}
+                                {master_courses[0].map
+                                  ? master_courses[0].map(
+                                      (master_course, index) => (
+                                        <li key={index}>
+                                          <Link
+                                            onClick={() =>
+                                              this.handle_course(master_course)
+                                            }
+                                          >
+                                            {to_title(master_course.title)}
+                                            {master_course.created +
+                                              60 * 60 * 24 * 30 * 1000 >
+                                            Date.now() ? (
+                                              <span className="new">New</span>
+                                            ) : null}
+                                          </Link>
+                                        </li>
+                                      )
+                                    )
+                                  : null}
                               </ul>
                             </div>
-                            {courses_categories[1].length ? (
+                            {master_courses[1].length ? (
                               <div className="col-lg-4 col-md-7 col-sm-4 ml-right">
                                 <ul className="footer-menu">
-                                  {courses_categories[1].map(
-                                    (category, index) => (
-                                      <li key={index}>
-                                        <Link
-                                          to={
-                                            "/courses?category=" + category._id
-                                          }
-                                        >
-                                          {to_title(category.title)}
-                                          {category.created +
-                                            60 * 60 * 24 * 30 * 1000 >
-                                          Date.now() ? (
-                                            <span className="new">New</span>
-                                          ) : null}
-                                        </Link>
-                                      </li>
-                                    )
-                                  )}
+                                  {master_courses[1].map
+                                    ? master_courses[1].map(
+                                        (master_course, index) => (
+                                          <li key={index}>
+                                            <Link
+                                              onClick={() =>
+                                                this.handle_course(
+                                                  master_course
+                                                )
+                                              }
+                                            >
+                                              {to_title(master_course.title)}
+                                              {master_course.created +
+                                                60 * 60 * 24 * 30 * 1000 >
+                                              Date.now() ? (
+                                                <span className="new">New</span>
+                                              ) : null}
+                                            </Link>
+                                          </li>
+                                        )
+                                      )
+                                    : null}
                                 </ul>
                               </div>
                             ) : null}

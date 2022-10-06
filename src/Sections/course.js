@@ -1,5 +1,4 @@
 import React from "react";
-import { ScrollMenu } from "react-horizontal-scrolling-menu";
 import { Link } from "react-router-dom";
 import { gen_random_int, to_title } from "../Assets/js/utils/functions";
 import Video from "../Components/video";
@@ -46,16 +45,8 @@ class Featured_course extends React.Component {
     let { progress, full_desc, play } = this.state;
     let { course, adminstrator, edit_course, delete_course, in_courses } =
       this.props;
-    let {
-      image,
-      categories,
-      tags,
-      title,
-      short_description,
-      video,
-      price,
-      _id,
-    } = course;
+    let { image, courses, tags, title, short_description, video, price } =
+      course;
     if (!title) return null;
 
     if (course?.categories?.length) {
@@ -114,7 +105,7 @@ class Featured_course extends React.Component {
               className="table-responsive-sm overfolow-hidden"
               style={{ width: "100%" }}
             >
-              {tags && tags.length ? (
+              {courses && courses.length && tags && tags.length ? (
                 <div className="mb-2 crs_cates cl_1">
                   <span>{to_title(tags[gen_random_int(tags.length - 1)])}</span>
                 </div>
