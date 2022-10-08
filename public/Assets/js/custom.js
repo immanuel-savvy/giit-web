@@ -442,8 +442,10 @@ $(function () {
 
     if (scroll >= 50) {
       $(".header").addClass("header-fixed my_header_style");
+      $("#top_info").css("display", "none");
     } else {
       $(".header").removeClass("header-fixed my_header_style");
+      $("#top_info").css("display", "block");
     }
   });
 

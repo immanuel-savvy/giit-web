@@ -1,10 +1,5 @@
 import React from "react";
-import { to_title } from "../../Assets/js/utils/functions";
-import {
-  domain,
-  get_request,
-  post_request,
-} from "../../Assets/js/utils/services";
+import { get_request, post_request } from "../../Assets/js/utils/services";
 import Loadindicator from "../../Components/loadindicator";
 import { emitter } from "../../Giit";
 import Featured_course from "../course";
@@ -19,7 +14,7 @@ class Manage_master_courses extends React.Component {
   }
 
   componentDidMount = async () => {
-    let master_courses = await get_request("master_courses");
+    let master_courses = await get_request("master_courses/all");
     this.setState({ master_courses });
 
     this.new_master_course = (master_course) => {
@@ -33,6 +28,7 @@ class Manage_master_courses extends React.Component {
         if (master_course_._id === master_course._id) return master_course;
         return master_course_;
       });
+      this.setState({ master_courses });
     };
 
     emitter.listen("new_master_course", this.new_master_course);
@@ -118,7 +114,15 @@ class Manage_master_courses extends React.Component {
           {master_courses ? (
             master_courses.length && master_courses.map ? (
               master_courses.map((master_course) => (
-                <Featured_course course={master_course} in_courses />
+                <Featured_course
+                  course={master_course}
+                  delete_course={() => {
+                    window.confirm("Are you sure to remove master course? ") &&
+                      this.remove_master_course(master_course._id);
+                  }}
+                  edit_course={() => this.edit_master_course(master_course)}
+                  in_courses
+                />
               ))
             ) : (
               <div className="d-flex align-items-center justify-content-center my-5">

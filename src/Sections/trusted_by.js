@@ -1,6 +1,8 @@
 import React from "react";
+import { get_request } from "../Assets/js/utils/services";
 import Loadindicator from "../Components/loadindicator";
 import Student_reviews from "./student_reviews";
+import Trustee from "./trustee";
 
 class Trusted_by extends React.Component {
   constructor(props) {
@@ -10,30 +12,7 @@ class Trusted_by extends React.Component {
   }
 
   componentDidMount = async () => {
-    let trustees = 250;
-    trustees = {
-      trustees: new Array(
-        {
-          logo: "http://localhost:3000/Assets/img/Simplilearn_Logo.jpg",
-        },
-        {
-          logo: "http://localhost:3000/Assets/img/Simplilearn_Logo.jpg",
-        },
-        {
-          logo: "http://localhost:3000/Assets/img/Simplilearn_Logo.jpg",
-        },
-        {
-          logo: "http://localhost:3000/Assets/img/Simplilearn_Logo.jpg",
-        },
-        {
-          logo: "http://localhost:3000/Assets/img/Simplilearn_Logo.jpg",
-        },
-        {
-          logo: "http://localhost:3000/Assets/img/Simplilearn_Logo.jpg",
-        }
-      ),
-      total_length: trustees,
-    };
+    let trustees = await get_request("trusted_by");
 
     this.setState({ trustees });
   };
@@ -41,7 +20,7 @@ class Trusted_by extends React.Component {
   render() {
     let { trustees } = this.state;
 
-    return trustees && trustees.total_length ? (
+    return trustees && trustees.length ? (
       <section>
         <div className="container">
           <div className="row justify-content-center">
@@ -49,30 +28,16 @@ class Trusted_by extends React.Component {
               <div className="sec-heading center">
                 <h2>
                   Trusted By{" "}
-                  <span className="theme-cl">
-                    {trustees.total_length || ""}
-                  </span>
+                  <span className="theme-cl">{trustees.length || ""}</span>
                 </h2>
-                <p>
-                  Cupidatat proident Lorem dolor fugiat est sit ullamco veniam
-                  laboris.
-                </p>
+                <p></p>
               </div>
             </div>
           </div>
           <div className="row justify-content-center">
             {trustees ? (
-              trustees?.trustees.map((trustee, index) => (
-                <div
-                  key={index}
-                  className="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-6"
-                >
-                  <div className="crs_partn">
-                    <div className="p-3">
-                      <img src={trustee.logo} className="img-fluid" alt="" />
-                    </div>
-                  </div>
-                </div>
+              trustees.map((trustee) => (
+                <Trustee key={trustee._id} trustee={trustee} />
               ))
             ) : (
               <Loadindicator />

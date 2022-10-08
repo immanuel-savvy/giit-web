@@ -1,0 +1,11 @@
+@media (max-width: 1000px) {
+  .for_top_info {
+    margin-top: 0 !important;
+  }
+}
+
+@media (min-width: 1000px) {
+  .for_top_info {
+    margin-top: 100px !important;
+  }
+}

@@ -5,13 +5,13 @@ const SKILL_LEVEL = new Array(
   "advance"
 );
 
-const hostname = "http://192.168.43.203";
+const hostname = "http://192.168.43.243";
 
 const client_domain = `${hostname}:3000`;
 
 const COST_SPREAD = new Array("all", "free", "paid");
 
-const domain = `${hostname}:3500`;
+const domain = `${hostname}:3300`;
 
 const default_admin = "adminstrators~123giitafrica~1234567890123";
 

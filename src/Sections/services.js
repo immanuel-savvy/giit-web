@@ -16,11 +16,12 @@ class Services extends React.Component {
   };
 
   render() {
+    let { bg } = this.props;
     let { services } = this.state;
     if (services && !services.length) return null;
 
     return (
-      <section className="gray">
+      <section className={bg === "light" ? "" : "gray"}>
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-lg-7 col-md-8">

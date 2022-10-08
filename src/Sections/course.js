@@ -63,11 +63,7 @@ class Featured_course extends React.Component {
     if (tags) tags = tags.split(",").filter((tag) => tag);
 
     return (
-      <div
-        className={`col-xl-${in_courses ? "6" : "4"} col-lg-${
-          in_courses ? "6" : "4"
-        } col-md-6 col-sm-12`}
-      >
+      <div className={`col-xl-${"4"} col-lg-${"4"} col-md-6 col-sm-12`}>
         <div className="crs_grid">
           <div className="crs_grid_thumb">
             {play ? (
@@ -115,7 +111,7 @@ class Featured_course extends React.Component {
             <div className="crs_title">
               <h4>
                 <Link onClick={this.handle_course} className="crs_title_link">
-                  {to_title(title)}
+                  {to_title(title.trim())}
                 </Link>
               </h4>
             </div>

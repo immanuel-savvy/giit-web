@@ -16,7 +16,7 @@ class Course_banner extends React.Component {
 
     return (
       <div
-        class="ed_detail_head bg-cover"
+        className="ed_detail_head bg-cover"
         style={{
           backgroundColor: "#03b97c",
           backgroundImage: `url(${domain}/Images/${image})`,
@@ -24,34 +24,46 @@ class Course_banner extends React.Component {
         }}
         data-overlay="8"
       >
-        <div class="container">
-          <div class="row align-items-center">
-            <div class="col-lg-7 col-md-7">
-              <div class="ed_detail_wrap light">
+        <div className="container">
+          <div className="row align-items-center">
+            <div className="col-lg-7 col-md-7">
+              <div className="ed_detail_wrap light">
                 {tags && tags.length
                   ? tags.map((tag, index) => (
-                      <div key={index} class="crs_cates cl_1">
+                      <div key={index} className="crs_cates cl_1" style={{}}>
                         <span>{tag}</span>
                       </div>
                     ))
                   : null}
-                <div class="ed_header_caption">
-                  <h2 class="ed_title">{to_title(title)}</h2>
+                <div className="ed_header_caption">
+                  <h2 className="ed_title">
+                    {to_title(title.replace(/_/g, " "))}
+                  </h2>
                 </div>
-                <div class="ed_header_short">
+                <div className="ed_header_short">
                   <p>{short_description}</p>
                 </div>
 
-                <div class="ed_rate_info">
-                  <div class="star_info">
-                    <i class={`fas fa-star ${stars >= 0 ? "filled" : ""}`}></i>
-                    <i class={`fas fa-star ${stars >= 1 ? "filled" : ""}`}></i>
-                    <i class={`fas fa-star ${stars >= 2 ? "filled" : ""}`}></i>
-                    <i class={`fas fa-star ${stars >= 3 ? "filled" : ""}`}></i>
-                    <i class={`fas fa-star ${stars >= 4 ? "filled" : ""}`}></i>
+                <div className="ed_rate_info">
+                  <div className="star_info">
+                    <i
+                      className={`fas fa-star ${stars >= 0 ? "filled" : ""}`}
+                    ></i>
+                    <i
+                      className={`fas fa-star ${stars >= 1 ? "filled" : ""}`}
+                    ></i>
+                    <i
+                      className={`fas fa-star ${stars >= 2 ? "filled" : ""}`}
+                    ></i>
+                    <i
+                      className={`fas fa-star ${stars >= 3 ? "filled" : ""}`}
+                    ></i>
+                    <i
+                      className={`fas fa-star ${stars >= 4 ? "filled" : ""}`}
+                    ></i>
                   </div>
-                  <div class="review_counter">
-                    <strong class="high">{stars || 0}</strong>
+                  <div className="review_counter">
+                    <strong className="high">{stars || 0}</strong>
                     &nbsp;&nbsp;
                     {reviews ? ` ${reviews} Reviews` : null}
                   </div>

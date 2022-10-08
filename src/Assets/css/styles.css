@@ -8046,6 +8046,15 @@ footer.skin-dark-footer ul.footer-bottom-social li a:focus {
   }
 }
 
+@media (max-width: 500px) {
+  #top_info {
+    display: none !important;
+  }
+  .for_top_info{
+    margin-top: 0 !important;
+  }
+}
+
 @media (max-width: 1023px) {
   .crt_io90 h6 {
     font-size: 14px;

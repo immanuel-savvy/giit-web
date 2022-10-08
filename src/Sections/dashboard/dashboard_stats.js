@@ -12,7 +12,6 @@ class Dashboard_stats extends React.Component {
 
   componentDidMount = async () => {
     let stats = await get_request("stats");
-    console.log(stats);
     this.setState({ stats });
   };
 

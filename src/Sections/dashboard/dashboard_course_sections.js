@@ -19,7 +19,7 @@ class Course_sections extends React.Component {
 
   section = ({ title, courses, image, _id }) => {
     return (
-      <div class="grousp_crs" kye={_id}>
+      <div key={_id} class="grousp_crs" kye={_id}>
         <div class="grousp_crs_left">
           <div class="grousp_crs_thumb">
             <img src={image} class="img-fluid" alt="" />

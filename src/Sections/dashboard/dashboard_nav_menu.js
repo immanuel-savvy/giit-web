@@ -29,6 +29,26 @@ class Dashboard_nav_menu extends React.Component {
           ),
         },
         {
+          title: "services",
+          icon: "fa-th",
+        },
+        {
+          title: "trusted_by",
+          icon: "fa-th",
+        },
+        {
+          title: "manage_reviews",
+          icon: "fa-th",
+        },
+        {
+          title: "blog",
+          icon: "fa-gem",
+          subnav: new Array(
+            { title: "manage_articles" },
+            { title: "new_article" }
+          ),
+        },
+        {
           title: "enrollment",
           icon: "fa-gem",
           subnav: new Array(
@@ -73,11 +93,12 @@ class Dashboard_nav_menu extends React.Component {
       emitter.emit("dash_nav_click", subtitle)
     );
 
-  render_nav = ({ title, icon, subnav }) => {
+  render_nav = ({ title, icon, subnav }, i) => {
     let { current_nav } = this.state;
 
     return subnav ? (
       <li
+        key={i}
         className={`${current_nav === title ? "active dropdown" : "dropdown"}`}
       >
         <a href="javascript:void(0);">
@@ -112,10 +133,10 @@ class Dashboard_nav_menu extends React.Component {
     return (
       <div className="d-navigation">
         <ul id="side-menu">
-          {navs.map((nav) =>
+          {navs.map((nav, i) =>
             admin && admin._id !== default_admin && nav.title === "admins"
               ? null
-              : this.render_nav(nav)
+              : this.render_nav(nav, i)
           )}
         </ul>
       </div>

@@ -1,6 +1,7 @@
 import React from "react";
 import { get_request } from "../Assets/js/utils/services";
 import Loadindicator from "../Components/loadindicator";
+import { organisation_name } from "../Constants/constants";
 import Banner from "../Sections/banner";
 import Certification_courses from "../Sections/certification_courses";
 import Combo_courses from "../Sections/combo_courses";
@@ -8,7 +9,7 @@ import Contact_us_today from "../Sections/contact_us_today";
 import Courses from "../Sections/courses";
 import Footer from "../Sections/footer";
 import Header from "../Sections/header";
-import Master_courses from "../Sections/Master_courses";
+import Master_courses from "../Sections/master_courses";
 import Ratings from "../Sections/ratings";
 import Services from "../Sections/services";
 import Student_reviews from "../Sections/student_reviews";
@@ -21,6 +22,8 @@ class Index extends React.Component {
   }
 
   componentDidMount = async () => {
+    document.title = `Home | ${organisation_name}`;
+
     let sections = await get_request("sections");
     sections &&
       sections.push &&
@@ -57,8 +60,8 @@ class Index extends React.Component {
 
         <Student_reviews />
         {/* <Latest_news_and_articles /> */}
+        <Services bg="light" />
         <Contact_us_today />
-        <Services />
         <Footer />
       </div>
     );

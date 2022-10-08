@@ -22,6 +22,11 @@ import Manage_flash_promo from "../Sections/dashboard/manage_flash_promo";
 import { Logged_admin } from "../Contexts";
 import Admin_login from "../Sections/dashboard/admin_login";
 import Manage_combo_courses from "../Sections/dashboard/manage_combo_courses";
+import Manage_services from "../Sections/dashboard/Manage_services";
+import Manage_trusted_by from "../Sections/dashboard/manage_trusted_by";
+import Manage_reviews from "../Sections/dashboard/manage_reviews";
+import New_article from "../Sections/dashboard/new_article";
+import Manage_articles from "../Sections/dashboard/manage_articles";
 
 class Adminstrator extends React.Component {
   constructor(props) {
@@ -81,9 +86,14 @@ class Adminstrator extends React.Component {
       add_new_instructor: <Add_new_instructor />,
       manage_students: <Manage_students />,
       add_new_student: <Add_new_student />,
+      services: <Manage_services />,
+      trusted_by: <Manage_trusted_by />,
+      manage_reviews: <Manage_reviews />,
       manage_combo_courses: <Manage_combo_courses />,
       add_certification: <Add_certification />,
       manage_flash_promo: <Manage_flash_promo />,
+      new_article: <New_article />,
+      manage_articles: <Manage_articles />,
     });
 
   render() {
@@ -95,10 +105,10 @@ class Adminstrator extends React.Component {
           return admin_logged ? (
             <div id="main-wrapper">
               <Header page="dashboard" />
-              <div class="clearfix"></div>
-              <section class="gray pt-4">
-                <div class="container-fluid">
-                  <div class="row">
+              <div className="clearfix"></div>
+              <section className="gray pt-4">
+                <div className="container-fluid">
+                  <div className="row">
                     <Dashboard_navbar admin={admin_logged} />
                     {this.nav_et_component()[current_nav]}
                   </div>

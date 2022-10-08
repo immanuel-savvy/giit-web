@@ -1,4 +1,5 @@
 import "./Assets/css/styles.css";
+import "./Assets/css/custom.css";
 
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -16,6 +17,7 @@ import { get_request } from "./Assets/js/utils/services";
 import Course from "./Pages/Course";
 import { Logged_admin } from "./Contexts";
 import { client_domain } from "./Constants/constants";
+import Master_courses from "./Pages/Master_courses";
 
 let emitter = new Emitter();
 
@@ -121,7 +123,11 @@ class Giit extends React.Component {
               <Routes>
                 <Route index element={<Index navs={navs} />} />
                 <Route path="courses" element={<Courses navs={navs} />} />
-                <Route path="contact_us" element={<Contact navs={navs} />} />
+                <Route path="contact_us" element={<Contact />} />
+                <Route
+                  path="master_courses"
+                  element={<Master_courses navs={navs} />}
+                />
                 <Route path="signup" element={<Signup navs={navs} />} />
                 <Route path="login" element={<Login navs={navs} />} />
                 <Route

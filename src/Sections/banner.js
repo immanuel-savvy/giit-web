@@ -15,18 +15,28 @@ class Banner extends React.Component {
   render() {
     return (
       <div
-        className="hero_banner image-cover"
+        className="hero_banner d-flex justify-content-center image-cover for_top_info"
         style={{
-          backgroundColor: "brown",
+          backgroundColor: "gray",
           backgroundImage: "url(./../Assets/img/bannerbg.png)",
           backgroundRepeat: "no-repeat",
+          marginTop: "50px",
         }}
-        data-overlay="5"
+        data-overlay="1"
       >
         <Container>
           <Row className="align-items-center">
             <Col xl={6} lg={6} md={6} sm={12}>
-              <div className="mb-3 simple-search-wrap text-left">
+              <div
+                className="mb-3 simple-search-wrap text-left"
+                style={{
+                  backgroundColor: "rgba(0,0,0,0.5)",
+                  linearGradient:'reform',
+                  padding: "50px",
+                  borderRadius: "25px",
+                }}
+                // data-overlay="5"
+              >
                 <div className="hero_search-2">
                   <div className="elsio_tag">RAISING GLOBALSTARS</div>
                   <h1 className="banner_title mb-4">

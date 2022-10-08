@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { to_title } from "../Assets/js/utils/functions";
+import { domain } from "../Constants/constants";
 
 class Service extends React.Component {
   constructor(props) {
@@ -10,44 +11,60 @@ class Service extends React.Component {
   }
 
   render() {
-    let { service } = this.props;
-    let { title, icon } = service;
+    let { service, remove } = this.props;
+    let { title, image, _id } = service;
 
     return (
       <div
-        className="col-xl-2 col-lg-3 col-md-3 col-sm-2 m-3 rounded"
-        style={{ borderRadius: "40px" }}
+        className={`${
+          remove
+            ? "col-xl-2 col-lg-4 col-md-4 col-sm-3"
+            : "col-xl-2 col-lg-3 col-md-3 col-sm-2"
+        } m-3 rounded`}
+        style={{
+          borderRadius: "40px",
+          flexDirection: remove ? "row" : null,
+          display: remove ? "flex" : null,
+        }}
         ref={(el) => {
           if (el) {
             el.style.setProperty("border-radius", "25% 10%", "important");
           }
         }}
       >
-        <div
-          className="d-flex align-items-center justify-content-center p-3"
-          style={{
-            height: 150,
-            borderRadius: "40px",
-            backgroundImage: "url(./../Assets/img/bannerbg.png)",
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",
-            boxShadow: "1px 1px 15px #333",
-          }}
-          data-overlay="9"
-          ref={(el) => {
-            if (el) {
-              el.style.setProperty("border-radius", "25% 10%", "important");
-            }
-          }}
+        <Link
+          to={`/contact_us?service=${_id}`}
+          className="text-center text-light h4"
+          style={{ textDecorationLine: "none", textAlign: "center" }}
         >
-          <Link
-            to={`/contact_us?service=${title}`}
-            className="text-center text-light h4"
-            style={{ textDecorationLine: "none", textAlign: "center" }}
+          <div
+            className="d-flex align-items-center justify-content-center p-3"
+            style={{
+              height: 150,
+              borderRadius: "40px",
+              backgroundImage: `url(${domain}/Images/${image})`,
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "cover",
+              boxShadow: "1px 1px 15px #333",
+            }}
+            data-overlay="8"
+            ref={(el) => {
+              if (el) {
+                el.style.setProperty("border-radius", "25% 10%", "important");
+              }
+            }}
           >
-            {to_title(title)}
-          </Link>
-        </div>
+            <span>{to_title(title)}</span>
+          </div>
+        </Link>
+        {remove ? (
+          <a
+            onClick={() => window.confirm("Remove service?") && remove()}
+            className="btn btn-action"
+          >
+            <i className={`fas fa-window-close`}></i>
+          </a>
+        ) : null}
       </div>
     );
   }

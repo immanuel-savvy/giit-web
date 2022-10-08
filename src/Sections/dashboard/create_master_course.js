@@ -1,6 +1,6 @@
 import React from "react";
 import { to_title } from "../../Assets/js/utils/functions";
-import { post_request } from "../../Assets/js/utils/services";
+import { domain, post_request } from "../../Assets/js/utils/services";
 import Loadindicator from "../../Components/loadindicator";
 import { emitter } from "../../Giit";
 
@@ -117,7 +117,7 @@ class Add_master_course extends React.Component {
       title,
       tags,
       image,
-      price,
+      price: Number(price),
       short_description,
       courses: courses.map((c) => c._id),
     };
@@ -203,7 +203,11 @@ class Add_master_course extends React.Component {
                           maxWidth: 200,
                           resize: "both",
                         }}
-                        src={this.state.image}
+                        src={
+                          image.startsWith("data")
+                            ? this.state.image
+                            : `${domain}/Images/${image}`
+                        }
                       />
                     ) : null}
                   </div>
