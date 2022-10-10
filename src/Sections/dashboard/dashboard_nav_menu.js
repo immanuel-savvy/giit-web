@@ -45,7 +45,8 @@ class Dashboard_nav_menu extends React.Component {
           icon: "fa-gem",
           subnav: new Array(
             { title: "manage_articles" },
-            { title: "new_article" }
+            { title: "new_article" },
+            { title: "manage_categories" }
           ),
         },
         {

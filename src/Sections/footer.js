@@ -13,7 +13,8 @@ class Footer extends React.Component {
   }
 
   componentDidMount = async () => {
-    let master_courses = await get_request("master_courses");
+    let master_courses = await get_request("master_courses/all");
+
     this.setState({
       master_courses: new Array(
         master_courses.slice(0, 4),
@@ -95,8 +96,17 @@ class Footer extends React.Component {
                                             onClick={() =>
                                               this.handle_course(master_course)
                                             }
+                                            style={{
+                                              flexWrap: "wrap",
+                                              display: "flex",
+                                            }}
                                           >
-                                            {to_title(master_course.title)}
+                                            {to_title(
+                                              master_course.title.replace(
+                                                /_/g,
+                                                " "
+                                              )
+                                            )}
                                             {master_course.created +
                                               60 * 60 * 24 * 30 * 1000 >
                                             Date.now() ? (
@@ -122,8 +132,14 @@ class Footer extends React.Component {
                                                   master_course
                                                 )
                                               }
+                                              style={{
+                                                flexWrap: "wrap",
+                                                display: "flex",
+                                              }}
                                             >
-                                              {to_title(master_course.title)}
+                                              {to_title(
+                                                master_course.title
+                                              ).replace(/_/g, " ")}
                                               {master_course.created +
                                                 60 * 60 * 24 * 30 * 1000 >
                                               Date.now() ? (

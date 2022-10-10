@@ -20,7 +20,7 @@ class Course extends React.Component {
     let course = window.sessionStorage.getItem("course");
     if (course) {
       course = JSON.parse(course);
-      console.log(course);
+
       this.setState({ course });
 
       if (course.courses) {

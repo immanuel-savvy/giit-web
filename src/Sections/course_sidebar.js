@@ -42,24 +42,6 @@ class Course_sidebar extends React.Component {
                 : `${short_description.slice(0, 150)}...`}
             </p>
           </div>
-
-          {/* <div className="ed_view_features half_list pl-4 pr-3">
-            <span>Course Features</span>
-            <ul>
-              <li>
-                <i className="ti-user"></i>3k Students View
-              </li>
-              <li>
-                <i className="ti-time"></i>2 hour 30 min
-              </li>
-              <li>
-                <i className="ti-bar-chart-alt"></i>Principiante
-              </li>
-              <li>
-                <i className="ti-cup"></i>04 Certified
-              </li>
-            </ul>
-          </div> */}
           <div className="ed_view_link">
             <a href="#" className="btn theme-bg enroll-btn">
               Enroll Now<i className="ti-angle-right"></i>

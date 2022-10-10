@@ -5,7 +5,7 @@ const SKILL_LEVEL = new Array(
   "advance"
 );
 
-const hostname = "http://192.168.43.243";
+const hostname = "http://localhost";
 
 const client_domain = `${hostname}:3000`;
 

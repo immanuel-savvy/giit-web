@@ -1,3 +1,5 @@
+import { month_index } from "../../../Constants/constants";
+
 const charset =
   "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
@@ -15,6 +17,13 @@ const to_title = (string) => {
     if (s) str += " " + s[0].toUpperCase() + s.slice(1);
   });
   return str.trim();
+};
+
+const date_string = (timestamp) => {
+  let date = new Date(timestamp);
+  return `${date.getDate().toString().padStart(2, "0")} ${to_title(
+    month_index[date.getMonth()]
+  )} ${date.getFullYear()}`;
 };
 
 const generate_random_string = (len, combination) => {
@@ -42,4 +51,5 @@ export {
   generate_random_string,
   email_regex,
   phone_regex,
+  date_string,
 };

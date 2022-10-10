@@ -1,5 +1,7 @@
 import React from "react";
+import { get_request } from "../Assets/js/utils/services";
 import Article from "./article";
+import Explore_more_btn from "./explore_more_btn";
 
 class Latest_news_and_articles extends React.Component {
   constructor(props) {
@@ -9,38 +11,8 @@ class Latest_news_and_articles extends React.Component {
   }
 
   componentDidMount = async () => {
-    let lastest_articles = new Array(
-      {
-        title: "How To Register & Enrolled on SkillUp Step by Step?",
-        description:
-          "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum",
-        tags: new Array("Marketing"),
-        views_string: "15.3K",
-        date_string: "10 July 2021",
-        _id: 1,
-        instructor: { _id: 1 },
-      },
-      {
-        title: "How To Register & Enrolled on SkillUp Step by Step?",
-        description:
-          "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum",
-        tags: new Array("Marketing"),
-        views_string: "15.3K",
-        date_string: "10 July 2021",
-        _id: 1,
-        instructor: { _id: 1 },
-      },
-      {
-        title: "How To Register & Enrolled on SkillUp Step by Step?",
-        description:
-          "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum",
-        tags: new Array("Marketing"),
-        views_string: "15.3K",
-        date_string: "10 July 2021",
-        _id: 1,
-        instructor: { _id: 1 },
-      }
-    ); // limit 3
+    let lastest_articles = await get_request("articles/3");
+
     this.setState({ lastest_articles });
   };
 
@@ -67,11 +39,12 @@ class Latest_news_and_articles extends React.Component {
           </div>
           <div className="row justify-content-center">
             {lastest_articles
-              ? lastest_articles.map((article, index) => (
-                  <Article key={index} article={article} />
+              ? lastest_articles.map((article) => (
+                  <Article key={article._id} article={article} />
                 ))
               : null}
           </div>
+          <Explore_more_btn title="articles" to="/blog" />
         </div>
       </section>
     );

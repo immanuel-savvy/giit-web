@@ -9,6 +9,7 @@ import Contact_us_today from "../Sections/contact_us_today";
 import Courses from "../Sections/courses";
 import Footer from "../Sections/footer";
 import Header from "../Sections/header";
+import Latest_news_and_articles from "../Sections/latest_news_and_articles";
 import Master_courses from "../Sections/master_courses";
 import Ratings from "../Sections/ratings";
 import Services from "../Sections/services";
@@ -59,8 +60,8 @@ class Index extends React.Component {
         )}
 
         <Student_reviews />
-        {/* <Latest_news_and_articles /> */}
-        <Services bg="light" />
+        <Latest_news_and_articles />
+        <Services />
         <Contact_us_today />
         <Footer />
       </div>

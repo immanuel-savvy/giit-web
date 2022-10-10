@@ -27,6 +27,7 @@ import Manage_trusted_by from "../Sections/dashboard/manage_trusted_by";
 import Manage_reviews from "../Sections/dashboard/manage_reviews";
 import New_article from "../Sections/dashboard/new_article";
 import Manage_articles from "../Sections/dashboard/manage_articles";
+import Manage_article_categories from "../Sections/dashboard/manage_article_categories";
 
 class Adminstrator extends React.Component {
   constructor(props) {
@@ -59,8 +60,12 @@ class Adminstrator extends React.Component {
     this.edit_course = (course) =>
       this.setState({ current_nav: "add_new_course", course });
 
+    this.edit_article = (article) =>
+      this.setState({ current_nav: "new_article", article });
+
     emitter.listen("dash_nav_click", this.dash_nav_click);
     emitter.listen("edit_course", this.edit_course);
+    emitter.listen("edit_article", this.edit_article);
 
     document.title =
       "Adminstrator | Globalstar Innovative Information Technology";
@@ -92,7 +97,8 @@ class Adminstrator extends React.Component {
       manage_combo_courses: <Manage_combo_courses />,
       add_certification: <Add_certification />,
       manage_flash_promo: <Manage_flash_promo />,
-      new_article: <New_article />,
+      manage_categories: <Manage_article_categories />,
+      new_article: <New_article article={this.state.article} />,
       manage_articles: <Manage_articles />,
     });
 

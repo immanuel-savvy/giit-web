@@ -9,10 +9,10 @@ class Breadcrumb extends React.Component {
   }
 
   render() {
-    let { page_text, page_title } = this.props;
+    let { page_text, page_title, no_gray } = this.props;
 
     return (
-      <section className="page-title gray">
+      <section className={`page-title ${no_gray ? "" : "gray"}`}>
         <div className="container">
           <div className="row">
             <div className="col-lg-12 col-md-12">
@@ -23,7 +23,10 @@ class Breadcrumb extends React.Component {
                     <li className="breadcrumb-item">
                       <Link
                         to="/"
-                        style={{ color: "#333", backgroundColor: "#f7f8f9" }}
+                        style={{
+                          color: "#333",
+                          backgroundColor: no_gray ? "" : "#f7f8f9",
+                        }}
                       >
                         Home
                       </Link>

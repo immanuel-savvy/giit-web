@@ -18,6 +18,8 @@ import Course from "./Pages/Course";
 import { Logged_admin } from "./Contexts";
 import { client_domain } from "./Constants/constants";
 import Master_courses from "./Pages/Master_courses";
+import Blog from "./Pages/Blog";
+import Article from "./Pages/Article";
 
 let emitter = new Emitter();
 
@@ -81,7 +83,7 @@ class Giit extends React.Component {
 
     let { navs } = this.state;
 
-    let master_courses = await get_request("master_courses");
+    let master_courses = await get_request("master_courses/all");
     let courses_nav = navs.find((nav) => nav.title === "courses");
 
     if (master_courses.length && master_courses.map) {
@@ -123,7 +125,9 @@ class Giit extends React.Component {
               <Routes>
                 <Route index element={<Index navs={navs} />} />
                 <Route path="courses" element={<Courses navs={navs} />} />
-                <Route path="contact_us" element={<Contact />} />
+                <Route path="contact_us" element={<Contact navs={navs} />} />
+                <Route path="blog" element={<Blog navs={navs} />} />
+                <Route path="article" element={<Article navs={navs} />} />
                 <Route
                   path="master_courses"
                   element={<Master_courses navs={navs} />}

@@ -1,6 +1,6 @@
 import React from "react";
 import { to_title } from "../../Assets/js/utils/functions";
-import { get_request } from "../../Assets/js/utils/services";
+import { get_request, post_request } from "../../Assets/js/utils/services";
 import Loadindicator from "../../Components/loadindicator";
 import { domain } from "../../Constants/constants";
 import Dashboard_breadcrumb from "./dashboard_breadcrumb";
@@ -9,7 +9,8 @@ class New_article extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { sections: new Array(), categories: new Array() };
+    let { article } = this.props;
+    this.state = { sections: new Array(), categories: new Array(), ...article };
   }
 
   componentDidMount = async () => {
@@ -57,6 +58,38 @@ class New_article extends React.Component {
     else categories.push(category);
 
     this.setState({ categories });
+  };
+
+  sumbit = async () => {
+    let { title, image, categories, views, comments, sections, _id } =
+      this.state;
+
+    let article = {
+      title,
+      image,
+      categories: categories.map((cat) => cat._id),
+      sections,
+    };
+
+    let response;
+    if (_id) {
+      article._id = _id;
+      article.views = views;
+      article.comments = comments;
+      response = await post_request("update_article", article);
+    } else {
+      response = await post_request("new_article", article);
+      article._id = response._id;
+      article.created = response.created;
+      article.categories = response.categories;
+    }
+
+    this.setState({
+      title: "",
+      image: null,
+      categories: new Array(),
+      sections: new Array(),
+    });
   };
 
   render() {
@@ -190,7 +223,10 @@ class New_article extends React.Component {
               ) ? null : (
                 <a
                   href="#"
-                  onClick={() => this.add_section(this.type[0])}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    this.add_section(this.type[0]);
+                  }}
                   className="btn theme-bg enroll-btn text-light mr-2"
                 >
                   Add Paragraph<i className="ti-plus"></i>
