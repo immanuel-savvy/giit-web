@@ -37,7 +37,7 @@ class Courses_sidebar extends React.Component {
   };
 
   componentDidMount = async () => {
-    let master_courses = await get_request("master_courses");
+    let master_courses = await get_request("master_courses/all");
     let sections = await get_request("sections");
     let certifications = await get_request("certifications");
 

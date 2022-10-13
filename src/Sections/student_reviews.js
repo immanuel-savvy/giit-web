@@ -65,6 +65,7 @@ class Student_reviews extends React.Component {
                     </a>
                   </div>
                 </div>
+                <br />
               </div>
             </div>
             <Col lg={6} md={6} sm={12} className="align-items-center">

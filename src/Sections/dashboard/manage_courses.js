@@ -18,9 +18,12 @@ class Manage_courses extends React.Component {
   }
 
   componentDidMount = async () => {
-    let { courses, total_courses } = await post_request("courses", {
+    let res = await post_request("courses", {
       total_courses: true,
     });
+    let { total_courses, courses } = res;
+
+    console.log(res);
 
     this.setState({
       filter: await this.select_filter(),
@@ -31,7 +34,7 @@ class Manage_courses extends React.Component {
 
   select_filter = async () => {
     let sections = await get_request("sections");
-    let master_courses = await get_request("master_courses");
+    let master_courses = await get_request("master_courses/all");
 
     return new Array(
       {

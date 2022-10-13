@@ -42,12 +42,25 @@ class Dashboard_nav_menu extends React.Component {
         },
         {
           title: "blog",
-          icon: "fa-gem",
+          icon: "fa-th",
           subnav: new Array(
             { title: "manage_articles" },
             { title: "new_article" },
             { title: "manage_categories" }
           ),
+        },
+        {
+          title: "newsletters",
+          icon: "fa-envelope",
+          subnav: new Array(
+            { title: "manage_newsletters" },
+            { title: "create_newsletter" },
+            { title: "subscribers" }
+          ),
+        },
+        {
+          title: "messages",
+          icon: "fa-gem",
         },
         {
           title: "enrollment",

@@ -43,17 +43,21 @@ class Nav extends React.Component {
                   return (
                     <li key={index}>
                       <Link to={nav.path} key={nav.title}>
-                        {to_title(nav.title.replace(/_/g, " "))}
-                        {nav.submenu ? (
-                          <span className="submenu-indicator"></span>
-                        ) : null}
+                        <span>
+                          {to_title(nav.title.replace(/_/g, " "))}
+                          {nav.submenu ? (
+                            <span className="submenu-indicator"></span>
+                          ) : null}
+                        </span>
                       </Link>
                       {nav.submenu ? (
                         <ul className="nav-dropdown nav-submenu">
                           {nav.submenu.map((submenu, index) => (
                             <li key={index}>
-                              <Link onClick={submenu.action} to="#">
-                                {submenu.title.replace(/_/g, " ")}
+                              <Link to={submenu.path}>
+                                <span onClick={submenu.action}>
+                                  {submenu.title.replace(/_/g, " ")}
+                                </span>
                               </Link>
                               {submenu.submenu ? (
                                 <span className="submenu-indicator"></span>
@@ -63,7 +67,7 @@ class Nav extends React.Component {
                                   {submenu.submenu
                                     ? submenu.submenu.map((item, index) => (
                                         <li key={index}>
-                                          <Link href={item.path}>
+                                          <Link to={item.path}>
                                             {item.title}
                                           </Link>
                                         </li>

@@ -1,6 +1,7 @@
 import React from "react";
 import { post_request } from "../Assets/js/utils/services";
 import Loadindicator from "../Components/loadindicator";
+import { emitter } from "../Giit";
 import Contact_us_today from "../Sections/contact_us_today";
 import Featured_course from "../Sections/course";
 import Course_banner from "../Sections/course_banner";
@@ -16,6 +17,20 @@ class Course extends React.Component {
     this.state = {};
   }
 
+  fetch_course_children = async (course) => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    let cummulative_price = 0;
+    let courses = await post_request("get_courses", {
+      courses: course.courses,
+    });
+    courses.map((c) => (cummulative_price += c.price));
+
+    this.setState({
+      courses,
+      cummulative_price,
+    });
+  };
+
   componentDidMount = async () => {
     let course = window.sessionStorage.getItem("course");
     if (course) {
@@ -23,19 +38,23 @@ class Course extends React.Component {
 
       this.setState({ course });
 
-      if (course.courses) {
-        let cummulative_price = 0;
-        let courses = await post_request("get_courses", {
-          courses: course.courses,
-        });
-        courses.map((c) => (cummulative_price += c.price));
-
-        this.setState({
-          courses,
-          cummulative_price,
-        });
-      }
+      if (course.courses) await this.fetch_course_children(course);
     }
+
+    this.push_course = (course) => {
+      if (course._id === this.state.course._id) return;
+
+      this.setState(
+        { course },
+        async () => await this.fetch_course_children(course)
+      );
+    };
+
+    emitter.listen("push_course", this.push_course);
+  };
+
+  componentWillUnmount = () => {
+    emitter.remove_listener("push_course", this.push_course);
   };
 
   render() {

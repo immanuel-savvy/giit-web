@@ -5,13 +5,15 @@ const SKILL_LEVEL = new Array(
   "advance"
 );
 
-const hostname = "http://localhost";
+const DEV = true;
 
-const client_domain = `${hostname}:3000`;
+const hostname = DEV ? "http://localhost" : "http://giitafrica.com";
+
+const client_domain = DEV ? `${hostname}:1408` : `${hostname}`;
 
 const COST_SPREAD = new Array("all", "free", "paid");
 
-const domain = `${hostname}:3300`;
+const domain = DEV ? `${hostname}:3300` : `https://api.giitafrica.com`;
 
 const default_admin = "adminstrators~123giitafrica~1234567890123";
 
@@ -41,4 +43,5 @@ export {
   month_index,
   default_admin,
   organisation_name,
+  DEV,
 };

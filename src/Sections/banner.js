@@ -4,6 +4,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import alan from "./../Assets/video/alan.mp4";
 import logo from "./../Assets/img/thumbnail.jpg";
 import Video from "../Components/video";
+import { Link } from "react-router-dom";
 
 class Banner extends React.Component {
   constructor(props) {
@@ -31,7 +32,7 @@ class Banner extends React.Component {
                 className="mb-3 simple-search-wrap text-left"
                 style={{
                   backgroundColor: "rgba(0,0,0,0.5)",
-                  linearGradient:'reform',
+                  linearGradient: "reform",
                   padding: "50px",
                   borderRadius: "25px",
                 }}
@@ -48,12 +49,14 @@ class Banner extends React.Component {
                   </p>
                   <div className="input-group simple_search">
                     <div className="input-group-append">
-                      <button
-                        className="btn theme-bg ml-0 rounded text-light"
-                        type="button"
-                      >
-                        Apply Now
-                      </button>
+                      <Link to="/courses">
+                        <span
+                          className="btn pt-3 theme-bg ml-0 rounded text-light"
+                          type="button"
+                        >
+                          Apply Now
+                        </span>
+                      </Link>
                     </div>
                   </div>
                 </div>

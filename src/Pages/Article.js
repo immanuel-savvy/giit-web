@@ -23,6 +23,12 @@ class Article extends React.Component {
       await post_request(`article_viewed/${article._id}`);
     }
 
+    this.push_article = async (article) => {
+      if (article._id === this.state.article._id) return;
+      this.setState({ article });
+      await post_request(`article_viewed/${article._id}`);
+    };
+
     this.new_comment = (comment) => {
       if (comment.article !== this.state.article._id) return;
       let { article: article_ } = this.state;
@@ -39,9 +45,11 @@ class Article extends React.Component {
 
     emitter.listen("new_comment", this.new_comment);
     emitter.listen("new_reply", this.new_reply);
+    emitter.listen("push_article", this.push_article);
   };
 
   componentWillUnmount = () => {
+    emitter.remove_listener("push_article", this.push_article);
     emitter.remove_listener("new_reply", this.new_reply);
     emitter.remove_listener("new_comment", this.new_comment);
   };

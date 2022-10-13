@@ -36,7 +36,7 @@ class Add_new_course extends React.Component {
 
   componentDidMount = async () => {
     let course_sections = await get_request("sections");
-    let master_courses_options = await get_request("master_courses");
+    let master_courses_options = await get_request("master_courses/all");
     let course_certifications = await get_request("certifications");
 
     this.setState({
@@ -91,7 +91,6 @@ class Add_new_course extends React.Component {
   handle_course = () => {
     let { new_course: course } = this.state;
     window.sessionStorage.setItem("course", JSON.stringify(course));
-    window.location.assign(`${client_domain}/course`);
   };
 
   finish_tab_panel = () => {
@@ -118,11 +117,13 @@ class Add_new_course extends React.Component {
               <p>{new_course?.short_description}</p>
             </div>
             <div className="succ_123">
-              <Link
-                onClick={this.handle_course}
-                className="btn theme-bg text-white"
-              >
-                View Course
+              <Link to="/course">
+                <span
+                  onClick={this.handle_course}
+                  className="btn theme-bg text-white"
+                >
+                  View Course
+                </span>
               </Link>
             </div>
           </div>
@@ -461,20 +462,26 @@ class Add_new_course extends React.Component {
           </div>
         )}
 
-        <div className="form-group smalls">
-          <label>Course Section</label>
-          <div
-            style={{ display: "flex", flexWrap: "wrap", flexDirection: "row" }}
-          >
-            {course_sections ? (
-              course_sections.map((section) =>
-                this.course_section_checkbox(section)
-              )
-            ) : (
-              <Loadindicator />
-            )}
+        {course_sections && !course_sections.length ? null : (
+          <div className="form-group smalls">
+            <label>Course Section</label>
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                flexDirection: "row",
+              }}
+            >
+              {course_sections ? (
+                course_sections.map((section) =>
+                  this.course_section_checkbox(section)
+                )
+              ) : (
+                <Loadindicator />
+              )}
+            </div>
           </div>
-        </div>
+        )}
 
         {this.pill_nav("basic")}
       </div>

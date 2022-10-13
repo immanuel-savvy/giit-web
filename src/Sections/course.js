@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { gen_random_int, to_title } from "../Assets/js/utils/functions";
 import Video from "../Components/video";
-import { client_domain, domain } from "../Constants/constants";
+import { client_domain, DEV, domain } from "../Constants/constants";
 import { emitter } from "../Giit";
 
 class Featured_course extends React.Component {
@@ -38,13 +38,22 @@ class Featured_course extends React.Component {
   handle_course = () => {
     let { course } = this.props;
     window.sessionStorage.setItem("course", JSON.stringify(course));
-    window.location.assign(`${client_domain}/course`);
+    emitter.emit("push_course", course);
+  };
+
+  handle_enroll = () => {
+    let { course } = this.props;
+    window.sessionStorage.setItem("enroll", JSON.stringify(course));
+    emitter.emit("push_enroll", course);
   };
 
   render() {
     let { progress, full_desc, play } = this.state;
-    let { course, adminstrator, edit_course, delete_course, in_courses } =
+    let { course, classname, adminstrator, edit_course, delete_course } =
       this.props;
+
+    if (!course) return null;
+
     let { image, courses, tags, title, short_description, video, price } =
       course;
     if (!title) return null;
@@ -63,15 +72,20 @@ class Featured_course extends React.Component {
     if (tags) tags = tags.split(",").filter((tag) => tag);
 
     return (
-      <div className={`col-xl-${"4"} col-lg-${"4"} col-md-6 col-sm-12`}>
+      <div
+        className={
+          classname || `col-xl-${"4"} col-lg-${"4"} col-md-6 col-sm-12`
+        }
+      >
         <div className="crs_grid">
           <div className="crs_grid_thumb">
             {play ? (
               <Video url={video} />
             ) : (
-              <Link onClick={this.handle_course} className="crs_detail_link">
+              <Link className="crs_detail_link" to="/course">
                 <img
                   src={`${domain}/Images/${image}`}
+                  onClick={this.handle_course}
                   className="img-fluid rounded"
                   alt=""
                   style={{ maxHeight: 400, width: "100%" }}
@@ -110,8 +124,10 @@ class Featured_course extends React.Component {
 
             <div className="crs_title">
               <h4>
-                <Link onClick={this.handle_course} className="crs_title_link">
-                  {to_title(title.trim())}
+                <Link to="/course" className="crs_title_link">
+                  <span onClick={this.handle_course}>
+                    {to_title(title.trim().replace(/_/g, " "))}
+                  </span>
                 </Link>
               </h4>
             </div>
@@ -155,11 +171,15 @@ class Featured_course extends React.Component {
               </div>
               <div className="crs_fl_last">
                 <div className="crs_linkview">
-                  <Link
-                    onClick={this.handle_course}
-                    className="btn btn_view_detail theme-bg text-light"
-                  >
-                    {adminstrator ? "View Course" : "Enroll Now"}
+                  <Link to={adminstrator ? "/course" : "/enroll"}>
+                    <span
+                      onClick={
+                        adminstrator ? this.handle_course : this.handle_enroll
+                      }
+                      className="btn btn_view_detail theme-bg text-light"
+                    >
+                      {adminstrator ? "View Course" : "Enroll Now"}
+                    </span>
                   </Link>
                 </div>
               </div>

@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { to_title } from "../Assets/js/utils/functions";
-import { get_request } from "../Assets/js/utils/services";
+import { email_regex, to_title } from "../Assets/js/utils/functions";
+import { get_request, post_request } from "../Assets/js/utils/services";
 import Loadindicator from "../Components/loadindicator";
-import { client_domain } from "../Constants/constants";
+import { emitter } from "../Giit";
 
 class Footer extends React.Component {
   constructor(props) {
@@ -26,11 +26,25 @@ class Footer extends React.Component {
 
   handle_course = (course) => {
     window.sessionStorage.setItem("course", JSON.stringify(course));
-    window.location.assign(`${client_domain}/course`);
+    emitter.emit("push_course", course);
+  };
+
+  set_email_subscription = ({ target }) =>
+    this.setState({ email: target.value });
+
+  subscribe_newsletter = async () => {
+    let { email, subscribing } = this.state;
+    if (!email || (email && !email_regex.test(email)) || subscribing) return;
+
+    this.setState({ subscribing: true });
+
+    await post_request("subscribe_newsletter", { email });
+    this.setState({ subscribing: false, subscribed: true });
   };
 
   render() {
-    let { master_courses, total_length } = this.state;
+    let { master_courses, total_length, subscribing, subscribed, email } =
+      this.state;
 
     return (
       <footer className="dark-footer skin-dark-footer style-2">
@@ -57,18 +71,27 @@ class Footer extends React.Component {
                     <div className="input-group">
                       <input
                         type="text"
+                        value={email}
+                        disabled={!!subscribed}
                         className="form-control"
                         placeholder="Email Address"
+                        onChange={this.set_email_subscription}
                       />
                       <div className="input-group-append">
-                        <button
-                          type="button"
-                          className="input-group-text theme-bg b-0 text-light"
-                        >
-                          Subscribe
-                        </button>
+                        {subscribing ? (
+                          <Loadindicator />
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={this.subscribe_newsletter}
+                            className="input-group-text theme-bg b-0 text-light"
+                          >
+                            Subscribe
+                          </button>
+                        )}
                       </div>
                     </div>
+                    {subscribed ? <p>Email subscribed to newsletter!</p> : null}
                   </div>
                 </div>
               </div>
@@ -93,25 +116,31 @@ class Footer extends React.Component {
                                       (master_course, index) => (
                                         <li key={index}>
                                           <Link
-                                            onClick={() =>
-                                              this.handle_course(master_course)
-                                            }
+                                            to="/course"
                                             style={{
                                               flexWrap: "wrap",
                                               display: "flex",
                                             }}
                                           >
-                                            {to_title(
-                                              master_course.title.replace(
-                                                /_/g,
-                                                " "
-                                              )
-                                            )}
-                                            {master_course.created +
-                                              60 * 60 * 24 * 30 * 1000 >
-                                            Date.now() ? (
-                                              <span className="new">New</span>
-                                            ) : null}
+                                            <span
+                                              onClick={() =>
+                                                this.handle_course(
+                                                  master_course
+                                                )
+                                              }
+                                            >
+                                              {to_title(
+                                                master_course.title.replace(
+                                                  /_/g,
+                                                  " "
+                                                )
+                                              )}
+                                              {master_course.created +
+                                                60 * 60 * 24 * 30 * 1000 >
+                                              Date.now() ? (
+                                                <span className="new">New</span>
+                                              ) : null}
+                                            </span>
                                           </Link>
                                         </li>
                                       )
@@ -127,24 +156,30 @@ class Footer extends React.Component {
                                         (master_course, index) => (
                                           <li key={index}>
                                             <Link
-                                              onClick={() =>
-                                                this.handle_course(
-                                                  master_course
-                                                )
-                                              }
+                                              to="/course"
                                               style={{
                                                 flexWrap: "wrap",
                                                 display: "flex",
                                               }}
                                             >
-                                              {to_title(
-                                                master_course.title
-                                              ).replace(/_/g, " ")}
-                                              {master_course.created +
-                                                60 * 60 * 24 * 30 * 1000 >
-                                              Date.now() ? (
-                                                <span className="new">New</span>
-                                              ) : null}
+                                              <span
+                                                onClick={() =>
+                                                  this.handle_course(
+                                                    master_course
+                                                  )
+                                                }
+                                              >
+                                                {to_title(
+                                                  master_course.title
+                                                ).replace(/_/g, " ")}
+                                                {master_course.created +
+                                                  60 * 60 * 24 * 30 * 1000 >
+                                                Date.now() ? (
+                                                  <span className="new">
+                                                    New
+                                                  </span>
+                                                ) : null}
+                                              </span>
                                             </Link>
                                           </li>
                                         )
@@ -194,9 +229,18 @@ class Footer extends React.Component {
         <div className="footer-bottom">
           <div className="container">
             <div className="row align-items-center">
-              <div className="col-lg-12 col-md-12 text-center">
-                <p className="mb-0">© 2022 GIIT Africa. All rights reserved.</p>
-              </div>
+              <Link to="/adminstrator">
+                <div
+                  onClick={() =>
+                    window.scrollTo({ top: 0, behavior: "smooth" })
+                  }
+                  className="col-lg-12 col-md-12 text-center"
+                >
+                  <p className="mb-0">
+                    © 2022 GIIT Africa. All rights reserved.
+                  </p>
+                </div>
+              </Link>
             </div>
           </div>
         </div>

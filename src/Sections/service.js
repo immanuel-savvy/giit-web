@@ -40,7 +40,7 @@ class Service extends React.Component {
           <div
             className="d-flex align-items-center justify-content-center p-3"
             style={{
-              height: 150,
+              height: "150px",
               borderRadius: "40px",
               backgroundImage: `url(${domain}/Images/${image})`,
               backgroundRepeat: "no-repeat",

@@ -47,7 +47,7 @@ class Header extends React.Component {
                       <i className="fas fa-envelope-open"></i> Email
                     </span>
                     <br />
-                    info@giit.com.ng{" "}
+                    info@giitafrica.com{" "}
                   </li>
                   <li>
                     <span>

@@ -16,10 +16,10 @@ import Emitter from "semitter";
 import { get_request } from "./Assets/js/utils/services";
 import Course from "./Pages/Course";
 import { Logged_admin } from "./Contexts";
-import { client_domain } from "./Constants/constants";
 import Master_courses from "./Pages/Master_courses";
 import Blog from "./Pages/Blog";
 import Article from "./Pages/Article";
+import Enroll from "./Pages/Enroll";
 
 let emitter = new Emitter();
 
@@ -44,6 +44,10 @@ class Giit extends React.Component {
         {
           title: "contact",
           path: "/contact_us",
+        },
+        {
+          title: "career",
+          path: "/career",
         }
       ),
     };
@@ -72,12 +76,10 @@ class Giit extends React.Component {
 
   handle_course = (course) => {
     window.sessionStorage.setItem("course", JSON.stringify(course));
-    window.location.assign(`${client_domain}/course`);
+    emitter.emit("push_course", course);
   };
 
   componentDidMount = async () => {
-    document.title = "Globalstar Innovative Information Technology";
-
     !document.getElementsByName("script").length &&
       this.script_paths.map((script_path) => this.append_script(script_path));
 
@@ -92,6 +94,7 @@ class Giit extends React.Component {
         courses_nav.submenu.push({
           title: cat.title,
           action: () => this.handle_course(cat),
+          path: "/course",
         })
       );
       navs[1] = courses_nav;
@@ -128,6 +131,7 @@ class Giit extends React.Component {
                 <Route path="contact_us" element={<Contact navs={navs} />} />
                 <Route path="blog" element={<Blog navs={navs} />} />
                 <Route path="article" element={<Article navs={navs} />} />
+                <Route path="enroll" element={<Enroll navs={navs} />} />
                 <Route
                   path="master_courses"
                   element={<Master_courses navs={navs} />}

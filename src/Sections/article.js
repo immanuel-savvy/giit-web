@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { date_string } from "../Assets/js/utils/functions";
 import { client_domain, domain } from "../Constants/constants";
+import { emitter } from "../Giit";
 
 class Article extends React.Component {
   constructor(props) {
@@ -14,7 +15,7 @@ class Article extends React.Component {
     let { article } = this.props;
 
     window.sessionStorage.setItem("article", JSON.stringify(article));
-    window.location.assign(`${client_domain}/article`);
+    emitter.emit("push_article", article);
   };
 
   toggle_full_text = () => this.setState({ full_text: !this.state.full_text });
@@ -33,8 +34,9 @@ class Article extends React.Component {
       <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12">
         <div className="blg_grid_box">
           <div className="blg_grid_thumb">
-            <Link onClick={this.handle_article}>
+            <Link to="/article">
               <img
+                onClick={this.handle_article}
                 src={`${domain}/Images/${image}`}
                 className="img-fluid"
                 alt=""
@@ -64,7 +66,9 @@ class Article extends React.Component {
             ) : null}
             <div className="blg_title">
               <h4>
-                <Link onClick={this.handle_article}>{title}</Link>
+                <Link to="/article">
+                  <span onClick={this.handle_article}>{title}</span>
+                </Link>
               </h4>
             </div>
             <div className="blg_desc" onClick={this.toggle_full_text}>

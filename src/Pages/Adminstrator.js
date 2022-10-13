@@ -28,6 +28,12 @@ import Manage_reviews from "../Sections/dashboard/manage_reviews";
 import New_article from "../Sections/dashboard/new_article";
 import Manage_articles from "../Sections/dashboard/manage_articles";
 import Manage_article_categories from "../Sections/dashboard/manage_article_categories";
+import Create_newsletter from "../Sections/dashboard/create_newsletter";
+import Manage_newsletters from "../Sections/dashboard/manage_newsletters";
+import Manage_subscribers from "../Sections/dashboard/manage_subscribers";
+import Manage_messages from "../Sections/dashboard/manage_messages";
+
+const scroll_to_top = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
 class Adminstrator extends React.Component {
   constructor(props) {
@@ -55,13 +61,13 @@ class Adminstrator extends React.Component {
     this.script_paths.map((script_path) => this.append_script(script_path));
 
     this.dash_nav_click = (nav_title) =>
-      this.setState({ current_nav: nav_title, course: null });
+      this.setState({ current_nav: nav_title, course: null }, scroll_to_top);
 
     this.edit_course = (course) =>
-      this.setState({ current_nav: "add_new_course", course });
+      this.setState({ current_nav: "add_new_course", course }, scroll_to_top);
 
     this.edit_article = (article) =>
-      this.setState({ current_nav: "new_article", article });
+      this.setState({ current_nav: "new_article", article }, scroll_to_top);
 
     emitter.listen("dash_nav_click", this.dash_nav_click);
     emitter.listen("edit_course", this.edit_course);
@@ -93,6 +99,10 @@ class Adminstrator extends React.Component {
       add_new_student: <Add_new_student />,
       services: <Manage_services />,
       trusted_by: <Manage_trusted_by />,
+      create_newsletter: <Create_newsletter />,
+      manage_newsletters: <Manage_newsletters />,
+      subscribers: <Manage_subscribers />,
+      messages: <Manage_messages />,
       manage_reviews: <Manage_reviews />,
       manage_combo_courses: <Manage_combo_courses />,
       add_certification: <Add_certification />,
@@ -134,3 +144,4 @@ class Adminstrator extends React.Component {
 }
 
 export default Adminstrator;
+export { scroll_to_top };

@@ -2,6 +2,7 @@ import React from "react";
 import { get_request, post_request } from "../../Assets/js/utils/services";
 import Loadindicator from "../../Components/loadindicator";
 import { emitter } from "../../Giit";
+import { scroll_to_top } from "../../Pages/Adminstrator";
 import Featured_course from "../course";
 import Add_master_course from "./create_master_course";
 import Dashboard_breadcrumb from "./dashboard_breadcrumb";
@@ -76,13 +77,16 @@ class Manage_master_courses extends React.Component {
     emitter.emit("master_course_removed", master_course_id);
   };
 
-  edit_master_course = (master_course) =>
+  edit_master_course = (master_course) => {
+    scroll_to_top();
+
     this.state.show_form
       ? emitter.emit("master_course_to_update", master_course)
       : this.setState({
           master_course_to_update: master_course,
           show_form: true,
         });
+  };
 
   render() {
     let { master_courses, show_form, master_course_to_update } = this.state;
