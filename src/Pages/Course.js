@@ -9,6 +9,7 @@ import Course_details from "../Sections/course_details";
 import Course_sidebar from "../Sections/course_sidebar";
 import Footer from "../Sections/footer";
 import Header from "../Sections/header";
+import { scroll_to_top } from "./Adminstrator";
 
 class Course extends React.Component {
   constructor(props) {
@@ -18,7 +19,6 @@ class Course extends React.Component {
   }
 
   fetch_course_children = async (course) => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
     let cummulative_price = 0;
     let courses = await post_request("get_courses", {
       courses: course.courses,
@@ -33,6 +33,8 @@ class Course extends React.Component {
 
   componentDidMount = async () => {
     let course = window.sessionStorage.getItem("course");
+    scroll_to_top();
+
     if (course) {
       course = JSON.parse(course);
 
@@ -43,6 +45,7 @@ class Course extends React.Component {
 
     this.push_course = (course) => {
       if (course._id === this.state.course._id) return;
+      scroll_to_top();
 
       this.setState(
         { course },

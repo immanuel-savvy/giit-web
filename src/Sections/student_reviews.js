@@ -5,7 +5,7 @@ import alan from "./../Assets/video/alan.mp4";
 import logo from "./../Assets/img/thumbnail.jpg";
 import Review from "./review";
 import Loadindicator from "../Components/loadindicator";
-import { get_request, post_request } from "../Assets/js/utils/services";
+import { get_request } from "../Assets/js/utils/services";
 import Add_student_review from "./add_student_review";
 import { emitter } from "../Giit";
 
@@ -53,7 +53,7 @@ class Student_reviews extends React.Component {
                   Here is what some of our happy alumni has to say
                 </p>
                 <br />
-                <div>
+                {/* <div>
                   <div className="elkios" onClick={this.toggle_add_review}>
                     <a
                       href="#"
@@ -64,7 +64,7 @@ class Student_reviews extends React.Component {
                       <i className="fas fa-plus-circle mr-1"></i>Add a review
                     </a>
                   </div>
-                </div>
+                </div> */}
                 <br />
               </div>
             </div>

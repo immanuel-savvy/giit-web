@@ -9,14 +9,15 @@ class Select_filter extends React.Component {
   }
 
   render() {
-    let { label_text, options, _id } = this.props.selection;
+    let { selection, on_select } = this.props;
+    let { label_text, options, _id } = selection;
 
     return (
       <div key={_id} class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
         <div class="form-group">
           <label>{to_title(label_text)}</label>
           <div class="smalls">
-            <select id={_id} class="form-control">
+            <select onChange={on_select} id={_id} class="form-control">
               {options.map((option, index) =>
                 option.default ? (
                   <option selected value="">
@@ -24,7 +25,7 @@ class Select_filter extends React.Component {
                   </option>
                 ) : (
                   <option key={index} value={option.value || option.title}>
-                    {to_title(option.title)}
+                    {to_title(option.title.replace(/_/g, " "))}
                   </option>
                 )
               )}

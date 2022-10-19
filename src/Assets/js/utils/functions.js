@@ -9,6 +9,22 @@ const combinations = {
   alpha: "abcdefghijklmnopqrstuvwxyz",
 };
 
+const shuffle_array = (array) => {
+  const new_array = [...array];
+  const length = new_array.length;
+
+  for (let start = 0; start < length; start++) {
+    const random_position = Math.floor(
+      (new_array.length - start) * Math.random()
+    );
+    const random_item = new_array.splice(random_position, 1);
+
+    new_array.push(...random_item);
+  }
+
+  return new_array;
+};
+
 const to_title = (string) => {
   if (!string) return string;
 
@@ -52,4 +68,5 @@ export {
   email_regex,
   phone_regex,
   date_string,
+  shuffle_array,
 };

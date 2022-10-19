@@ -13,13 +13,14 @@ import About from "./Pages/About";
 import Forgot_password from "./Pages/Forgot_password";
 import Adminstrator from "./Pages/Adminstrator";
 import Emitter from "semitter";
-import { get_request } from "./Assets/js/utils/services";
+import { get_request, post_request } from "./Assets/js/utils/services";
 import Course from "./Pages/Course";
-import { Logged_admin } from "./Contexts";
+import { Logged_admin, Logged_user, Nav_context } from "./Contexts";
 import Master_courses from "./Pages/Master_courses";
 import Blog from "./Pages/Blog";
 import Article from "./Pages/Article";
 import Enroll from "./Pages/Enroll";
+import Verify_email from "./Pages/Verify_email";
 
 let emitter = new Emitter();
 
@@ -28,6 +29,7 @@ class Giit extends React.Component {
     super(props);
 
     this.state = {
+      loggeduser: "fetching",
       navs: new Array(
         {
           title: "home",
@@ -36,6 +38,7 @@ class Giit extends React.Component {
         {
           title: "courses",
           path: "/courses",
+          submenu: new Array(),
         },
         {
           title: "about",
@@ -50,6 +53,7 @@ class Giit extends React.Component {
           path: "/career",
         }
       ),
+      subnavs: new Object(),
     };
   }
 
@@ -79,34 +83,52 @@ class Giit extends React.Component {
     emitter.emit("push_course", course);
   };
 
+  set_subnav = async (nav) => {
+    let { subnavs } = this.state;
+    if (subnavs[nav._id]) return;
+
+    let navs = await post_request("get_courses", { courses: nav.submenu });
+    subnavs[nav._id] = navs.map((nav) => ({
+      ...nav,
+      path: "/course",
+      on_click: () => this.handle_course(nav),
+    }));
+    this.setState({ subnavs });
+  };
+
   componentDidMount = async () => {
     !document.getElementsByName("script").length &&
       this.script_paths.map((script_path) => this.append_script(script_path));
 
     let { navs } = this.state;
-
     let master_courses = await get_request("master_courses/all");
-    let courses_nav = navs.find((nav) => nav.title === "courses");
-
-    if (master_courses.length && master_courses.map) {
-      courses_nav.submenu = new Array();
-      master_courses.map((cat) =>
-        courses_nav.submenu.push({
-          title: cat.title,
-          action: () => this.handle_course(cat),
-          path: "/course",
-        })
+    if (master_courses && master_courses.map)
+      navs[1].submenu = master_courses.map(
+        (course) =>
+          new Object({
+            title: course.title,
+            _id: course._id,
+            submenu: course.courses,
+            on_click: () => this.handle_course(course),
+            path: "/course",
+          })
       );
-      navs[1] = courses_nav;
-    }
 
-    this.setState({ navs });
+    let loggeduser = window.sessionStorage.getItem("loggeduser");
+    if (loggeduser) loggeduser = JSON.parse(loggeduser);
+
+    this.setState({ navs, loggeduser });
   };
 
-  log_admin = async (admin) => this.setState({ admin_logged: admin });
+  login = (user) =>
+    this.setState({ loggeduser: user }, () =>
+      window.sessionStorage.setItem("loggeduser", JSON.stringify(user))
+    );
+
+  log_admin = (admin) => this.setState({ admin_logged: admin });
 
   render = () => {
-    let { navs, admin_logged } = this.state;
+    let { navs, admin_logged, loggeduser, subnavs } = this.state;
 
     return (
       <html lang="en">
@@ -121,37 +143,38 @@ class Giit extends React.Component {
         </head>
 
         <body>
-          <Logged_admin.Provider
-            value={{ admin_logged, log_admin: this.log_admin }}
-          >
-            <BrowserRouter>
-              <Routes>
-                <Route index element={<Index navs={navs} />} />
-                <Route path="courses" element={<Courses navs={navs} />} />
-                <Route path="contact_us" element={<Contact navs={navs} />} />
-                <Route path="blog" element={<Blog navs={navs} />} />
-                <Route path="article" element={<Article navs={navs} />} />
-                <Route path="enroll" element={<Enroll navs={navs} />} />
-                <Route
-                  path="master_courses"
-                  element={<Master_courses navs={navs} />}
-                />
-                <Route path="signup" element={<Signup navs={navs} />} />
-                <Route path="login" element={<Login navs={navs} />} />
-                <Route
-                  path="forgot_password"
-                  element={<Forgot_password navs={navs} />}
-                />
-                <Route path="about" element={<About navs={navs} />} />
-                <Route path="course" element={<Course navs={navs} />} />
-                <Route
-                  path="adminstrator"
-                  element={<Adminstrator navs={navs} />}
-                />
-                <Route path="*" element={<Page_not_found navs={navs} />} />
-              </Routes>
-            </BrowserRouter>
-          </Logged_admin.Provider>
+          <Logged_user.Provider value={{ loggeduser, login: this.login }}>
+            <Logged_admin.Provider
+              value={{ admin_logged, log_admin: this.log_admin }}
+            >
+              <Nav_context.Provider
+                value={{ navs, subnavs, set_subnav: this.set_subnav }}
+              >
+                <BrowserRouter>
+                  <Routes>
+                    <Route index element={<Index />} />
+                    <Route path="courses" element={<Courses />} />
+                    <Route path="contact_us" element={<Contact />} />
+                    <Route path="blog" element={<Blog />} />
+                    <Route path="article" element={<Article />} />
+                    <Route path="enroll" element={<Enroll />} />
+                    <Route path="master_courses" element={<Master_courses />} />
+                    <Route path="signup" element={<Signup />} />
+                    <Route path="login" element={<Login />} />
+                    <Route path="verify_email" element={<Verify_email />} />
+                    <Route
+                      path="forgot_password"
+                      element={<Forgot_password />}
+                    />
+                    <Route path="about" element={<About />} />
+                    <Route path="course" element={<Course />} />
+                    <Route path="adminstrator" element={<Adminstrator />} />
+                    <Route path="*" element={<Page_not_found />} />
+                  </Routes>
+                </BrowserRouter>
+              </Nav_context.Provider>
+            </Logged_admin.Provider>
+          </Logged_user.Provider>
         </body>
       </html>
     );

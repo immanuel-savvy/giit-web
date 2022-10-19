@@ -12,7 +12,7 @@ class Course_sections extends React.Component {
   }
 
   componentDidMount = async () => {
-    let sections = await get_request("sections");
+    let sections = await get_request("sections/all");
 
     this.setState({ sections });
   };
@@ -34,7 +34,12 @@ class Course_sections extends React.Component {
             {courses.length || 0}
           </div>
           <div class="frt_but">
-            <Link class="btn text-white theme-bg">View Courses</Link>
+            <Link
+              to={`/courses?section=${_id}`}
+              class="btn text-white theme-bg"
+            >
+              View Courses
+            </Link>
           </div>
         </div>
       </div>

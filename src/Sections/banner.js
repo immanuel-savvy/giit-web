@@ -19,7 +19,7 @@ class Banner extends React.Component {
         className="hero_banner d-flex justify-content-center image-cover for_top_info"
         style={{
           backgroundColor: "gray",
-          backgroundImage: "url(./../Assets/img/bannerbg.png)",
+          backgroundImage: "url(./../Assets/img/web_banner_giit_africa_02.png)",
           backgroundRepeat: "no-repeat",
           marginTop: "50px",
         }}
@@ -31,12 +31,10 @@ class Banner extends React.Component {
               <div
                 className="mb-3 simple-search-wrap text-left"
                 style={{
-                  backgroundColor: "rgba(0,0,0,0.5)",
                   linearGradient: "reform",
                   padding: "50px",
                   borderRadius: "25px",
                 }}
-                // data-overlay="5"
               >
                 <div className="hero_search-2">
                   <div className="elsio_tag">RAISING GLOBALSTARS</div>
@@ -62,7 +60,7 @@ class Banner extends React.Component {
                 </div>
               </div>
             </Col>
-            <Col xl={6} lg={6} md={6} sm={12}>
+            <Col style={{ display: "none" }} xl={6} lg={6} md={6} sm={12}>
               <Video url={alan} thumbnail={logo} />
             </Col>
           </Row>

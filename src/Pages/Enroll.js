@@ -1,7 +1,9 @@
 import React from "react";
 import { email_regex } from "../Assets/js/utils/functions";
 import Breadcrumb from "../Sections/breadcrumb";
+import Contact_us_today from "../Sections/contact_us_today";
 import Featured_course from "../Sections/course";
+import Footer from "../Sections/footer";
 import Header from "../Sections/header";
 
 class Enroll extends React.Component {
@@ -30,9 +32,11 @@ class Enroll extends React.Component {
     return email_regex.test(email) && firstname && lastname;
   };
 
+  proceed = async () => {};
+
   render() {
     let { navs } = this.props;
-    let { email, firstname, lastname, course } = this.state;
+    let { email, firstname, lastname, phone, course } = this.state;
 
     return (
       <div id="main-wrapper">
@@ -54,7 +58,7 @@ class Enroll extends React.Component {
                         <input
                           class="form-control"
                           type="text"
-                          placeholder="Your Name"
+                          placeholder="Firstname"
                           onChange={({ target }) =>
                             this.setState({ firstname: target.value })
                           }
@@ -91,11 +95,24 @@ class Enroll extends React.Component {
                         />
                       </div>
                     </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                      <div className="form-group smalls">
+                        <label>Phone Number*</label>
+                        <input
+                          type="number"
+                          className="form-control"
+                          onChange={({ target }) =>
+                            this.setState({ phone: target.value })
+                          }
+                          value={phone}
+                        />
+                      </div>
+                    </div>
                   </div>
 
                   <div className="form-group smalls">
                     <button
-                      onClick={this._is_set() && this.sumbit}
+                      onClick={this._is_set() && this.proceed}
                       type="button"
                       className={`btn full-width ${
                         this._is_set() ? "theme-bg" : "grey"
@@ -114,6 +131,8 @@ class Enroll extends React.Component {
             </div>
           </div>
         </section>
+        <Contact_us_today />
+        <Footer />
       </div>
     );
   }

@@ -3,6 +3,7 @@ import { get_request, post_request } from "../../Assets/js/utils/services";
 import Loadindicator from "../../Components/loadindicator";
 import Select_filter from "../../Components/select_filter";
 import { emitter } from "../../Giit";
+import { scroll_to_top } from "../../Pages/Adminstrator";
 import Featured_course from "../course";
 import Dashboard_breadcrumb from "./dashboard_breadcrumb";
 
@@ -12,39 +13,53 @@ class Manage_courses extends React.Component {
 
     this.state = {
       page: 0,
-      page_size: 10,
+      page_size: 9,
       total_courses: "-",
     };
   }
 
-  componentDidMount = async () => {
+  fetch_courses = async (page = this.state.page) => {
+    let { page_size } = this.state;
+
     let res = await post_request("courses", {
       total_courses: true,
+      limit: page_size,
+      skip: page_size * (page || 0),
     });
     let { total_courses, courses } = res;
 
-    console.log(res);
+    let i = 0;
+    for (let p = 0; p < total_courses; p += page_size) i++;
 
     this.setState({
       filter: await this.select_filter(),
       courses,
       total_courses,
+      page,
+      total_pages: i,
     });
   };
 
+  componentDidMount = async () => {
+    await this.fetch_courses();
+  };
+
   select_filter = async () => {
-    let sections = await get_request("sections");
+    let sections = await get_request("sections/all");
     let master_courses = await get_request("master_courses/all");
 
     return new Array(
       {
-        _id: "cates",
-        label_text: "category",
+        _id: "master_course",
+        label_text: "master course",
         options: new Array(
           { title: "-- All master_courses --", default: true },
           ...master_courses.map(
-            (category) =>
-              new Object({ title: category.title, value: category._id })
+            (master_course) =>
+              new Object({
+                title: master_course.title,
+                value: master_course._id,
+              })
           )
         ),
       },
@@ -62,55 +77,91 @@ class Manage_courses extends React.Component {
     );
   };
 
-  filter_courses = () => {};
+  filter_courses = async () => {
+    let { section, master_course, search_param } = this.state;
 
-  page = async (pager) => {};
+    let filter = new Object();
+    if (section) filter.section = section;
+    if (master_course) filter.master_course = master_course;
+    if (search_param) filter.search_param = search_param;
+
+    let { total_courses, courses } = await post_request("courses", {
+      filter,
+      total_courses: true,
+      limit: this.page_size,
+    });
+
+    this.setState({ courses, total_courses });
+  };
+
+  page = async (page) => {
+    await this.fetch_courses(page);
+
+    scroll_to_top();
+  };
+
+  next_page = async () => {
+    let { page, total_pages } = this.state;
+    page < total_pages && (await this.fetch_courses(page + 1));
+  };
+
+  prev_page = async () => {
+    let { page } = this.state;
+    page > 0 && (await this.fetch_courses(page - 1));
+  };
 
   render_pagers = () => {
     let { page_size, page, total_courses } = this.state,
-      mapper = new Array();
-    for (let p = 0; p < total_courses; p += page_size) mapper.push(p);
+      mapper = new Array(),
+      i = 0;
+    for (let p = 0; p < total_courses; p += page_size) mapper.push(i++);
 
     return mapper.map((pager, index) => (
       <li
-        class={`page-item ${index === page ? "active" : ""}`}
+        className={`page-item ${index === page ? "active" : ""}`}
         onClick={() => this.page(index)}
       >
-        <a class="page-link" href="#">
+        <a className="page-link" href="#">
           {pager + 1}
         </a>
       </li>
     ));
   };
 
+  search_course = ({ target }) => this.setState({ search_param: target.value });
+
   render_pagination = () => {
-    let { page, page_size, courses, total_courses } = this.state;
+    let { page, page_size, total_pages, courses, total_courses } = this.state;
 
     return (
-      <div class="row align-items-center justify-content-between">
-        <div class="col-xl-6 col-lg-6 col-md-12">
-          <p class="p-0">{`Showing ${page * page_size + 1} to ${
+      <div className="row align-items-center justify-content-between">
+        <div className="col-xl-6 col-lg-6 col-md-12">
+          <p className="p-0">{`Showing ${page * page_size + 1} to ${
             page * page_size + courses.length
           } of ${total_courses} entire`}</p>
         </div>
-        <div class="col-xl-6 col-lg-6 col-md-12">
-          <nav class="float-right">
-            <ul class="pagination smalls m-0">
-              <li class={`page-item ${page === 0 ? "disabled" : ""}`}>
-                <a class="page-link" href="#" tabindex="-1">
-                  <i class="fas fa-arrow-circle-left"></i>
+        <div className="col-xl-6 col-lg-6 col-md-12">
+          <nav className="float-right">
+            <ul className="pagination smalls m-0">
+              <li
+                onClick={this.prev_page}
+                className={`page-item ${page === 0 ? "disabled" : ""}`}
+              >
+                <a className="page-link" href="#" tabindex="-1">
+                  <i className="fas fa-arrow-circle-left"></i>
                 </a>
               </li>
 
               {this.render_pagers()}
 
               <li
-                class={`page-item ${
-                  (page + 1) * page_size > total_courses ? "disabled" : ""
+                className={`page-item ${
+                  total_pages === page ? "disabled" : ""
                 }`}
+                onClick={this.next_page}
               >
-                <a class="page-link" href="#">
-                  <i class="fas fa-arrow-circle-right"></i>
+                <a className="page-link" href="#">
+                  <i className="fas fa-arrow-circle-right"></i>
                 </a>
               </li>
             </ul>
@@ -148,11 +199,32 @@ class Manage_courses extends React.Component {
               <div className="row align-items-end mb-5">
                 {filter ? (
                   filter.map((filter_, index) => (
-                    <Select_filter selection={filter_} key={index} />
+                    <Select_filter
+                      selection={filter_}
+                      on_select={({ target }) =>
+                        this.setState({ [filter_._id]: target.value })
+                      }
+                      key={index}
+                    />
                   ))
                 ) : (
                   <Loadindicator />
                 )}
+                <div className="col-xl-3 col-lg-6 col-md-6 col-sm-6">
+                  <div className="form-group smalls row align-items-center">
+                    <label className="col-xl-2 col-lg-2 col-sm-2 col-form-label">
+                      Search
+                    </label>
+                    <div className="col-xl-10 col-lg-10 col-sm-10">
+                      <input
+                        onChange={this.search_course}
+                        type="text"
+                        placeholder="Course title..."
+                        className="form-control"
+                      />
+                    </div>
+                  </div>
+                </div>
                 {filter ? (
                   <div className="col-xl-2 col-lg-4 col-md-6 col-sm-6">
                     <div className="form-group">
@@ -167,44 +239,7 @@ class Manage_courses extends React.Component {
                   </div>
                 ) : null}
               </div>
-              <div className="row justify-content-between">
-                <div class="col-xl-2 col-lg-3 col-md-6">
-                  <div class="form-group smalls row align-items-center">
-                    <label class="col-xl-3 col-lg-3 col-sm-2 col-form-label">
-                      Show
-                    </label>
-                    <div class="col-xl-9 col-lg-9 col-sm-10">
-                      <select
-                        onChange={this.set_course_fetch_limit}
-                        id="course_limit"
-                        class="form-control"
-                      >
-                        <option value="10">10 courses</option>
-                        <option value="25">25 courses</option>
-                        <option value="35">35 courses</option>
-                        <option value="50">50 courses</option>
-                        <option value="100">100 courses</option>
-                        <option value="250">250 courses</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-xl-4 col-lg-5 col-md-6">
-                  <div class="form-group smalls row align-items-center">
-                    <label class="col-xl-2 col-lg-2 col-sm-2 col-form-label">
-                      Search
-                    </label>
-                    <div class="col-xl-10 col-lg-10 col-sm-10">
-                      <input
-                        onChange={this.search_course}
-                        type="text"
-                        placeholder="Course title..."
-                        class="form-control"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
+
               <div className="row">
                 <hr />
                 {courses && courses.map ? (
@@ -221,7 +256,7 @@ class Manage_courses extends React.Component {
                     />
                   ))
                 ) : (
-                  <Loadindicator />
+                  <Loadindicator contained />
                 )}
               </div>
               {/* Pagination */}

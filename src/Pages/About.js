@@ -17,6 +17,8 @@ class About extends React.Component {
 
   componentDidMount = () => {
     document.title = "About | Globalstar Innovative Information Technology";
+
+    this.refs?.header?.forceUpdate();
   };
 
   render() {
@@ -24,7 +26,7 @@ class About extends React.Component {
 
     return (
       <div id="main-wrapper">
-        <Header navs={navs} page="about" />
+        <Header navs={navs} page="about" refs="header" />
         <div className="clearfix"></div>
         <Breadcrumb page_title="Who we are?" page_text="About Us" />
 

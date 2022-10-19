@@ -8,8 +8,12 @@ class Header extends React.Component {
     this.state = {};
   }
 
+  componentDidMount = () => {
+    console.log(this.refs?.nav.forceUpdate());
+  };
+
   render() {
-    let { page, navs } = this.props;
+    let { page, navs, lock } = this.props;
 
     return (
       <div
@@ -74,7 +78,7 @@ class Header extends React.Component {
           </div>
         </div>
         <div className="container">
-          <Nav navs={navs} />
+          <Nav navs={navs} lock={lock} ref="nav" />
           <div className="clearfix"></div>
         </div>
       </div>

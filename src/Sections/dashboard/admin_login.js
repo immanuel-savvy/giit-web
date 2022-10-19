@@ -22,7 +22,6 @@ class Admin_login extends React.Component {
     let { email, password } = this.state;
 
     let response = await post_request("admin_login", { email, password });
-    console.log(response);
 
     response && response.admin
       ? this.props.log_admin(response.admin)

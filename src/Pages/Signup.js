@@ -1,5 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { email_regex } from "../Assets/js/utils/functions";
+import { post_request } from "../Assets/js/utils/services";
+import Loadindicator from "../Components/loadindicator";
 import Footer from "../Sections/footer";
 import Header from "../Sections/header";
 
@@ -7,10 +10,61 @@ class Signup extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = { password: "" };
   }
 
+  toggle_reavel_password = () =>
+    this.setState({ reveal_password: !this.state.reveal_password });
+
+  sign_up = async () => {
+    let { firstname, lastname, email, password, loading } = this.state;
+
+    if (
+      !firstname ||
+      !lastname ||
+      !password ||
+      !email_regex.test(email) ||
+      loading
+    )
+      return;
+
+    if (password.length < 6)
+      return this.setState({ message: "Password must be above 5 characters" });
+
+    this.setState({ loading: true });
+
+    let user = { firstname, lastname, email, password };
+
+    let res = await post_request("signup", user);
+    if (!res._id) return this.setState({ message: res, loading: false });
+
+    user._id = res._id;
+    user.created = res.created;
+    this.reset_state();
+
+    document.getElementById("click_verify").click();
+  };
+
+  reset_state = () =>
+    this.setState({
+      firstname: "",
+      lastname: "",
+      email: "",
+      password: "",
+      loading: false,
+    });
+
   render() {
+    let {
+      firstname,
+      lastname,
+      loading,
+      email,
+      message,
+      password,
+      reveal_password,
+    } = this.state;
+
     return (
       <div id="main-wrapper">
         <Header page="signup" />
@@ -47,6 +101,13 @@ class Signup extends React.Component {
                                 type="text"
                                 className="form-control"
                                 placeholder="First Name"
+                                value={firstname}
+                                onChange={({ target }) =>
+                                  this.setState({
+                                    firstname: target.value,
+                                    message: "",
+                                  })
+                                }
                               />
                             </div>
                           </div>
@@ -57,6 +118,13 @@ class Signup extends React.Component {
                                 type="text"
                                 className="form-control"
                                 placeholder="Last Name"
+                                value={lastname}
+                                onChange={({ target }) =>
+                                  this.setState({
+                                    lastname: target.value,
+                                    message: "",
+                                  })
+                                }
                               />
                             </div>
                           </div>
@@ -64,26 +132,55 @@ class Signup extends React.Component {
                         <div className="form-group">
                           <label>Email</label>
                           <input
-                            type="text"
+                            type="email"
                             className="form-control"
                             placeholder="you@mail.com"
+                            value={email}
+                            onChange={({ target }) =>
+                              this.setState({
+                                email: target.value,
+                                message: "",
+                              })
+                            }
                           />
                         </div>
                         <div className="form-group">
                           <label>Password</label>
                           <input
-                            type="text"
+                            type={reveal_password ? "text" : "password"}
                             className="form-control"
                             placeholder="*******"
+                            value={password}
+                            onChange={({ target }) =>
+                              this.setState({
+                                password: target.value,
+                                message: "",
+                              })
+                            }
                           />
                         </div>
+                        {message ? (
+                          <div className="alert alert-danger" role="alert">
+                            {message}
+                          </div>
+                        ) : null}
+
                         <div className="form-group">
-                          <button
-                            type="button"
-                            className="btn full-width btn-md theme-bg text-white"
-                          >
-                            Sign Up
-                          </button>
+                          <Link
+                            id="click_verify"
+                            to={`/verify_email?addr=${email}`}
+                          ></Link>
+                          {loading ? (
+                            <Loadindicator />
+                          ) : (
+                            <button
+                              type="button"
+                              className="btn full-width btn-md theme-bg text-white"
+                              onClick={this.sign_up}
+                            >
+                              Sign Up
+                            </button>
+                          )}
                         </div>
                       </div>
                       <div className="rcs_log_125">

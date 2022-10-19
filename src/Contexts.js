@@ -1,5 +1,7 @@
 import React from "react";
 
 const Logged_admin = React.createContext();
+const Logged_user = React.createContext();
+const Nav_context = React.createContext();
 
-export { Logged_admin };
+export { Logged_admin, Nav_context, Logged_user };

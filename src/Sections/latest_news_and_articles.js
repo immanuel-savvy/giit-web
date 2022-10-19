@@ -1,5 +1,5 @@
 import React from "react";
-import { get_request } from "../Assets/js/utils/services";
+import { post_request } from "../Assets/js/utils/services";
 import Article from "./article";
 import Explore_more_btn from "./explore_more_btn";
 
@@ -11,7 +11,7 @@ class Latest_news_and_articles extends React.Component {
   }
 
   componentDidMount = async () => {
-    let lastest_articles = await get_request("articles/3");
+    let lastest_articles = await post_request("articles", { limit: 6 });
 
     this.setState({ lastest_articles });
   };

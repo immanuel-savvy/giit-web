@@ -13,7 +13,7 @@ class Forgot_password extends React.Component {
   render() {
     return (
       <div id="main-wrapper">
-        <Header />
+        <Header page="forgot_password" />
         <section>
           <div className="container">
             <div className="row justify-content-center">

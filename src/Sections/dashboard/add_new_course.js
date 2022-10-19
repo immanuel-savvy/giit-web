@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { to_title } from "../../Assets/js/utils/functions";
 import { get_request, post_request } from "../../Assets/js/utils/services";
 import Loadindicator from "../../Components/loadindicator";
-import { client_domain, domain } from "../../Constants/constants";
+import { domain } from "../../Constants/constants";
 import { emitter } from "../../Giit";
 import Dashboard_breadcrumb from "./dashboard_breadcrumb";
 
@@ -35,7 +35,7 @@ class Add_new_course extends React.Component {
   tab_pills = new Array("basic", "pricing", "media", "meta_info", "finish");
 
   componentDidMount = async () => {
-    let course_sections = await get_request("sections");
+    let course_sections = await get_request("sections/all");
     let master_courses_options = await get_request("master_courses/all");
     let course_certifications = await get_request("certifications");
 

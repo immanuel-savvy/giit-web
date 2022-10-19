@@ -25,11 +25,13 @@ class Courses_tabbar extends React.Component {
             <div className="row m-0 align-items-center justify-content-between">
               <div className="col-lg-4 col-md-5 col-sm-12  col-sm-6">
                 <div className="shorting_pagination_laft">
-                  <h6 className="m-0">{`Showing ${
-                    (page_size * page || 0) + 1
-                  }-${
-                    page_size > courses_length ? courses_length : page_size
-                  } of ${total_courses}`}</h6>
+                  {courses_length ? (
+                    <h6 className="m-0">{`Showing ${
+                      (page_size * page || 0) + 1
+                    }-${
+                      page_size > courses_length ? courses_length : page_size
+                    } of ${total_courses}`}</h6>
+                  ) : null}
                 </div>
               </div>
 
@@ -45,14 +47,14 @@ class Courses_tabbar extends React.Component {
                           <span className="ti-layout-grid2"></span>
                         </Link>
                       </li>
-                      <li className="list-inline-item">
+                      {/* <li className="list-inline-item">
                         <Link
                           onClick={toggle_list_view}
                           className={list_view ? "active" : ""}
                         >
                           <span className="ti-view-list"></span>
                         </Link>
-                      </li>
+                      </li> */}
                     </ul>
                   </div>
                 </div>

@@ -4,6 +4,18 @@ import Loadindicator from "../Components/loadindicator";
 import Featured_course from "./course";
 import Explore_more_btn from "./explore_more_btn";
 
+let master_course_alignment = new Array(
+  "science",
+  "cyber",
+  "cloud",
+  "software",
+  "web",
+  "graphic",
+  "digital",
+  "support",
+  "analytics"
+);
+
 class Master_courses extends React.Component {
   constructor(props) {
     super(props);
@@ -17,6 +29,19 @@ class Master_courses extends React.Component {
     let master_courses = await get_request(
       `master_courses/${all ? "all" : "6"}`
     );
+
+    master_courses = master_courses.sort((m1, m2) => {
+      let m1_index = master_course_alignment.findIndex((m) =>
+          m1.title.toLowerCase().includes(m)
+        ),
+        m2_index = master_course_alignment.findIndex((m) =>
+          m2.title.toLowerCase().includes(m)
+        );
+      if (m1_index === -1) m1_index = 200;
+      if (m2_index === -1) m2_index = 200;
+
+      return m1_index - m2_index;
+    });
 
     this.setState({ master_courses });
   };
@@ -61,3 +86,4 @@ class Master_courses extends React.Component {
 }
 
 export default Master_courses;
+export { master_course_alignment };
