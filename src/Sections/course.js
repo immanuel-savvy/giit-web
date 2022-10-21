@@ -1,8 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { gen_random_int, to_title } from "../Assets/js/utils/functions";
+import { post_request } from "../Assets/js/utils/services";
+import Handle_image_upload from "../Components/handle_image_upload";
+import Preview_image from "../Components/preview_image";
 import Video from "../Components/video";
-import { client_domain, DEV, domain } from "../Constants/constants";
+import { domain } from "../Constants/constants";
 import { emitter } from "../Giit";
 
 class Featured_course extends React.Component {
@@ -12,7 +15,7 @@ class Featured_course extends React.Component {
     this.state = {};
   }
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
     let { course } = this.props;
 
     this.full_desc = (course_id) => {
@@ -20,6 +23,28 @@ class Featured_course extends React.Component {
       this.setState({ full_desc: false });
     };
     emitter.listen("full_desc", this.full_desc);
+
+    if (!course.image_hash && course.image) {
+      try {
+        let image_hash =
+          await new Handle_image_upload().encode_image_to_blurhash(
+            `${domain}/Images/${course.image}`
+          );
+
+        this.setState({ image_hash });
+        await post_request(
+          course.courses
+            ? "update_master_course_image_hash"
+            : "update_course_image_hash",
+          {
+            course: course._id,
+            image_hash,
+          }
+        );
+      } catch (e) {
+        console.log(e.message);
+      }
+    }
   };
 
   componentWillUnmount = () => {
@@ -33,7 +58,7 @@ class Featured_course extends React.Component {
 
   play_video = () => this.setState({ play: !this.state.play });
 
-  padd_length = 156;
+  padd_length = 70;
 
   handle_course = () => {
     let { course } = this.props;
@@ -48,15 +73,26 @@ class Featured_course extends React.Component {
   };
 
   render() {
-    let { progress, full_desc, play } = this.state;
+    let { progress, image_hash: img_hash, full_desc, play } = this.state;
+
     let { course, classname, adminstrator, edit_course, delete_course } =
       this.props;
 
     if (!course) return null;
 
-    let { image, courses, tags, title, short_description, video, price } =
-      course;
+    let {
+      image,
+      image_hash,
+      courses,
+      tags,
+      title,
+      short_description,
+      video,
+      price,
+    } = course;
     if (!title) return null;
+
+    image_hash = image_hash || img_hash;
 
     if (course?.categories?.length) {
       tags = "";
@@ -83,12 +119,10 @@ class Featured_course extends React.Component {
               <Video url={video} />
             ) : (
               <Link className="crs_detail_link" to="/course">
-                <img
-                  src={`${domain}/Images/${image}`}
-                  onClick={this.handle_course}
-                  className="img-fluid rounded"
-                  alt=""
-                  style={{ maxHeight: 400, width: "100%" }}
+                <Preview_image
+                  image={image}
+                  image_hash={image_hash}
+                  onclick={this.handle_course}
                 />
               </Link>
             )}

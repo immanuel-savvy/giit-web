@@ -2975,8 +2975,8 @@ li.login-attri .account-drop a {
 ==================================================*/
 .hero_banner {
   display: flex;
-  height: auto;
-  padding: 7rem 0;
+  height: 25% !important;
+  padding: 5.5rem 0;
   align-items: center;
   position: relative;
 }
@@ -8019,7 +8019,7 @@ footer.skin-dark-footer ul.footer-bottom-social li a:focus {
     padding: 0 2rem;
   }
   .hero_banner {
-    min-height: 600px;
+    min-height: 400px;
     height: 100vh;
   }
   .banner_title {
@@ -8050,7 +8050,7 @@ footer.skin-dark-footer ul.footer-bottom-social li a:focus {
   #top_info {
     display: none !important;
   }
-  .for_top_info{
+  .for_top_info {
     margin-top: 0 !important;
   }
 }
@@ -8258,7 +8258,7 @@ footer.skin-dark-footer ul.footer-bottom-social li a:focus {
     z-index: 1;
   }
   .hero_banner {
-    padding: 5rem 0;
+    padding: 5.5rem 0;
   }
   #pills-tab.nav-pills .nav-link,
   #myTab .nav-link {

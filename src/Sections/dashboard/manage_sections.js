@@ -89,7 +89,6 @@ class Course_sections extends React.Component {
 
   componentDidMount = async () => {
     let res = await get_request("sections/all");
-    console.log(res);
 
     this.setState({ sections: Array.isArray(res) ? res : new Array() });
 

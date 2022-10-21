@@ -1,6 +1,7 @@
 import React from "react";
 import ReactPlayer from "react-player";
 import { Link } from "react-router-dom";
+import Preview_image from "./preview_image";
 
 class Video extends React.Component {
   constructor(props) {
@@ -12,16 +13,18 @@ class Video extends React.Component {
   tap_play = () => this.setState({ play: !this.state.play });
 
   render() {
-    let { url, thumbnail, thumbnail_class } = this.props;
+    let { url, height, width, thumbnail, thumbnail_hash, thumbnail_class } =
+      this.props;
     let { play } = this.state;
 
     return (thumbnail && !play) || !url ? (
-      <div className="property_video">
+      <div className={`property_video ${thumbnail_class ? "sm" : ""}`}>
         <div className="thumb">
-          <img
-            className={thumbnail_class || "pro_img img rounded"}
-            src={thumbnail}
-            alt="About_us_video"
+          <Preview_image
+            image={thumbnail}
+            image_hash={thumbnail_hash}
+            height={height}
+            width={width}
           />
           <div className="overlay_icon">
             {url ? (

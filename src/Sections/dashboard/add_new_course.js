@@ -2,12 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { to_title } from "../../Assets/js/utils/functions";
 import { get_request, post_request } from "../../Assets/js/utils/services";
+import Handle_image_upload from "../../Components/handle_image_upload";
 import Loadindicator from "../../Components/loadindicator";
 import { domain } from "../../Constants/constants";
 import { emitter } from "../../Giit";
 import Dashboard_breadcrumb from "./dashboard_breadcrumb";
 
-class Add_new_course extends React.Component {
+class Add_new_course extends Handle_image_upload {
   constructor(props) {
     super(props);
 
@@ -560,16 +561,9 @@ class Add_new_course extends React.Component {
     );
   };
 
-  handle_image = ({ target }) => {
-    let file = target.files[0];
-    let reader = new FileReader();
-    reader.readAsDataURL(file);
-
-    reader.onloadend = (e) => this.setState({ file, image: reader.result });
-  };
-
   media_tab_panel = () => {
-    let { image } = this.state;
+    let { image, banner_image } = this.state;
+
     return (
       <div
         className={
@@ -621,6 +615,35 @@ class Add_new_course extends React.Component {
           </div>
         </div>
 
+        <div className="form-group smalls">
+          <label>Banner Image *</label>
+          <div className="custom-file">
+            <input
+              type="file"
+              className="custom-file-input"
+              id="customFileBanner"
+              accept="image/*"
+              onChange={(e) => this.handle_image(e, "banner_")}
+            />
+            <label className="custom-file-label" for="customFileBanner">
+              Choose file
+            </label>
+          </div>
+          <div>
+            {banner_image ? (
+              <img
+                className="py-3 rounded"
+                style={{ maxHeight: 200, maxWidth: 200 }}
+                src={
+                  banner_image && banner_image.startsWith("data")
+                    ? banner_image
+                    : `${domain}/Images/${banner_image}`
+                }
+              />
+            ) : null}
+          </div>
+        </div>
+
         {this.pill_nav("media")}
       </div>
     );
@@ -641,6 +664,9 @@ class Add_new_course extends React.Component {
       what_you_will_learn,
       certifications,
       _id,
+      banner_image,
+      image_hash,
+      banner_image_hash,
     } = this.state;
     let course = {
       short_description,
@@ -651,6 +677,9 @@ class Add_new_course extends React.Component {
       price: Number(price),
       video,
       image,
+      image_hash,
+      banner_image_hash,
+      banner_image,
     };
     if (what_you_will_learn.length)
       course.what_you_will_learn = what_you_will_learn;
@@ -662,9 +691,11 @@ class Add_new_course extends React.Component {
       course._id = _id;
       response = await post_request("update_course", { course });
       course.image = response.image;
+      course.banner_image = response.banner_image;
     } else {
       response = await post_request("add_course", { course });
       course.image = response.image;
+      course.banner_image = response.banner_image;
       course._id = response._id;
       course.created = response.created;
     }

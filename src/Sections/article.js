@@ -1,7 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { date_string } from "../Assets/js/utils/functions";
-import { client_domain, domain } from "../Constants/constants";
+import { post_request } from "../Assets/js/utils/services";
+import Handle_image_upload from "../Components/handle_image_upload";
+import Preview_image from "../Components/preview_image";
+import { domain } from "../Constants/constants";
 import { emitter } from "../Giit";
 
 class Article extends React.Component {
@@ -10,6 +13,27 @@ class Article extends React.Component {
 
     this.state = {};
   }
+
+  componentDidMount = async () => {
+    let { article } = this.props;
+
+    if (!article.image_hash && article.image) {
+      try {
+        let image_hash =
+          await new Handle_image_upload().encode_image_to_blurhash(
+            `${domain}/Images/${article.image}`
+          );
+
+        this.setState({ image_hash });
+        await post_request("update_article_image_hash", {
+          article: article._id,
+          image_hash,
+        });
+      } catch (e) {
+        console.log(e.message);
+      }
+    }
+  };
 
   handle_article = () => {
     let { article } = this.props;
@@ -25,8 +49,16 @@ class Article extends React.Component {
     let { article, edit, remove } = this.props;
     if (!article) return null;
 
-    let { image, title, sections, views, comments, created, categories } =
-      article;
+    let {
+      image,
+      image_hash,
+      title,
+      sections,
+      views,
+      comments,
+      created,
+      categories,
+    } = article;
 
     let text = sections.find((sec) => sec.type === "paragraph")?.text;
 
@@ -35,11 +67,10 @@ class Article extends React.Component {
         <div className="blg_grid_box">
           <div className="blg_grid_thumb">
             <Link to="/article">
-              <img
-                onClick={this.handle_article}
-                src={`${domain}/Images/${image}`}
-                className="img-fluid"
-                alt=""
+              <Preview_image
+                image={image}
+                image_hash={image_hash}
+                onclick={this.handle_article}
               />
             </Link>
             {edit ? (

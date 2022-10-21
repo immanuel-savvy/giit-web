@@ -12,7 +12,14 @@ class Breadcrumb extends React.Component {
     let { page_text, page_title, no_gray } = this.props;
 
     return (
-      <section className={`page-title ${no_gray ? "" : "gray"}`}>
+      <section
+        style={
+          page_title === "courses"
+            ? new Object({ paddingTop: 30, paddingBottom: 20 })
+            : null
+        }
+        className={`page-title ${no_gray ? "" : "gray"}`}
+      >
         <div className="container">
           <div className="row">
             <div className="col-lg-12 col-md-12">

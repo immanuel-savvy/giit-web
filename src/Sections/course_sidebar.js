@@ -1,6 +1,8 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import Video from "../Components/video";
 import { domain } from "../Constants/constants";
+import { emitter } from "../Giit";
 
 class Course_sidebar extends React.Component {
   constructor(props) {
@@ -11,6 +13,12 @@ class Course_sidebar extends React.Component {
 
   toggle_short_description = () =>
     this.setState({ show_full: !this.state.show_full });
+
+  handle_enroll = (e) => {
+    let { course } = this.props;
+    window.sessionStorage.setItem("enroll", JSON.stringify(course));
+    emitter.emit("push_enroll", course);
+  };
 
   render() {
     let { show_full } = this.state;
@@ -43,9 +51,14 @@ class Course_sidebar extends React.Component {
             </p>
           </div>
           <div className="ed_view_link">
-            <a href="#" className="btn theme-bg enroll-btn">
-              Enroll Now<i className="ti-angle-right"></i>
-            </a>
+            <Link to="/enroll">
+              <span
+                onClick={this.handle_enroll}
+                className="btn theme-bg enroll-btn"
+              >
+                Enroll Now<i className="ti-angle-right"></i>
+              </span>
+            </Link>
           </div>
         </div>
       </div>

@@ -65,46 +65,48 @@ class Article extends React.Component {
       <div className="blog-page">
         <div id="main-wrapper">
           <Header page="course" navs={navs} />
-          <div class="clearfix"></div>
+          <div className="clearfix"></div>
           <Breadcrumb page_text="Article" page_title={title} no_gray />
 
-          <section class="gray">
-            <div class="container">
-              <div class="row">
-                <div class="col-lg-8 col-md-12 col-sm-12 col-12">
-                  <div class="article_detail_wrapss single_article_wrap format-standard">
-                    <div class="article_body_wrap">
-                      <div class="article_featured_image">
+          <section className="gray">
+            <div className="container">
+              <div className="row">
+                <div className="col-lg-8 col-md-12 col-sm-12 col-12">
+                  <div className="article_detail_wrapss single_article_wrap format-standard">
+                    <div className="article_body_wrap">
+                      <div className="article_featured_image">
                         <img
-                          class="img-fluid"
+                          className="img-fluid"
                           src={`${domain}/Images/${image}`}
                           alt=""
                         />
                       </div>
-                      <div class="article_top_info">
-                        <ul class="article_middle_info">
+                      <div className="article_top_info">
+                        <ul className="article_middle_info">
                           <li>
                             <a href="#article_comments">
-                              <span class="icons">
-                                <i class="ti-comment-alt"></i>
+                              <span className="icons">
+                                <i className="ti-comment-alt"></i>
                               </span>
                               {`${comments || 0} Comments`}
                             </a>
                           </li>
                         </ul>
                       </div>
-                      <h2 class="post-title">{`${title}.`}</h2>
+                      <h2 className="post-title">{`${title}.`}</h2>
                       {sections.map((section, index) =>
                         section.type === "paragraph" ? (
                           <p key={index}>{section.text}</p>
                         ) : (
                           <blockquote key={index}>
-                            <span class="icon">
-                              <i class="fas fa-quote-left"></i>
+                            <span className="icon">
+                              <i className="fas fa-quote-left"></i>
                             </span>
-                            <p class="text">{section.text}</p>
+                            <p className="text">{section.text}</p>
 
-                            <h5 class="name">{`- ${section.speaker || ""}`}</h5>
+                            <h5 className="name">{`- ${
+                              section.speaker || ""
+                            }`}</h5>
                           </blockquote>
                         )
                       )}

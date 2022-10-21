@@ -5,6 +5,7 @@ import Contact_us_today from "../Sections/contact_us_today";
 import Featured_course from "../Sections/course";
 import Footer from "../Sections/footer";
 import Header from "../Sections/header";
+import { scroll_to_top } from "./Adminstrator";
 
 class Enroll extends React.Component {
   constructor(props) {
@@ -24,6 +25,7 @@ class Enroll extends React.Component {
     }
 
     this.setState({ course });
+    scroll_to_top();
   };
 
   _is_set = () => {
@@ -58,6 +60,7 @@ class Enroll extends React.Component {
                         <input
                           class="form-control"
                           type="text"
+                          autoFocus
                           placeholder="Firstname"
                           onChange={({ target }) =>
                             this.setState({ firstname: target.value })

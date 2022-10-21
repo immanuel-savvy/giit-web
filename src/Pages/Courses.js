@@ -140,8 +140,8 @@ class Courses extends React.Component {
     return (
       <div id="main-wrapper">
         <Header navs={navs} page="courses" />
-        <Breadcrumb page_title="Courses" page_text="Find Courses" />
-        <section class="gray">
+        <Breadcrumb page_title="courses" no_gray page_text="Find Courses" />
+        <section class="gray" style={{ paddingTop: 20 }}>
           <div class="container">
             <div class="row">
               <Courses_sidebar
@@ -152,7 +152,7 @@ class Courses extends React.Component {
                   (this.courses_sidebar = courses_sidebar)
                 }
               />
-              <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
+              <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
                 <Couses_tabbar
                   page_size={page_size}
                   courses_length={courses && courses.length}

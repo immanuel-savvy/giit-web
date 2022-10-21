@@ -431,8 +431,14 @@ $(function () {
     var height = $(window).scrollTop();
     if (height > 100) {
       $("#back2Top").fadeIn();
+      $("#logo_blue")[0].style.display = "inline";
+      $("#logo_white")[0].style.display = "none";
+      $("#fixed_socials").fadeIn();
     } else {
       $("#back2Top").fadeOut();
+      $("#logo_blue")[0].style.display = "none";
+      $("#logo_white")[0].style.display = "inline";
+      $("#fixed_socials").fadeOut();
     }
   });
 

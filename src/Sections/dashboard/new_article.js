@@ -1,11 +1,12 @@
 import React from "react";
 import { to_title } from "../../Assets/js/utils/functions";
 import { get_request, post_request } from "../../Assets/js/utils/services";
+import Handle_image_upload from "../../Components/handle_image_upload";
 import Loadindicator from "../../Components/loadindicator";
 import { domain } from "../../Constants/constants";
 import Dashboard_breadcrumb from "./dashboard_breadcrumb";
 
-class New_article extends React.Component {
+class New_article extends Handle_image_upload {
   constructor(props) {
     super(props);
 
@@ -27,14 +28,6 @@ class New_article extends React.Component {
     sections[index].text = text;
 
     this.setState({ sections });
-  };
-
-  handle_image = ({ target }) => {
-    let file = target.files[0];
-    let reader = new FileReader();
-    reader.readAsDataURL(file);
-
-    reader.onloadend = (e) => this.setState({ file, image: reader.result });
   };
 
   add_section = (type) => {
@@ -61,12 +54,21 @@ class New_article extends React.Component {
   };
 
   sumbit = async () => {
-    let { title, image, categories, views, comments, sections, _id } =
-      this.state;
+    let {
+      title,
+      image,
+      image_hash,
+      categories,
+      views,
+      comments,
+      sections,
+      _id,
+    } = this.state;
 
     let article = {
       title,
       image,
+      image_hash,
       categories: categories.map((cat) => cat._id),
       sections,
     };

@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { scroll_to_top } from "../Pages/Adminstrator";
 
 class Explore_more_btn extends React.Component {
   constructor(props) {
@@ -17,7 +18,10 @@ class Explore_more_btn extends React.Component {
           <div class="text-center">
             <Link
               to={to}
-              onClick={action}
+              onClick={(e) => {
+                action && action(e);
+                scroll_to_top();
+              }}
               class="btn btn-md theme-bg-light theme-cl"
             >
               {`Explore More ${title}`}

@@ -22,23 +22,24 @@ class Banner extends React.Component {
           backgroundImage: "url(./../Assets/img/web_banner_giit_africa_02.png)",
           backgroundRepeat: "no-repeat",
           marginTop: "50px",
+          // height: "60%",
         }}
         data-overlay="1"
       >
-        <Container>
-          <Row className="align-items-center">
+        <Container style={{ height: 300 }}>
+          <Row className="align-items-center mb-2">
             <Col xl={6} lg={6} md={6} sm={12}>
               <div
-                className="mb-3 simple-search-wrap text-left"
+                className="simple-search-wrap text-left"
                 style={{
                   linearGradient: "reform",
-                  padding: "50px",
+                  paddingHorizontal: "50px",
                   borderRadius: "25px",
                 }}
               >
                 <div className="hero_search-2">
                   <div className="elsio_tag">RAISING GLOBALSTARS</div>
-                  <h1 className="banner_title mb-4">
+                  <h1 className="banner_title mb-2">
                     Enjoy 100% practical sessions
                   </h1>
                   <p className="font-lg mb-4">

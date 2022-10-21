@@ -5,6 +5,7 @@ import { post_request } from "../Assets/js/utils/services";
 import Loadindicator from "../Components/loadindicator";
 import { emitter } from "../Giit";
 import Featured_course from "./course";
+import Explore_more_btn from "./explore_more_btn";
 
 class Courses extends React.Component {
   constructor(props) {
@@ -16,7 +17,8 @@ class Courses extends React.Component {
   componentDidMount = async () => {
     let { section } = this.props;
 
-    let arr = shuffle_array(section.courses);
+    let arr = shuffle_array(section.courses.filter((c) => c));
+
     let courses = await post_request(`get_courses`, {
       courses: arr.slice(0, 6),
     });
@@ -61,19 +63,8 @@ class Courses extends React.Component {
               </div>
             )}
           </div>
-          {courses ? (
-            <div className="row justify-content-center">
-              <div className="col-lg-7 col-md-8 mt-2">
-                <div className="text-center">
-                  <Link
-                    to={`/courses?section=${_id}`}
-                    className="btn btn-md theme-bg-light theme-cl"
-                  >
-                    {`Explore More ${to_title(title)}`}
-                  </Link>
-                </div>
-              </div>
-            </div>
+          {courses && courses.length ? (
+            <Explore_more_btn title={title} to={`/courses?section=${_id}`} />
           ) : null}
         </div>
       </section>

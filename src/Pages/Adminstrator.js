@@ -32,6 +32,7 @@ import Create_newsletter from "../Sections/dashboard/create_newsletter";
 import Manage_newsletters from "../Sections/dashboard/manage_newsletters";
 import Manage_subscribers from "../Sections/dashboard/manage_subscribers";
 import Manage_messages from "../Sections/dashboard/manage_messages";
+import Pending_reviews from "../Sections/dashboard/pending_reviews";
 
 const scroll_to_top = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
@@ -104,6 +105,7 @@ class Adminstrator extends React.Component {
       subscribers: <Manage_subscribers />,
       messages: <Manage_messages />,
       manage_reviews: <Manage_reviews />,
+      pending_reviews: <Pending_reviews />,
       manage_combo_courses: <Manage_combo_courses />,
       add_certification: <Add_certification />,
       manage_flash_promo: <Manage_flash_promo />,

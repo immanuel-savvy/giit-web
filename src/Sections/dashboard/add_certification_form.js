@@ -1,8 +1,9 @@
 import React from "react";
 import { domain, post_request } from "../../Assets/js/utils/services";
+import Handle_image_upload from "../../Components/handle_image_upload";
 import { emitter } from "../../Giit";
 
-class Add_certification_form extends React.Component {
+class Add_certification_form extends Handle_image_upload {
   constructor(props) {
     super(props);
 
@@ -35,18 +36,17 @@ class Add_certification_form extends React.Component {
   set_description = ({ target }) =>
     this.setState({ description: target.value });
 
-  handle_image = ({ target }) => {
-    let file = target.files[0];
-    let reader = new FileReader();
-    reader.readAsDataURL(file);
-
-    reader.onloadend = (e) => this.setState({ file, image: reader.result });
-  };
-
   submit = async () => {
-    let { title, description, _id, courses, image, created } = this.state;
+    let { title, description, image_hash, _id, courses, image, created } =
+      this.state;
 
-    let new_certification = { title, image, description, courses: 0 };
+    let new_certification = {
+      title,
+      image_hash,
+      image,
+      description,
+      courses: 0,
+    };
 
     if (!_id) {
       let response = await post_request("new_certification", new_certification);

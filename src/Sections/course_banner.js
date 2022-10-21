@@ -11,7 +11,15 @@ class Course_banner extends React.Component {
 
   render() {
     let { course } = this.props;
-    let { image, tags, title, stars, reviews, short_description } = course;
+    let {
+      image,
+      tags,
+      title,
+      stars,
+      banner_image,
+      reviews,
+      short_description,
+    } = course;
     tags = tags && tags.split(",");
 
     return (
@@ -19,10 +27,10 @@ class Course_banner extends React.Component {
         className="ed_detail_head bg-cover"
         style={{
           backgroundColor: "#03b97c",
-          backgroundImage: `url(${domain}/Images/${image})`,
+          backgroundImage: `url(${domain}/Images/${banner_image || image})`,
           backgroundRepeat: "no-repeat",
         }}
-        data-overlay="8"
+        data-overlay={banner_image ? "8" : "10"}
       >
         <div className="container">
           <div className="row align-items-center">

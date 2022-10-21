@@ -12,7 +12,7 @@ class Review extends React.Component {
   toggle_full_text = () => this.setState({ full_text: !this.state.full_text });
 
   render() {
-    let { review, remove } = this.props;
+    let { review, remove, testimonials, approve_review } = this.props;
     let { full_text } = this.state;
     let { image, name, organisation, position, rating, text } = review;
     text = text[0].toUpperCase() + text.slice(1);
@@ -20,7 +20,7 @@ class Review extends React.Component {
     return (
       <div
         className={
-          remove
+          remove || testimonials
             ? "col-md-6 col-lg-4 col-sm-12 mb-3"
             : "single_items lios_item mb-3"
         }
@@ -45,12 +45,25 @@ class Review extends React.Component {
                 <div className="_ovr_posts">
                   <span>{to_title(`${position}, ${organisation}`)}</span>
                 </div>
-                <div className="_ovr_rates">
-                  <span>
-                    <i className="fa fa-star"></i>
-                  </span>
-                  {`${rating || 1.0}`}
-                </div>
+                {review.verified ? (
+                  <div className="_ovr_rates">
+                    <span>
+                      <i className="fa fa-star"></i>
+                    </span>
+                    {`${rating || 1.0}`}
+                  </div>
+                ) : approve_review ? (
+                  <a
+                    href="#"
+                    onClick={() =>
+                      window.confirm("Approve review?") && approve_review()
+                    }
+                  >
+                    Approve
+                  </a>
+                ) : (
+                  <em>Awaiting Confirmation...</em>
+                )}
               </div>
             </div>
             {remove ? (

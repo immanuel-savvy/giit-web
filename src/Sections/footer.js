@@ -1,8 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { email_regex, to_title } from "../Assets/js/utils/functions";
-import { get_request, post_request } from "../Assets/js/utils/services";
+import { domain, get_request, post_request } from "../Assets/js/utils/services";
 import Loadindicator from "../Components/loadindicator";
+import Socials from "../Components/socials";
 import { emitter } from "../Giit";
 import { scroll_to_top } from "../Pages/Adminstrator";
 import { master_course_alignment } from "./master_courses";
@@ -68,6 +69,7 @@ class Footer extends React.Component {
         <footer className="dark-footer skin-dark-footer style-2">
           {lock ? null : (
             <div className="footer-middle">
+              <Socials />
               <div className="container">
                 <div className="row">
                   <div className="col-lg-5 col-md-5">
@@ -75,7 +77,7 @@ class Footer extends React.Component {
                       <Link to="/">
                         <img
                           onClick={scroll_to_top}
-                          src="../Assets/img/logo.png"
+                          src={`${domain}/Images/giit_africa_logo_white.png`}
                           className="img-footer small mb-2"
                           alt=""
                         />
@@ -236,7 +238,7 @@ class Footer extends React.Component {
                               <Link to="/blog">Blog</Link>
                             </li>
                             <li>
-                              <Link to="/affliates">Affliates</Link>
+                              <Link to="/testimonials">Testimonials</Link>
                             </li>
                             <li>
                               <Link to="/contact_us">Contact</Link>

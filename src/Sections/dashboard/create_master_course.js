@@ -1,10 +1,11 @@
 import React from "react";
 import { to_title } from "../../Assets/js/utils/functions";
 import { domain, post_request } from "../../Assets/js/utils/services";
+import Handle_image_upload from "../../Components/handle_image_upload";
 import Loadindicator from "../../Components/loadindicator";
 import { emitter } from "../../Giit";
 
-class Add_master_course extends React.Component {
+class Add_master_course extends Handle_image_upload {
   constructor(props) {
     super(props);
 
@@ -39,14 +40,6 @@ class Add_master_course extends React.Component {
     this.setState({ short_description: target.value });
 
   set_tags = ({ target }) => this.setState({ tags: target.value });
-
-  handle_image = ({ target }) => {
-    let file = target.files[0];
-    let reader = new FileReader();
-    reader.readAsDataURL(file);
-
-    reader.onloadend = (e) => this.setState({ file, image: reader.result });
-  };
 
   handle_course = (course_) => {
     let { courses } = this.state;
@@ -110,6 +103,7 @@ class Add_master_course extends React.Component {
       _id,
       image,
       tags,
+      image_hash,
       created,
     } = this.state;
 
@@ -117,6 +111,7 @@ class Add_master_course extends React.Component {
       title,
       tags,
       image,
+      image_hash,
       price: Number(price),
       short_description,
       courses: courses.map((c) => c._id),
@@ -158,6 +153,7 @@ class Add_master_course extends React.Component {
       search_param,
       _id,
       tags,
+      image_loading,
     } = this.state;
 
     return (
@@ -195,7 +191,9 @@ class Add_master_course extends React.Component {
                     </label>
                   </div>
                   <div class="d-flex align-items-center justify-content-center">
-                    {image ? (
+                    {image_loading ? (
+                      <Loadindicator contained />
+                    ) : image ? (
                       <img
                         className="py-3"
                         style={{

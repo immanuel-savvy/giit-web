@@ -21,6 +21,9 @@ import Blog from "./Pages/Blog";
 import Article from "./Pages/Article";
 import Enroll from "./Pages/Enroll";
 import Verify_email from "./Pages/Verify_email";
+import Careers from "./Pages/Careers";
+import Testimonials from "./Pages/Testimonials";
+import Handle_image_upload from "./Components/handle_image_upload";
 
 let emitter = new Emitter();
 
@@ -51,6 +54,10 @@ class Giit extends React.Component {
         {
           title: "career",
           path: "/career",
+        },
+        {
+          title: "testimonials",
+          path: "/testimonials",
         }
       ),
       subnavs: new Object(),
@@ -168,6 +175,8 @@ class Giit extends React.Component {
                     />
                     <Route path="about" element={<About />} />
                     <Route path="course" element={<Course />} />
+                    <Route path="career" element={<Careers />} />
+                    <Route path="testimonials" element={<Testimonials />} />
                     <Route path="adminstrator" element={<Adminstrator />} />
                     <Route path="*" element={<Page_not_found />} />
                   </Routes>

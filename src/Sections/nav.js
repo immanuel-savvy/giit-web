@@ -1,8 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { to_title } from "../Assets/js/utils/functions";
-import { post_request } from "../Assets/js/utils/services";
-import Listempty from "../Components/list_empty";
+import { domain, post_request } from "../Assets/js/utils/services";
 import Loadindicator from "../Components/loadindicator";
 import { Nav_context } from "../Contexts";
 
@@ -46,8 +45,16 @@ class Nav extends React.Component {
               <div className="nav-header">
                 <Link className="nav-brand" to="/">
                   <img
-                    src={require("../Assets/img/logo.png")}
+                    src={`${domain}/Images/giit_africa_logo_white.png`}
                     className="logo"
+                    id="logo_white"
+                    alt=""
+                  />
+                  <img
+                    src={`${domain}/Images/giit_africa_logo_blue.png`}
+                    className="logo"
+                    id="logo_blue"
+                    style={{ display: "none" }}
                     alt=""
                   />
                 </Link>

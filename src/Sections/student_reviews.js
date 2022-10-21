@@ -5,9 +5,10 @@ import alan from "./../Assets/video/alan.mp4";
 import logo from "./../Assets/img/thumbnail.jpg";
 import Review from "./review";
 import Loadindicator from "../Components/loadindicator";
-import { get_request } from "../Assets/js/utils/services";
+import { get_request, post_request } from "../Assets/js/utils/services";
 import Add_student_review from "./add_student_review";
 import { emitter } from "../Giit";
+import Explore_more_btn from "./explore_more_btn";
 
 class Student_reviews extends React.Component {
   constructor(props) {
@@ -17,7 +18,7 @@ class Student_reviews extends React.Component {
   }
 
   componentDidMount = async () => {
-    let reviews = await get_request("reviews");
+    let reviews = await post_request("reviews", { verified: true, limit: 12 });
     this.setState({ reviews });
 
     this.new_alumni_review = (review) => {
@@ -47,24 +48,12 @@ class Student_reviews extends React.Component {
             <div className="col-lg-6 col-md-6 col-sm-12 align-items-center d-flex">
               <div className="">
                 <h2>
-                  Our Students <span className="theme-cl">Reviews</span>
+                  Our <span className="theme-cl">Testimonials</span>
                 </h2>
                 <p className="h5">
                   Here is what some of our happy alumni has to say
                 </p>
                 <br />
-                {/* <div>
-                  <div className="elkios" onClick={this.toggle_add_review}>
-                    <a
-                      href="#"
-                      className="btn theme-bg text-white"
-                      data-toggle="modal"
-                      data-target="#catModal"
-                    >
-                      <i className="fas fa-plus-circle mr-1"></i>Add a review
-                    </a>
-                  </div>
-                </div> */}
                 <br />
               </div>
             </div>
@@ -90,6 +79,9 @@ class Student_reviews extends React.Component {
               )}
             </div>
           </div>
+          {reviews && reviews.length ? (
+            <Explore_more_btn title="Testimonies" to={"/testimonials"} />
+          ) : null}
         </div>
       </section>
     );

@@ -134,7 +134,7 @@ class Courses_sidebar extends React.Component {
     let { search_param, cates } = this.state;
 
     return (
-      <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+      <div className="col-xl-3 col-lg-3 col-md-12 col-sm-12">
         <div className="page-sidebar p-0">
           <a
             className="filter_links"
