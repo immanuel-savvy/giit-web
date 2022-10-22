@@ -1,6 +1,6 @@
 import React from "react";
 import { to_title } from "../Assets/js/utils/functions";
-import { domain } from "../Constants/constants";
+import Preview_image from "../Components/preview_image";
 
 class Review extends React.Component {
   constructor(props) {
@@ -14,7 +14,8 @@ class Review extends React.Component {
   render() {
     let { review, remove, testimonials, approve_review } = this.props;
     let { full_text } = this.state;
-    let { image, name, organisation, position, rating, text } = review;
+    let { image, name, organisation, image_hash, position, rating, text } =
+      review;
     text = text[0].toUpperCase() + text.slice(1);
 
     return (
@@ -29,15 +30,11 @@ class Review extends React.Component {
           <div className="_testimonial_flex">
             <div className="_testimonial_flex_first">
               <div className="_tsl_flex_thumb">
-                <img
-                  src={`${domain}/Images/${image}`}
-                  style={{
-                    height: "70px",
-                    width: "70px",
-                    borderRadius: "35px",
-                  }}
-                  className="img-fluid"
-                  alt=""
+                <Preview_image
+                  image={image}
+                  image_hash={image_hash}
+                  height={70}
+                  width={70}
                 />
               </div>
               <div className="_tsl_flex_capst">

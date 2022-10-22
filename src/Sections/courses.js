@@ -1,6 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { shuffle_array, to_title } from "../Assets/js/utils/functions";
+import { shuffle_array } from "../Assets/js/utils/functions";
 import { post_request } from "../Assets/js/utils/services";
 import Loadindicator from "../Components/loadindicator";
 import { emitter } from "../Giit";
@@ -18,10 +17,13 @@ class Courses extends React.Component {
     let { section } = this.props;
 
     let arr = shuffle_array(section.courses.filter((c) => c));
+    let courses = arr.slice(0, 6);
 
-    let courses = await post_request(`get_courses`, {
-      courses: arr.slice(0, 6),
+    courses = await post_request(`get_courses`, {
+      courses,
     });
+
+    courses.length < 6 && courses.push(...courses.slice(0, 6 - courses.length));
 
     this.setState({ courses });
 

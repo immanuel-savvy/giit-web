@@ -39,10 +39,11 @@ class Student_reviews extends React.Component {
     this.setState({ add_review: !this.state.add_review });
 
   render() {
+    let { no_gray } = this.props;
     let { reviews, add_review } = this.state;
 
     return (
-      <section className={`gray`}>
+      <section className={no_gray ? "" : `gray`}>
         <div className="container">
           <div className="row mb-3">
             <div className="col-lg-6 col-md-6 col-sm-12 align-items-center d-flex">

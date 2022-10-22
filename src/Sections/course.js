@@ -122,6 +122,7 @@ class Featured_course extends React.Component {
                 <Preview_image
                   image={image}
                   image_hash={image_hash}
+                  title={title}
                   onclick={this.handle_course}
                 />
               </Link>

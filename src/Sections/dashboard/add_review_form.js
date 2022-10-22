@@ -1,9 +1,10 @@
 import React from "react";
 import { domain, post_request } from "../../Assets/js/utils/services";
+import Handle_image_upload from "../../Components/handle_image_upload";
 import Loadindicator from "../../Components/loadindicator";
 import { emitter } from "../../Giit";
 
-class Add_student_review extends React.Component {
+class Add_student_review extends Handle_image_upload {
   constructor(props) {
     super(props);
 
@@ -24,14 +25,6 @@ class Add_student_review extends React.Component {
 
   set_position = ({ target }) => this.setState({ position: target.value });
 
-  handle_image = ({ target }) => {
-    let file = target.files[0];
-    let reader = new FileReader();
-    reader.readAsDataURL(file);
-
-    reader.onloadend = (e) => this.setState({ file, image: reader.result });
-  };
-
   toggle_image_selector = () =>
     document.getElementById("alumni_image_selector").click();
 
@@ -39,8 +32,16 @@ class Add_student_review extends React.Component {
     e.preventDefault();
 
     let { admin, toggle, on_submit } = this.props;
-    let { name, email, text, image, organisation, position, posting } =
-      this.state;
+    let {
+      name,
+      email,
+      image_hash,
+      text,
+      image,
+      organisation,
+      position,
+      posting,
+    } = this.state;
     if (posting) return;
 
     this.setState({ posting: true });
@@ -49,6 +50,7 @@ class Add_student_review extends React.Component {
       name,
       email,
       text,
+      image_hash,
       image: image.startsWith("http") ? this.default_image : image,
       organisation,
       position,

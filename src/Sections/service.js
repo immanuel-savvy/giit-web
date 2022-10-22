@@ -47,7 +47,7 @@ class Service extends React.Component {
               backgroundSize: "cover",
               boxShadow: "1px 1px 15px #333",
             }}
-            data-overlay="8"
+            data-overlay="9"
             ref={(el) => {
               if (el) {
                 el.style.setProperty("border-radius", "25% 10%", "important");
