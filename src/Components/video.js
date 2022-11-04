@@ -41,7 +41,9 @@ class Video extends React.Component {
           </div>
         </div>
       </div>
-    ) : typeof url === "string" && url.startsWith("http") ? (
+    ) : typeof url === "string" &&
+      url.startsWith("http") &&
+      !url.includes("localhost") ? (
       <ReactPlayer
         url={url}
         height="100%"

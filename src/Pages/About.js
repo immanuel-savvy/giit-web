@@ -6,7 +6,7 @@ import Header from "../Sections/header";
 import Services from "../Sections/services";
 import Student_reviews from "../Sections/student_reviews";
 import Trusted_by from "../Sections/trusted_by";
-import Head from "next/head";
+import Best_instructors from "../Sections/best_instructors";
 
 class About extends React.Component {
   constructor(props) {
@@ -17,8 +17,6 @@ class About extends React.Component {
 
   componentDidMount = () => {
     document.title = "About | Globalstar Innovative Information Technology";
-
-    this.refs?.header?.forceUpdate();
   };
 
   render() {
@@ -54,7 +52,6 @@ class About extends React.Component {
                     and shaping up the future leaders.
                   </p>
                   <br />
-                  {/* <h6>Our Team</h6> */}
 
                   <div className="text-left mt-4">
                     <a href="#" className="btn btn-md text-light theme-bg">
@@ -77,6 +74,7 @@ class About extends React.Component {
           </div>
         </section>
         <Services />
+        <Best_instructors />
         <Trusted_by />
         <Student_reviews />
         <Contact_us_today />

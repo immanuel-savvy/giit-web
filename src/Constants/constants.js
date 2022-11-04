@@ -7,7 +7,7 @@ const SKILL_LEVEL = new Array(
 
 const DEV = false;
 
-const hostname = DEV ? "http://192.168.0.129" : "http://giitafrica.com";
+const hostname = DEV ? "http://localhost" : "http://giitafrica.com";
 
 const client_domain = DEV ? `${hostname}:1408` : `${hostname}`;
 

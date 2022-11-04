@@ -23,3 +23,23 @@
   cursor: pointer;
   z-index: 99999999;
 }
+
+.review-course-clp {
+  border: 1px solid #fff;
+  height: auto;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  min-height: 190px;
+  background: #fff;
+  box-shadow: 4px 6px 5px #f3f3f3;
+}
+
+.review-course-clp {
+  height: 220px !important;
+}
+
+.no-padding {
+  padding-left: 0;
+  padding-right: 0;
+  padding: 0 !important;
+}

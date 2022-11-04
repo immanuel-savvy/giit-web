@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { to_title } from "../../Assets/js/utils/functions";
+import { emitter } from "../../Giit";
 
 class Dashboard_breadcrumb extends React.Component {
   constructor(props) {
@@ -39,7 +40,13 @@ class Dashboard_breadcrumb extends React.Component {
                 <nav class="transparent">
                   <ol class="breadcrumb">
                     <li class="breadcrumb-item">
-                      <Link to="/">Home</Link>
+                      <Link
+                        onClick={() =>
+                          emitter.emit("dash_nav_click", "dashboard")
+                        }
+                      >
+                        Home
+                      </Link>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">
                       {to_title(crumb)}

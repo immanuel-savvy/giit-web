@@ -1,7 +1,9 @@
 import React from "react";
+import Preview_image from "../../Components/preview_image";
 import Dashboard_breadcrumb from "./dashboard_breadcrumb";
 import Course_sections from "./dashboard_course_sections";
 import Dashboard_stats from "./dashboard_stats";
+import Banner_stuffs from "./manage_banner_stuffs";
 import Notifications from "./notifications";
 
 class Dashboard_landing extends React.Component {
@@ -19,8 +21,9 @@ class Dashboard_landing extends React.Component {
         <Dashboard_stats />
 
         <div class="row">
+          <hr />
           <div class="col-lg-8 col-md-12 col-sm-12">
-            <Course_sections />
+            <Banner_stuffs />
           </div>
 
           <Notifications />

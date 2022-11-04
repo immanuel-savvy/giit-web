@@ -9,6 +9,7 @@ import Courses_sidebar from "../Sections/courses_sidebar";
 import Couses_tabbar from "../Sections/courses_tabbar";
 import Footer from "../Sections/footer";
 import Header from "../Sections/header";
+import Student_reviews from "../Sections/student_reviews";
 import { scroll_to_top } from "./Adminstrator";
 
 class Courses extends React.Component {
@@ -53,6 +54,11 @@ class Courses extends React.Component {
       param = param.split("=");
       filter[param[0]] = param[1];
     });
+
+    if (filter.search) {
+      delete filter.search;
+      this.setState({ search_focus: true });
+    }
 
     await this.fetch_courses();
   };
@@ -134,8 +140,14 @@ class Courses extends React.Component {
 
   render = () => {
     let { navs } = this.props;
-    let { courses, page_size, fetching_courses, total_courses, filter } =
-      this.state;
+    let {
+      courses,
+      search_focus,
+      page_size,
+      fetching_courses,
+      total_courses,
+      filter,
+    } = this.state;
 
     return (
       <div id="main-wrapper">
@@ -147,6 +159,7 @@ class Courses extends React.Component {
               <Courses_sidebar
                 section={filter.section}
                 category={filter.category}
+                search_focus={search_focus}
                 fetch_courses={this.fetch_courses}
                 ref={(courses_sidebar) =>
                   (this.courses_sidebar = courses_sidebar)
@@ -179,6 +192,7 @@ class Courses extends React.Component {
             </div>
           </div>
         </section>
+        <Student_reviews />
         <Contact_us_today />
         <Footer />
       </div>

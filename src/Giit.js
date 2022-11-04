@@ -15,7 +15,12 @@ import Adminstrator from "./Pages/Adminstrator";
 import Emitter from "semitter";
 import { get_request, post_request } from "./Assets/js/utils/services";
 import Course from "./Pages/Course";
-import { Logged_admin, Logged_user, Nav_context } from "./Contexts";
+import {
+  Flash_promo,
+  Logged_admin,
+  Logged_user,
+  Nav_context,
+} from "./Contexts";
 import Master_courses from "./Pages/Master_courses";
 import Blog from "./Pages/Blog";
 import Article from "./Pages/Article";
@@ -23,7 +28,10 @@ import Enroll from "./Pages/Enroll";
 import Verify_email from "./Pages/Verify_email";
 import Careers from "./Pages/Careers";
 import Testimonials from "./Pages/Testimonials";
-import Handle_image_upload from "./Components/handle_image_upload";
+import Gallery from "./Pages/Gallery";
+import Instructors from "./Pages/Instructors";
+import { master_course_alignment } from "./Sections/master_courses";
+import FAQS from "./Pages/FAQs";
 
 let emitter = new Emitter();
 
@@ -34,6 +42,10 @@ class Giit extends React.Component {
     this.state = {
       loggeduser: "fetching",
       navs: new Array(
+        {
+          title: "search",
+          path: "/courses?search=true",
+        },
         {
           title: "home",
           path: "/",
@@ -46,10 +58,24 @@ class Giit extends React.Component {
         {
           title: "about",
           path: "/about",
-        },
-        {
-          title: "contact",
-          path: "/contact_us",
+          submenu: new Array(
+            {
+              title: "who we are",
+              path: "/about",
+            },
+            {
+              title: "our instructors",
+              path: "/instructors",
+            },
+            {
+              title: "our services",
+              path: "/about#services",
+            },
+            {
+              title: "FAQs",
+              path: "/faqs",
+            }
+          ),
         },
         {
           title: "career",
@@ -58,6 +84,26 @@ class Giit extends React.Component {
         {
           title: "testimonials",
           path: "/testimonials",
+        },
+        {
+          title: "gallery",
+          path: "/gallery",
+        },
+        {
+          title: "blog",
+          path: "/blog",
+        },
+        {
+          title: "contact",
+          path: "/contact_us",
+        },
+        {
+          title: "login",
+          path: "/login",
+        },
+        {
+          title: "get started",
+          path: "/signup",
         }
       ),
       subnavs: new Object(),
@@ -109,22 +155,57 @@ class Giit extends React.Component {
 
     let { navs } = this.state;
     let master_courses = await get_request("master_courses/all");
-    if (master_courses && master_courses.map)
-      navs[1].submenu = master_courses.map(
+    if (master_courses && master_courses.map) {
+      master_courses = master_courses
+        .sort((m1, m2) => {
+          let m1_index = master_course_alignment.findIndex((m) =>
+              m1.title.toLowerCase().includes(m)
+            ),
+            m2_index = master_course_alignment.findIndex((m) =>
+              m2.title.toLowerCase().includes(m)
+            );
+          if (m1_index === -1) m1_index = 200;
+          if (m2_index === -1) m2_index = 200;
+
+          return m1_index - m2_index;
+        })
+        .slice(0, 8);
+
+      master_courses.push({ view_all: true });
+
+      navs[2].submenu = master_courses.map(
         (course) =>
           new Object({
             title: course.title,
             _id: course._id,
+            view_all: course.view_all,
             submenu: course.courses,
             on_click: () => this.handle_course(course),
             path: "/course",
           })
       );
+    }
 
     let loggeduser = window.sessionStorage.getItem("loggeduser");
     if (loggeduser) loggeduser = JSON.parse(loggeduser);
 
-    this.setState({ navs, loggeduser });
+    let {
+      flash_promo,
+      banner_stuffs,
+      best_instructors_stuffs,
+      onboarding_stuffs,
+    } = await get_request("entry");
+    if (flash_promo && flash_promo.duration_timestamp <= Date.now)
+      flash_promo = null;
+
+    this.setState({
+      navs,
+      loggeduser,
+      flash_promo,
+      onboarding_stuffs,
+      banner_stuffs,
+      best_instructors_stuffs,
+    });
   };
 
   login = (user) =>
@@ -135,7 +216,16 @@ class Giit extends React.Component {
   log_admin = (admin) => this.setState({ admin_logged: admin });
 
   render = () => {
-    let { navs, admin_logged, loggeduser, subnavs } = this.state;
+    let {
+      navs,
+      admin_logged,
+      banner_stuffs,
+      onboarding_stuffs,
+      flash_promo,
+      loggeduser,
+      best_instructors_stuffs,
+      subnavs,
+    } = this.state;
 
     return (
       <html lang="en">
@@ -157,30 +247,47 @@ class Giit extends React.Component {
               <Nav_context.Provider
                 value={{ navs, subnavs, set_subnav: this.set_subnav }}
               >
-                <BrowserRouter>
-                  <Routes>
-                    <Route index element={<Index />} />
-                    <Route path="courses" element={<Courses />} />
-                    <Route path="contact_us" element={<Contact />} />
-                    <Route path="blog" element={<Blog />} />
-                    <Route path="article" element={<Article />} />
-                    <Route path="enroll" element={<Enroll />} />
-                    <Route path="master_courses" element={<Master_courses />} />
-                    <Route path="signup" element={<Signup />} />
-                    <Route path="login" element={<Login />} />
-                    <Route path="verify_email" element={<Verify_email />} />
-                    <Route
-                      path="forgot_password"
-                      element={<Forgot_password />}
-                    />
-                    <Route path="about" element={<About />} />
-                    <Route path="course" element={<Course />} />
-                    <Route path="career" element={<Careers />} />
-                    <Route path="testimonials" element={<Testimonials />} />
-                    <Route path="adminstrator" element={<Adminstrator />} />
-                    <Route path="*" element={<Page_not_found />} />
-                  </Routes>
-                </BrowserRouter>
+                <Flash_promo.Provider value={{ flash_promo }}>
+                  <BrowserRouter>
+                    <Routes>
+                      <Route
+                        index
+                        element={
+                          <Index
+                            banner_stuffs={banner_stuffs}
+                            onboarding_stuffs={onboarding_stuffs}
+                            best_instructors_stuffs={best_instructors_stuffs}
+                          />
+                        }
+                      />
+                      <Route path="courses" element={<Courses />} />
+                      <Route path="contact_us" element={<Contact />} />
+                      <Route path="blog" element={<Blog />} />
+                      <Route path="article" element={<Article />} />
+                      <Route path="enroll" element={<Enroll />} />
+                      <Route
+                        path="master_courses"
+                        element={<Master_courses />}
+                      />
+                      <Route path="signup" element={<Signup />} />
+                      <Route path="login" element={<Login />} />
+                      <Route path="faqs" element={<FAQS />} />
+                      <Route path="gallery" element={<Gallery />} />
+                      <Route path="instructors" element={<Instructors />} />
+                      <Route path="verify_email" element={<Verify_email />} />
+                      <Route
+                        path="forgot_password"
+                        element={<Forgot_password />}
+                      />
+                      <Route path="about" element={<About />} />
+                      <Route path="course" element={<Course />} />
+                      <Route path="career" element={<Careers />} />
+                      <Route path="testimonials" element={<Testimonials />} />
+                      <Route path="adminstrator" element={<Adminstrator />} />
+                      <Route path="*" element={<Page_not_found />} />
+                    </Routes>
+                  </BrowserRouter>
+                </Flash_promo.Provider>
               </Nav_context.Provider>
             </Logged_admin.Provider>
           </Logged_user.Provider>

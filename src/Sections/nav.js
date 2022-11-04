@@ -1,49 +1,82 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import {
+  Collapse,
+  Navbar,
+  NavbarToggler,
+  NavbarBrand,
+  Nav,
+  NavItem,
+  NavLink,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+} from "reactstrap";
 import { to_title } from "../Assets/js/utils/functions";
-import { domain, post_request } from "../Assets/js/utils/services";
+import { post_request } from "../Assets/js/utils/services";
 import Loadindicator from "../Components/loadindicator";
+import { client_domain, domain } from "../Constants/constants";
 import { Nav_context } from "../Contexts";
+import { emitter } from "../Giit";
+import { scroll_to_top } from "../Pages/Adminstrator";
 
-class Nav extends React.Component {
+class Custom_nav extends React.Component {
   constructor(props) {
     super(props);
+
+    this.toggle = this.toggle.bind(this);
+    this.state = {
+      isOpen: false,
+      subnavs: new Object(),
+    };
   }
 
-  mouse_over = async (nav) => await this.set_subnav(nav);
+  toggle() {
+    this.setState({
+      isOpen: !this.state.isOpen,
+    });
+  }
 
   set_submenu = async () => {
-    let { current_subnav } = this.state;
+    let { current_subnav, subnavs } = this.state;
 
-    let current_submenu = null;
-    if (!this.state.sub_menus[current_subnav])
-      current_submenu = await post_request("/get_courses", {
-        courses: this.props.navs.find((course) => course._id === current_subnav)
-          .courses,
-      });
+    let courses = await post_request("get_courses", {
+      courses: current_subnav.submenu,
+    });
+    subnavs[current_subnav._id] = courses;
 
     this.setState({
-      sub_menus: new Object({
-        ...this.state.sub_menus,
-        [current_subnav]: current_submenu,
-      }),
+      subnavs,
     });
   };
 
-  mouse_out = (nav_id) => {};
+  handle_course = (course) => {
+    window.sessionStorage.setItem("course", JSON.stringify(course));
+    emitter.emit("push_course", course);
+  };
+
+  search = () => {
+    let { search_param } = this.state;
+    window.location.assign(
+      `${client_domain}/courses?search_param=${search_param}`
+    );
+    scroll_to_top();
+  };
 
   render() {
-    let { sub_menus, lock } = this.props;
+    let { subnavs, current_subnav, current_nav, show_search, search_param } =
+      this.state;
 
     return (
       <Nav_context.Consumer>
-        {({ navs, subnavs, set_subnav }) => {
+        {({ navs, set_subnav }) => {
+          this.navs = navs;
           this.set_subnav = set_subnav;
 
           return (
-            <nav id="navigation" className="navigation navigation-landscape">
-              <div className="nav-header">
-                <Link className="nav-brand" to="/">
+            <div id="navigation" className="navigation navigation-landscape">
+              <Navbar dark expand="md">
+                <NavbarBrand href="/" className="nav-brand">
                   <img
                     src={`${domain}/Images/giit_africa_logo_white.png`}
                     className="logo"
@@ -57,111 +90,222 @@ class Nav extends React.Component {
                     style={{ display: "none" }}
                     alt=""
                   />
-                </Link>
-                <div className="nav-toggle"></div>
-                <div className="mobile_nav">
-                  <ul>
-                    <li>
-                      <Link
-                        to="/login"
-                        className="crs_yuo12 w-auto text-white theme-bg"
-                      >
-                        <span className="embos_45">
-                          <i className="fas fa-sign-in-alt mr-1"></i>Sign In
-                        </span>
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              {lock ? null : (
-                <div className="nav-menus-wrapper">
-                  <ul className="nav-menu">
-                    {navs
-                      ? navs.map((nav, index) => {
-                          return (
-                            <li key={index}>
-                              <Link to={nav.path} key={nav.title}>
-                                <span>
-                                  {to_title(nav.title.replace(/_/g, " "))}
-                                  {nav.submenu ? (
-                                    <span className="submenu-indicator"></span>
-                                  ) : null}
-                                </span>
-                              </Link>
-                              {nav.submenu ? (
-                                <ul className="nav-dropdown nav-submenu">
-                                  {nav.submenu.map((submenu, index) => (
-                                    <li
-                                      key={index}
-                                      onMouseOver={() =>
-                                        this.mouse_over(submenu)
+                </NavbarBrand>
+                <NavbarToggler
+                  style={{ color: "#fff" }}
+                  onClick={this.toggle}
+                />
+                <Collapse isOpen={this.state.isOpen} navbar>
+                  <Nav
+                    className="ml-auto"
+                    navbar
+                    style={{ alignItems: "center" }}
+                  >
+                    {navs.map((nav, index) => {
+                      return nav.submenu && nav.submenu.length ? (
+                        <UncontrolledDropdown key={index} nav inNavbar>
+                          <DropdownToggle
+                            style={{
+                              backgroundColor: "transparent",
+                            }}
+                            nav
+                            caret
+                            ref={(dropdown) =>
+                              (this[`main_dropdown_${index}`] = dropdown)
+                            }
+                            onMouseOver={() => {
+                              let comp = this[`main_dropdown_${index}`];
+                              !comp.context.isOpen && comp.context.toggle();
+                              this.setState({ current_nav: nav.title });
+                            }}
+                            onMouseMove={() => {
+                              let comp = this[`main_dropdown_${index}`];
+                              current_nav !== nav.title &&
+                                comp.context.isOpen &&
+                                comp.context.toggle();
+                            }}
+                          >
+                            <span>
+                              {to_title(nav.title.replace(/_/g, " "))}
+                            </span>
+                          </DropdownToggle>
+                          <DropdownMenu
+                            className="nav-dropdown nav-submenu"
+                            end
+                          >
+                            {nav.submenu.map((subnav, index) => (
+                              <li
+                                onMouseOver={
+                                  subnav.view_all
+                                    ? null
+                                    : () =>
+                                        this.setState(
+                                          { current_subnav: subnav },
+                                          this.set_submenu
+                                        )
+                                }
+                              >
+                                <Link
+                                  onClick={subnav.on_click}
+                                  to={
+                                    subnav.view_all ? "/courses" : subnav.path
+                                  }
+                                >
+                                  {subnav.view_all
+                                    ? "View all courses..."
+                                    : to_title(subnav.title.replace(/_/g, " "))}
+                                </Link>
+                                {nav.title !==
+                                "courses" ? null : subnav.submenu &&
+                                  !subnav.submenu.length ? null : subnav._id ===
+                                  (current_subnav && current_subnav._id) ? (
+                                  <UncontrolledDropdown
+                                    key={index}
+                                    nav
+                                    inNavbar
+                                    onClick={subnav.on_click}
+                                  >
+                                    <DropdownToggle
+                                      style={{
+                                        backgroundColor: "transparent",
+                                      }}
+                                      nav
+                                      caret
+                                      ref={(dropdown) =>
+                                        (this[`dropdown_${index}`] = dropdown)
                                       }
+                                      onMouseOver={
+                                        subnav.view_all
+                                          ? null
+                                          : () => {
+                                              let comp =
+                                                this[`dropdown_${index}`];
+                                              !comp.context.isOpen &&
+                                                comp.context.toggle();
+                                            }
+                                      }
+                                    ></DropdownToggle>
+                                    <DropdownMenu
+                                      className="nav-dropdown nav-submenu"
+                                      end
                                     >
-                                      <Link to={submenu.path}>
-                                        <span onClick={submenu.on_click}>
-                                          {submenu.title.replace(/_/g, " ")}
-                                        </span>
-                                      </Link>
-                                      {submenu.submenu ? (
-                                        <span className="submenu-indicator"></span>
-                                      ) : null}
-                                      {submenu.submenu ? (
-                                        <ul className="nav-dropdown nav-submenu">
-                                          {subnavs[submenu._id] ? (
-                                            subnavs[submenu._id]?.length ? (
-                                              subnavs[submenu._id].map(
-                                                (item, index) => (
-                                                  <li
-                                                    key={index}
-                                                    onClick={item.on_click}
-                                                  >
-                                                    <Link to={item.path}>
-                                                      {item.title}
-                                                    </Link>
-                                                  </li>
-                                                )
-                                              )
-                                            ) : (
-                                              <p className="text-dark">
-                                                Nothing here yet.
-                                              </p>
-                                            )
-                                          ) : (
-                                            <Loadindicator />
-                                          )}
-                                        </ul>
-                                      ) : null}
-                                    </li>
-                                  ))}
-                                </ul>
-                              ) : null}
-                            </li>
-                          );
-                        })
-                      : null}
-                  </ul>
-                  <ul className="nav-menu nav-menu-social align-to-right">
-                    <li>
-                      <Link
-                        to="/login"
-                        className="alio_green"
-                        data-toggle="modal"
-                        data-target="#login"
-                      >
-                        <i className="fas fa-sign-in-alt mr-1"></i>
-                        <span className="dn-lg">Sign In</span>
-                      </Link>
-                    </li>
-                    <li className="add-listing theme-bg">
-                      <Link to="/signup" className="text-white">
-                        Get Started
-                      </Link>
-                    </li>
-                  </ul>
+                                      {subnavs[subnav._id] ? (
+                                        subnavs[subnav._id].length ? (
+                                          subnavs[subnav._id].map((sub_nav) => (
+                                            <li
+                                              onClick={() =>
+                                                this.handle_course(sub_nav)
+                                              }
+                                              style={{
+                                                backgroundColor: "transparent",
+                                              }}
+                                              key={sub_nav._id}
+                                            >
+                                              <Link to="/course">
+                                                {sub_nav.title.replace(
+                                                  /_/g,
+                                                  " "
+                                                )}
+                                              </Link>
+                                            </li>
+                                          ))
+                                        ) : null
+                                      ) : (
+                                        <Loadindicator />
+                                      )}
+                                    </DropdownMenu>
+                                  </UncontrolledDropdown>
+                                ) : null}
+                              </li>
+                            ))}
+                          </DropdownMenu>
+                        </UncontrolledDropdown>
+                      ) : nav.title === "search" ? (
+                        <li
+                          onClick={() =>
+                            this.setState({
+                              show_search: !this.state.show_search,
+                            })
+                          }
+                        >
+                          <Link
+                            to="#"
+                            style={{ border: "none" }}
+                            className="btn btn-action"
+                          >
+                            <i className="ti-search"></i>
+                          </Link>
+                        </li>
+                      ) : nav.path === "/login" ? (
+                        <ul className="nav-menu nav-menu-social align-to-right">
+                          <li>
+                            <Link
+                              to="/login"
+                              className="alio_green"
+                              data-toggle="modal"
+                              data-target="#login"
+                            >
+                              <i className="fas fa-sign-in-alt mr-1"></i>
+                              <span className="dn-lg">Log In</span>
+                            </Link>
+                          </li>
+                        </ul>
+                      ) : nav.path === "/signup" ? (
+                        <ul className="nav-menu nav-menu-social align-to-right mb-3">
+                          <li className="add-listing theme-bg">
+                            <Link to="/signup" className="text-white">
+                              Get Started
+                            </Link>
+                          </li>
+                        </ul>
+                      ) : (
+                        <NavItem>
+                          <NavLink
+                            style={{
+                              backgroundColor: "transparent",
+                            }}
+                          >
+                            <Link
+                              style={{ textDecorationColor: "none" }}
+                              to={nav.path}
+                            >
+                              <span>
+                                {to_title(nav.title.replace(/_/g, " "))}
+                              </span>
+                            </Link>
+                          </NavLink>
+                        </NavItem>
+                      );
+                    })}
+                  </Nav>
+                </Collapse>
+              </Navbar>
+              {show_search ? (
+                <div className="form-group col-md-6 col-lg-4">
+                  <div className="input-with-icon">
+                    <input
+                      type="text"
+                      className="form-control"
+                      autoFocus
+                      placeholder="Search Your Courses"
+                      value={search_param}
+                      onKeyUp={async (e) => {
+                        if (
+                          e.target.value === this.previous_value &&
+                          this.previous_value
+                        )
+                          return this.search(e);
+                        this.previous_value = e.target.value;
+                      }}
+                      onChange={({ target }) =>
+                        this.setState({ search_param: target.value })
+                      }
+                    />
+                    <i className="ti-search"></i>
+                  </div>
                 </div>
-              )}
-            </nav>
+              ) : null}
+            </div>
           );
         }}
       </Nav_context.Consumer>
@@ -169,4 +313,4 @@ class Nav extends React.Component {
   }
 }
 
-export default Nav;
+export default Custom_nav;

@@ -1,5 +1,6 @@
 import React from "react";
 import { post_request } from "../Assets/js/utils/services";
+import Loadindicator from "../Components/loadindicator";
 import Article from "./article";
 import Explore_more_btn from "./explore_more_btn";
 
@@ -38,13 +39,17 @@ class Latest_news_and_articles extends React.Component {
             </div>
           </div>
           <div className="row justify-content-center">
-            {lastest_articles
-              ? lastest_articles.map((article) => (
-                  <Article key={article._id} article={article} />
-                ))
-              : null}
+            {lastest_articles ? (
+              lastest_articles.map((article) => (
+                <Article key={article._id} article={article} />
+              ))
+            ) : (
+              <Loadindicator contained />
+            )}
           </div>
-          <Explore_more_btn title="articles" to="/blog" />
+          {lastest_articles ? (
+            <Explore_more_btn title="articles" to="/blog" />
+          ) : null}
         </div>
       </section>
     );

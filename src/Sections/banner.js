@@ -1,10 +1,9 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Row, Col } from "react-bootstrap";
-import alan from "./../Assets/video/alan.mp4";
-import logo from "./../Assets/img/thumbnail.jpg";
 import Video from "../Components/video";
 import { Link } from "react-router-dom";
+import { domain } from "../Constants/constants";
 
 class Banner extends React.Component {
   constructor(props) {
@@ -14,15 +13,20 @@ class Banner extends React.Component {
   }
 
   render() {
+    let { banner_stuffs } = this.props;
+    let { image, thumbnail, thumbnail_hash, video } =
+      banner_stuffs || new Object();
+
     return (
       <div
         className="hero_banner d-flex justify-content-center image-cover for_top_info"
         style={{
           backgroundColor: "gray",
-          backgroundImage: "url(./../Assets/img/web_banner_giit_africa_02.png)",
+          backgroundImage: `url(${domain}/Images/${
+            image || "giit_africa_banner_background_image.jpg"
+          })`,
           backgroundRepeat: "no-repeat",
           marginTop: "50px",
-          // height: "60%",
         }}
         data-overlay="1"
       >
@@ -61,8 +65,23 @@ class Banner extends React.Component {
                 </div>
               </div>
             </Col>
-            <Col style={{ display: "none" }} xl={6} lg={6} md={6} sm={12}>
-              <Video url={alan} thumbnail={logo} />
+            <Col
+              style={{
+                display: thumbnail ? "inline" : "none",
+                overflow: "hidden",
+              }}
+              xl={6}
+              lg={6}
+              md={6}
+              sm={12}
+            >
+              {thumbnail ? (
+                <Video
+                  url={`${domain}/Videos/${video}`}
+                  thumbnail={thumbnail}
+                  thumbnail_hash={thumbnail_hash}
+                />
+              ) : null}
             </Col>
           </Row>
         </Container>

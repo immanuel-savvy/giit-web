@@ -9,6 +9,7 @@ import Course_details from "../Sections/course_details";
 import Course_sidebar from "../Sections/course_sidebar";
 import Footer from "../Sections/footer";
 import Header from "../Sections/header";
+import Student_reviews from "../Sections/student_reviews";
 import { scroll_to_top } from "./Adminstrator";
 
 class Course extends React.Component {
@@ -72,40 +73,43 @@ class Course extends React.Component {
         {!course ? (
           <Loadindicator contained />
         ) : (
-          <div>
-            <Course_banner course={course} />
-            <section class="gray pt-3">
-              <div class="container">
-                <div class="row justify-content-between">
-                  {course.courses ? (
-                    <div class="col-lg-8 col-md-12 order-lg-first">
-                      <div class="row justify-content-center">
-                        {courses ? (
-                          courses.map((course_) => (
-                            <Featured_course
-                              in_courses
-                              course={course_}
-                              key={course_._id}
-                            />
-                          ))
-                        ) : (
-                          <Loadindicator contained />
-                        )}
-                      </div>
-                    </div>
-                  ) : (
-                    <Course_details course={course} />
-                  )}
-
-                  <Course_sidebar
-                    course={course}
-                    cummulative_price={cummulative_price}
-                  />
-                </div>
-              </div>
-            </section>
-          </div>
+          <Course_banner course={course} />
         )}
+
+        {!course ? null : (
+          <section class="gray pt-3">
+            <div class="container">
+              <div class="row justify-content-between">
+                {course.courses ? (
+                  <div class="col-lg-8 col-md-12 order-lg-first">
+                    <div class="row justify-content-center">
+                      {courses ? (
+                        courses.map((course_) => (
+                          <Featured_course
+                            in_courses
+                            course={course_}
+                            key={course_._id}
+                          />
+                        ))
+                      ) : (
+                        <Loadindicator contained />
+                      )}
+                    </div>
+                  </div>
+                ) : (
+                  <Course_details course={course} />
+                )}
+
+                <Course_sidebar
+                  course={course}
+                  cummulative_price={cummulative_price}
+                />
+              </div>
+            </div>
+          </section>
+        )}
+
+        <Student_reviews />
         <Contact_us_today />
         <Footer />
       </div>

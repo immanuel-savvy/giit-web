@@ -40,7 +40,6 @@ class Course_details extends React.Component {
   render() {
     let { course } = this.props;
     let { active_tab } = this.state;
-    console.log(active_tab);
 
     return (
       <div class="col-lg-8 col-md-12 order-lg-first">

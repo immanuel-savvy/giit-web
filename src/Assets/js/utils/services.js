@@ -1,7 +1,6 @@
 import { domain } from "../../../Constants/constants";
 
 const get_request = async (path) => {
-  console.log(path);
   if (path && path.startsWith("/")) path = path.slice(1);
   try {
     let ftch = await fetch(`${domain}/${path}`);
@@ -48,7 +47,6 @@ const upload_file = async (file) => {
 };
 
 const post_request = async (path, data) => {
-  console.log(path);
   if (path && path.startsWith("/")) path = path.slice(1);
   try {
     let ftch = await fetch(`${domain}/${path}`, {

@@ -1,6 +1,7 @@
 import React from "react";
 import { to_title } from "../Assets/js/utils/functions";
 import { get_request } from "../Assets/js/utils/services";
+import Loadindicator from "../Components/loadindicator";
 import { SKILL_LEVEL } from "../Constants/constants";
 
 class Courses_sidebar extends React.Component {
@@ -19,15 +20,25 @@ class Courses_sidebar extends React.Component {
   set_search_param = ({ target }) =>
     this.setState({ search_param: target.value });
 
-  set_category = ({ target }) => this.setState({ master_course: target.value });
-
   set_master_course = ({ target }) =>
-    this.setState({ master_course: target.value });
+    this.setState({ master_course: target.value }, () =>
+      this.filter({ preventDefault: () => {} })
+    );
 
-  set_section = ({ target }) => this.setState({ section: target.value });
+  set_section = ({ target }) =>
+    this.setState({ section: target.value }, () =>
+      this.filter({ preventDefault: () => {} })
+    );
+
+  set_instructor = ({ target }) =>
+    this.setState({ instructor: target.value }, () =>
+      this.filter({ preventDefault: () => {} })
+    );
 
   set_certification = ({ target }) =>
-    this.setState({ certification: target.value });
+    this.setState({ certification: target.value }, () =>
+      this.filter({ preventDefault: () => {} })
+    );
 
   set_skill_level = (level) => {
     let { skill_levels } = this.state;
@@ -43,16 +54,14 @@ class Courses_sidebar extends React.Component {
     let master_courses = await get_request("master_courses/all");
     let sections = await get_request("sections/all");
     let certifications = await get_request("certifications");
+    let instructors = await get_request("instructors/all");
 
-    this.setState({ master_courses, sections, certifications });
+    this.setState({ master_courses, sections, certifications, instructors });
   };
 
   render_selections = (prop) => {
     let state_prop = this.state[prop];
-    let prop_singular =
-      prop === "master_courses"
-        ? "master_course"
-        : prop.slice(0, prop.length - 1);
+    let prop_singular = prop.slice(0, prop.length - 1);
     let state_prop_single = this.state[prop_singular];
 
     if (!state_prop || (state_prop && !state_prop.length)) return null;
@@ -71,7 +80,9 @@ class Courses_sidebar extends React.Component {
             <option value="">{`-- All ${to_title(prop)}--`}</option>
             {state_prop.map((prop_item) => (
               <option key={prop_item._id} value={prop_item._id}>
-                {to_title(prop_item.title.replace(/_/g, " "))}
+                {to_title(
+                  (prop_item.title || prop_item.name).replace(/_/g, " ")
+                )}
               </option>
             ))}
           </select>
@@ -107,15 +118,24 @@ class Courses_sidebar extends React.Component {
   filter = async (e) => {
     e.preventDefault();
 
-    let { search_param, certification, section, master_course, skill_levels } =
-      this.state;
+    let {
+      search_param,
+      certification,
+      instructor,
+      section,
+      master_course,
+      skill_levels,
+    } = this.state;
 
     let filter = new Object();
     if (search_param) filter.search_param = search_param;
     if (section) filter.section = section;
     if (master_course) filter.master_course = master_course;
     if (certification) filter.certification = certification;
+    if (instructor) filter.instructor = instructor;
     if (skill_levels.length) filter.skill_levels = skill_levels;
+
+    this.setState({ filtering: true });
 
     await this.props.fetch_courses(filter);
 
@@ -125,13 +145,14 @@ class Courses_sidebar extends React.Component {
         master_course: "",
         skill_levels: new Array(),
         cates: false,
+        filtering: false,
       },
       () => this.setState({ cates: true })
     );
   };
 
   render() {
-    let { search_param, cates } = this.state;
+    let { search_param, filtering, cates } = this.state;
 
     return (
       <div className="col-xl-3 col-lg-3 col-md-12 col-sm-12">
@@ -148,18 +169,31 @@ class Courses_sidebar extends React.Component {
           </a>
           <div className="collapse" id="fltbox">
             <div className="sidebar-widgets p-4">
-              <div className="form-group">
-                <div className="input-with-icon">
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Search Your Courses"
-                    value={search_param}
-                    onChange={this.set_search_param}
-                  />
-                  <i className="ti-search"></i>
+              {filtering ? (
+                <Loadindicator />
+              ) : (
+                <div className="form-group">
+                  <div className="input-with-icon">
+                    <input
+                      type="text"
+                      className="form-control"
+                      focus={this.props.search_focus}
+                      placeholder="Search Your Courses"
+                      value={search_param}
+                      onKeyUp={async (e) => {
+                        if (
+                          e.target.value === this.previous_value &&
+                          this.previous_value
+                        )
+                          return await this.filter(e);
+                        this.previous_value = e.target.value;
+                      }}
+                      onChange={this.set_search_param}
+                    />
+                    <i className="ti-search"></i>
+                  </div>
                 </div>
-              </div>
+              )}
 
               {cates ? this.render_selections("master_courses") : null}
 
@@ -167,7 +201,9 @@ class Courses_sidebar extends React.Component {
 
               {cates ? this.render_selections("certifications") : null}
 
-              {/* {this.render_skill_level()} */}
+              {cates ? this.render_selections("instructors") : null}
+
+              {this.render_skill_level()}
 
               <div className="row">
                 <div className="col-lg-12 col-md-12 col-sm-12 pt-4">

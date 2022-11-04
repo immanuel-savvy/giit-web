@@ -72,13 +72,19 @@ class Add_student_review extends Handle_image_upload {
   };
 
   render() {
+    let { toggle } = this.props;
     let { name, email, text, image, organisation, position, posting } =
       this.state;
 
     return (
       <div className="row justify-content-center">
         <div class="edu_wraper">
-          <h4 class="edu_title">Submit Reviews</h4>
+          <div className="d-flex" style={{ justifyContent: "space-between" }}>
+            <span class="edu_title h4">Submit Reviews</span>
+            <a onClick={toggle} className="btn btn-action">
+              <i className={`fas fa-window-close`}></i>
+            </a>
+          </div>
           <div class="review-form-box form-submit">
             <form>
               <div class="row">

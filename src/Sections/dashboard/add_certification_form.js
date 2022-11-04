@@ -15,7 +15,7 @@ class Add_certification_form extends Handle_image_upload {
     certification &&
       this.setState({
         ...certification,
-        image: `${domain}/Images/${certification.image}`,
+        image: `${domain}/Images/${certification.icon}`,
       });
 
     this.certification_to_update = (certification) =>
@@ -43,7 +43,7 @@ class Add_certification_form extends Handle_image_upload {
     let new_certification = {
       title,
       image_hash,
-      image,
+      icon: image,
       description,
       courses: 0,
     };
@@ -58,9 +58,9 @@ class Add_certification_form extends Handle_image_upload {
       new_certification._id = _id;
       new_certification.courses = courses;
       new_certification.created = created;
-      if (new_certification.image)
-        if (new_certification.image.startsWith("http"))
-          new_certification.image = this.props.certification.image;
+      if (new_certification.icon)
+        if (new_certification.icon.startsWith("http"))
+          new_certification.icon = this.props.certification.icon;
 
       await post_request("update_certification", new_certification);
       emitter.emit("certification_updated", new_certification);
@@ -94,7 +94,7 @@ class Add_certification_form extends Handle_image_upload {
             <div className="modal-body">
               <form className="forms_block">
                 <div className="form-group smalls">
-                  <label>Certification Image</label>
+                  <label>Certification Image (Small Image preferable)</label>
                   <div className="custom-file">
                     <input
                       type="file"

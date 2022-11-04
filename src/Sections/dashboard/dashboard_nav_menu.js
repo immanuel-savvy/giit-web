@@ -29,6 +29,14 @@ class Dashboard_nav_menu extends React.Component {
           ),
         },
         {
+          title: "instructors",
+          icon: "fa-user",
+          subnav: new Array(
+            { title: "manage_instructors" },
+            { title: "add_instructor" }
+          ),
+        },
+        {
           title: "services",
           icon: "fa-th",
         },
@@ -41,9 +49,11 @@ class Dashboard_nav_menu extends React.Component {
           icon: "fa-th",
           subnav: new Array(
             { title: "manage_reviews" },
-            { title: "pending_reviews" }
+            { title: "pending_reviews" },
+            { title: "alumni_overview" }
           ),
         },
+        { title: "gallery", icon: "fa-image" },
         {
           title: "blog",
           icon: "fa-th",
@@ -67,6 +77,15 @@ class Dashboard_nav_menu extends React.Component {
           icon: "fa-gem",
         },
         {
+          title: "sections",
+          icon: "fa-th",
+          subnav: new Array(
+            { title: "onboarding" },
+            { title: "best_instructors" },
+            { title: "FAQs" }
+          ),
+        },
+        {
           title: "enrollment",
           icon: "fa-gem",
           subnav: new Array(
@@ -80,14 +99,6 @@ class Dashboard_nav_menu extends React.Component {
           subnav: new Array(
             { title: "manage_admins" },
             { title: "add_new_admin" }
-          ),
-        },
-        {
-          title: "instructors",
-          icon: "fa-user",
-          subnav: new Array(
-            { title: "manage_instructors" },
-            { title: "add_new_instructor" }
           ),
         },
         {

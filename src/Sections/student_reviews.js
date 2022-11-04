@@ -1,11 +1,9 @@
 import React from "react";
 import { Col } from "react-bootstrap";
 import Video from "../Components/video";
-import alan from "./../Assets/video/alan.mp4";
-import logo from "./../Assets/img/thumbnail.jpg";
 import Review from "./review";
 import Loadindicator from "../Components/loadindicator";
-import { get_request, post_request } from "../Assets/js/utils/services";
+import { domain, get_request, post_request } from "../Assets/js/utils/services";
 import Add_student_review from "./add_student_review";
 import { emitter } from "../Giit";
 import Explore_more_btn from "./explore_more_btn";
@@ -18,6 +16,9 @@ class Student_reviews extends React.Component {
   }
 
   componentDidMount = async () => {
+    let alumni_overview = await get_request("alumni_overview");
+    this.setState({ alumni_overview });
+
     let reviews = await post_request("reviews", { verified: true, limit: 12 });
     this.setState({ reviews });
 
@@ -40,13 +41,21 @@ class Student_reviews extends React.Component {
 
   render() {
     let { no_gray } = this.props;
-    let { reviews, add_review } = this.state;
+    let { reviews, add_review, alumni_overview } = this.state;
+
+    if (!alumni_overview && reviews && !reviews.length) return;
 
     return (
       <section className={no_gray ? "" : `gray`}>
         <div className="container">
           <div className="row mb-3">
-            <div className="col-lg-6 col-md-6 col-sm-12 align-items-center d-flex">
+            <div
+              className={`col-lg-${alumni_overview ? "6" : "12"} col-md-${
+                alumni_overview ? "6" : "12"
+              } ${
+                alumni_overview ? "" : "justify-content-center"
+              } col-sm-12 align-items-center d-flex`}
+            >
               <div className="">
                 <h2>
                   Our <span className="theme-cl">Testimonials</span>
@@ -58,28 +67,30 @@ class Student_reviews extends React.Component {
                 <br />
               </div>
             </div>
-            <Col lg={6} md={6} sm={12} className="align-items-center">
-              <Video url={alan} thumbnail={logo} />
-            </Col>
+            {alumni_overview ? (
+              <Col lg={6} md={6} sm={12} className="align-items-center">
+                <Video
+                  url={`${domain}/Videos/${alumni_overview.video}`}
+                  thumbnail={alumni_overview.thumbnail}
+                />
+              </Col>
+            ) : null}
           </div>
           {add_review ? (
             <Add_student_review toggle={this.toggle_add_review} />
           ) : null}
           <div className="row justify-content-center">
-            <div className="col-xl-12 col-lg-12 col-sm-12">
-              {reviews ? (
-                reviews && !reviews.length ? null : (
-                  <div className="reviews-slide space">
-                    {reviews.map((review, index) => (
-                      <Review review={review} key={index} />
-                    ))}
-                  </div>
-                )
-              ) : (
-                <Loadindicator contained />
-              )}
-            </div>
+            {reviews ? (
+              reviews && !reviews.length ? null : (
+                reviews.map((review, index) => (
+                  <Review testimonials review={review} key={index} />
+                ))
+              )
+            ) : (
+              <Loadindicator contained />
+            )}
           </div>
+
           {reviews && reviews.length ? (
             <Explore_more_btn title="Testimonies" to={"/testimonials"} />
           ) : null}

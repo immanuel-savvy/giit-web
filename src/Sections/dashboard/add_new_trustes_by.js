@@ -23,14 +23,12 @@ class Add_new_trusted_by extends React.Component {
 
   add = async () => {
     let { logo, url, name } = this.state;
-    console.log("me");
 
     let org = { logo, url, name };
     let res = await post_request("add_trusted_by", org);
     org._id = res._id;
     org.created = res.created;
     org.logo = res.logo;
-    console.log(res);
 
     emitter.emit("new_trusted_by", org);
 
@@ -63,7 +61,7 @@ class Add_new_trusted_by extends React.Component {
             <div className="modal-body">
               <form className="forms_block">
                 <div className="form-group smalls">
-                  <label>Logo*</label>
+                  <label>Logo (400 x 110)*</label>
                   <div className="custom-file">
                     <input
                       type="file"

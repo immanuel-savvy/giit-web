@@ -1,12 +1,17 @@
 import React from "react";
-import { get_request } from "../Assets/js/utils/services";
+import { get_request, post_request } from "../Assets/js/utils/services";
 import Loadindicator from "../Components/loadindicator";
+import { Logged_admin } from "../Contexts";
+import { emitter } from "../Giit";
+import Curriculum_form from "./curriculum_form";
 
 class Course_curriculum extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      current_slide_index: 0,
+    };
   }
 
   tabname = "curriculum";
@@ -15,10 +20,75 @@ class Course_curriculum extends React.Component {
     let { course } = this.props;
 
     let curriculum = await get_request(`curriculum/${course._id}`);
+    if (Array.isArray(curriculum))
+      curriculum = curriculum.sort((c1, c2) => c1.created - c2.created);
+
     this.setState({ curriculum });
+
+    this.new_slide = (slide) => {
+      if (slide.course !== course._id) return;
+
+      let { curriculum } = this.state;
+      if (curriculum.find((curr) => curr.topic === slide.topic)) return;
+
+      curriculum = new Array(...curriculum, slide);
+      this.setState({ curriculum, current_slide_index: curriculum.length - 1 });
+    };
+
+    this.slide_update = (slide) => {
+      if (slide.course !== course._id) return;
+
+      let { curriculum, current_slide_index } = this.state;
+      curriculum = curriculum.map((curr, index) => {
+        if (curr._id === slide._id) {
+          current_slide_index = index;
+          return slide;
+        }
+        return curr;
+      });
+      this.setState({
+        curriculum,
+        slide_in_edit: null,
+        show_form: false,
+        current_slide_index,
+      });
+    };
+
+    emitter.listen("new_slide", this.new_slide);
+    emitter.listen("slide_update", this.slide_update);
   };
 
-  curriculum = ({ title, sections, _id }, index) => {
+  componentWillUnmount = () => {
+    emitter.remove_listener("slide_update", this.slide_update);
+    emitter.remove_listener("new_slide", this.new_slide);
+  };
+
+  remove_slide = (index) => {
+    this.setState({ current_slide_index: index }, async () => {
+      if (!window.confirm("Remove slide?")) return;
+
+      let { curriculum } = this.state;
+
+      let slide = curriculum.splice(index, 1);
+      console.log(slide, "slide removed");
+      this.setState({ curriculum });
+
+      await post_request("remove_slide", {
+        slide: slide[0]._id,
+        course: this.props.course._id,
+      });
+    });
+  };
+
+  edit_slide = (index) => {
+    let slide = this.state.curriculum[index];
+
+    this.setState({ slide_in_edit: slide, show_form: true });
+  };
+
+  curriculum = ({ topic, subtopics, _id }, index) => {
+    let { current_slide_index } = this.state;
+
     return (
       <div class="card" key={_id}>
         <div id="headingOne" class="card-header bg-white shadow-sm border-0">
@@ -26,29 +96,47 @@ class Course_curriculum extends React.Component {
             <a
               href="#"
               data-toggle="collapse"
-              data-target="#collapseOne"
-              aria-expanded="true"
-              aria-controls="collapseOne"
+              data-target={`#collapse${index}`}
+              aria-expanded={current_slide_index === index ? "true" : "false"}
+              aria-controls={`collapse${index}`}
               class="d-block position-relative text-dark collapsible-link py-2"
             >
-              {`Part ${String(index).padStart(2, "0")}: ${title}`}
+              {`Part ${String(index + 1).padStart(2, "0")}: ${topic}`}
+
+              {this.admin_logged ? (
+                <span>
+                  <a
+                    onClick={() => this.remove_slide(index)}
+                    className="btn btn-action ml-2"
+                  >
+                    <i className={`fas fa-window-close`}></i>
+                  </a>
+
+                  <a
+                    onClick={() => this.edit_slide(index)}
+                    className="btn btn-action ml-2"
+                  >
+                    <i className={`fas fa-edit`}></i>
+                  </a>
+                </span>
+              ) : null}
             </a>
           </h6>
         </div>
         <div
-          id="collapseOne"
+          id={`collapse${index}`}
           aria-labelledby="headingOne"
           data-parent="#accordionExample"
-          class="collapse show"
+          class={`collapse ${current_slide_index === index ? "show" : ""}`}
         >
           <div class="card-body pl-3 pr-3">
             <ul class="lectures_lists">
-              {sections.map(({ title, book, video }, index) => (
-                <li key={index} class="complete">
+              {subtopics.map(({ text, book, video }, index) => (
+                <li key={index} class={"incomplete" || "complete"}>
                   <div class="lectures_lists_title">
                     <i class="fas fa-check dios"></i>
                   </div>
-                  {title}
+                  {text}
                   {video ? (
                     <span class="cls_timing">40:20</span>
                   ) : book ? (
@@ -79,34 +167,55 @@ class Course_curriculum extends React.Component {
   };
 
   render() {
-    let { active_tab } = this.props;
-    let { curriculum } = this.state;
+    let { active_tab, course } = this.props;
+    let { curriculum, show_form, slide_in_edit } = this.state;
 
     return (
-      <div
-        class={`tab-pane fade ${
-          active_tab === this.tabname ? " show active" : ""
-        }`}
-        id="curriculum"
-        role="tabpanel"
-        aria-labelledby="curriculum-tab"
-      >
-        <div class="edu_wraper">
-          <h4 class="edu_title">Course Circullum</h4>
+      <Logged_admin.Consumer>
+        {({ admin_logged }) => {
+          this.admin_logged = admin_logged;
 
-          {curriculum ? (
-            curriculum.map ? (
-              <div id="accordionExample" class="accordion shadow circullum">
-                {curriculum.map((curr) => this.curriculum(curr))}
+          return (
+            <div
+              class={`tab-pane fade ${
+                active_tab === this.tabname ? " show active" : ""
+              }`}
+              id="curriculum"
+              role="tabpanel"
+              aria-labelledby="curriculum-tab"
+            >
+              <div class="edu_wraper">
+                <h4 class="edu_title">Course Circullum</h4>
+
+                {admin_logged && !show_form ? this.curriculum_btn() : null}
+
+                {show_form ? (
+                  <Curriculum_form
+                    course={course._id}
+                    slide={slide_in_edit}
+                    toggle={this.toggle_curriculum_form}
+                  />
+                ) : null}
+
+                {curriculum ? (
+                  curriculum.length ? (
+                    <div
+                      id="accordionExample"
+                      class="accordion shadow circullum"
+                    >
+                      {curriculum.map((curr, index) =>
+                        this.curriculum(curr, index)
+                      )}
+                    </div>
+                  ) : null
+                ) : (
+                  <Loadindicator contained />
+                )}
               </div>
-            ) : (
-              this.curriculum_btn()
-            )
-          ) : (
-            <Loadindicator contained />
-          )}
-        </div>
-      </div>
+            </div>
+          );
+        }}
+      </Logged_admin.Consumer>
     );
   }
 }

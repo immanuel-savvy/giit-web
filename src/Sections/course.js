@@ -5,8 +5,15 @@ import { post_request } from "../Assets/js/utils/services";
 import Handle_image_upload from "../Components/handle_image_upload";
 import Preview_image from "../Components/preview_image";
 import Video from "../Components/video";
-import { domain } from "../Constants/constants";
+import { domain, SKILL_LEVEL } from "../Constants/constants";
+import { Flash_promo } from "../Contexts";
 import { emitter } from "../Giit";
+
+const pricey = (price, percentage_off) => {
+  if (!percentage_off) return price;
+
+  return ((100 - percentage_off) / 100) * price;
+};
 
 class Featured_course extends React.Component {
   constructor(props) {
@@ -89,6 +96,11 @@ class Featured_course extends React.Component {
       short_description,
       video,
       price,
+      lectures,
+      duration,
+      skill_level,
+      instructor,
+      _id,
     } = course;
     if (!title) return null;
 
@@ -108,122 +120,203 @@ class Featured_course extends React.Component {
     if (tags) tags = tags.split(",").filter((tag) => tag);
 
     return (
-      <div
-        className={
-          classname || `col-xl-${"4"} col-lg-${"4"} col-md-6 col-sm-12`
-        }
-      >
-        <div className="crs_grid">
-          <div className="crs_grid_thumb">
-            {play ? (
-              <Video url={video} />
-            ) : (
-              <Link className="crs_detail_link" to="/course">
-                <Preview_image
-                  image={image}
-                  image_hash={image_hash}
-                  title={title}
-                  onclick={this.handle_course}
-                />
-              </Link>
-            )}
-            {video || edit_course ? (
-              <div
-                className="crs_video_ico"
-                onClick={edit_course || this.play_video}
-              >
-                <i
-                  className={`fa fa-${
-                    edit_course ? "edit" : `${play ? "pause" : "play"}`
-                  }`}
-                ></i>
-              </div>
-            ) : null}
-            {delete_course ? (
-              <div className="crs_locked_ico" onClick={delete_course}>
-                <i className={`fa fa-${delete_course ? "trash" : "lock"}`}></i>
-              </div>
-            ) : null}
-          </div>
-          <div className="crs_grid_caption" style={{ overflow: "hidden" }}>
-            <div
-              className="table-responsive-sm overfolow-hidden"
-              style={{ width: "100%" }}
-            >
-              {courses && courses.length && tags && tags.length ? (
-                <div className="mb-2 crs_cates cl_1">
-                  <span>{to_title(tags[gen_random_int(tags.length - 1)])}</span>
-                </div>
-              ) : null}
-            </div>
+      <Flash_promo.Consumer>
+        {({ flash_promo }) => {
+          this.flash_promo = flash_promo;
 
-            <div className="crs_title">
-              <h4>
-                <Link to="/course" className="crs_title_link">
-                  <span onClick={this.handle_course}>
-                    {to_title(title.trim().replace(/_/g, " "))}
-                  </span>
-                </Link>
-              </h4>
-            </div>
-            <div onClick={this.toggle_description} className="crs_info_detail">
-              {short_description ? (
-                <div style={{ flexWrap: "wrap", display: "flex" }}>
-                  {short_description
-                    .slice(
-                      0,
-                      full_desc ? short_description.length : this.padd_length
-                    )
-                    .map((d, i) =>
-                      d === "**" || d === " " ? <span key={i}>&nbsp;</span> : d
-                    )}
-                  {full_desc ? "" : "..."}
-                </div>
-              ) : null}
-            </div>
-            <div className="preview_crs_info">
-              <div className="progress">
-                <div
-                  className="progress-bar"
-                  role="progressbar"
-                  style={{ width: "100%" }}
-                  aria-valuenow={progress || 100}
-                  aria-valuemin="0"
-                  aria-valuemax="100"
-                ></div>
-              </div>
-            </div>
-          </div>
-          <div className="crs_grid_foot">
-            <div className="crs_flex">
-              <div className="crs_fl_first">
-                <div className="crs_price">
-                  <h2>
-                    <span className="currency">&#8358;</span>
-                    <span className="theme-cl">{price}</span>
-                  </h2>
-                </div>
-              </div>
-              <div className="crs_fl_last">
-                <div className="crs_linkview">
-                  <Link to={adminstrator ? "/course" : "/enroll"}>
-                    <span
-                      onClick={
-                        adminstrator ? this.handle_course : this.handle_enroll
-                      }
-                      className="btn btn_view_detail theme-bg text-light"
+          return (
+            <div
+              className={
+                classname || `col-xl-${"4"} col-lg-${"4"} col-md-6 col-sm-12`
+              }
+            >
+              <div className="crs_grid">
+                <div className="crs_grid_thumb">
+                  {play ? (
+                    <Video url={video} />
+                  ) : (
+                    <Link className="crs_detail_link" to="/course">
+                      <Preview_image
+                        image={image}
+                        image_hash={image_hash}
+                        title={title}
+                        onclick={this.handle_course}
+                      />
+                    </Link>
+                  )}
+                  {video || edit_course ? (
+                    <div
+                      className="crs_video_ico"
+                      onClick={edit_course || this.play_video}
                     >
-                      {adminstrator ? "View Course" : "Enroll Now"}
-                    </span>
-                  </Link>
+                      <i
+                        className={`fa fa-${
+                          edit_course ? "edit" : `${play ? "pause" : "play"}`
+                        }`}
+                      ></i>
+                    </div>
+                  ) : null}
+                  {delete_course ? (
+                    <div className="crs_locked_ico" onClick={delete_course}>
+                      <i
+                        className={`fa fa-${delete_course ? "trash" : "lock"}`}
+                      ></i>
+                    </div>
+                  ) : null}
+                </div>
+                <div className="crs_grid_caption">
+                  {instructor ? (
+                    <div className="crs_tutor_thumb overl_top">
+                      <Link to={`/courses?instructor=${instructor._id}`}>
+                        <Preview_image
+                          image={instructor.image}
+                          image_hash={instructor.image_hash}
+                          class_name="img-fluid circle"
+                          no_preview
+                        />
+                      </Link>
+                    </div>
+                  ) : null}
+                  <div
+                    className="table-responsive-sm overfolow-hidden"
+                    style={{ width: "100%" }}
+                  >
+                    {courses && courses.length && tags && tags.length ? (
+                      <div className="mb-4 crs_cates cl_1">
+                        <span>
+                          {to_title(tags[gen_random_int(tags.length - 1)])}
+                        </span>
+                      </div>
+                    ) : null}
+                  </div>
+
+                  <div className="crs_title">
+                    <h4>
+                      <Link to="/course" className="crs_title_link">
+                        <span onClick={this.handle_course}>
+                          {to_title(title.trim().replace(/_/g, " "))}
+                        </span>
+                      </Link>
+                    </h4>
+                  </div>
+                  <div
+                    onClick={this.toggle_description}
+                    className="crs_info_detail"
+                  >
+                    {short_description ? (
+                      <div style={{ flexWrap: "wrap", display: "flex" }}>
+                        {short_description
+                          .slice(
+                            0,
+                            full_desc
+                              ? short_description.length
+                              : this.padd_length
+                          )
+                          .map((d, i) =>
+                            d === "**" || d === " " ? (
+                              <span key={i}>&nbsp;</span>
+                            ) : (
+                              d
+                            )
+                          )}
+                        {full_desc ? "" : "..."}
+                      </div>
+                    ) : null}
+
+                    <ul className="mt-2">
+                      {duration ? (
+                        <li>
+                          <i class="fa fa-calendar text-danger mr-2"></i>
+                          <span>{`${duration} Weeks`}</span>
+                        </li>
+                      ) : null}
+                      {lectures ? (
+                        <li>
+                          <i class="fa fa-video text-success mx-2"></i>
+                          <span>{`${lectures} Lectures`}</span>
+                        </li>
+                      ) : null}
+                      {
+                        <li>
+                          <i class="fa fa-th text-success ml-2"></i>
+                          <span>
+                            {to_title(
+                              `${
+                                skill_level ||
+                                SKILL_LEVEL[
+                                  gen_random_int(SKILL_LEVEL.length - 1)
+                                ]
+                              }`.split(" ")[0]
+                            )}
+                          </span>
+                        </li>
+                      }
+                    </ul>
+                  </div>
+
+                  <div className="preview_crs_info">
+                    <div className="progress">
+                      <div
+                        className="progress-bar"
+                        role="progressbar"
+                        style={{ width: "100%" }}
+                        aria-valuenow={progress || 100}
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+                <div className="crs_grid_foot">
+                  <div className="crs_flex">
+                    <div className="crs_fl_first">
+                      <div className="crs_price">
+                        {this.flash_promo ? (
+                          <span>
+                            <em className="currency">&#8358;</em>
+                            <em
+                              style={{ textDecoration: "line-through" }}
+                              className="theme-cl"
+                            >
+                              {price}
+                            </em>
+                          </span>
+                        ) : null}
+
+                        <h2>
+                          <span className="currency">&#8358;</span>
+                          <span className="theme-cl">
+                            {pricey(price, flash_promo?.percentage_off)}
+                          </span>
+                        </h2>
+                      </div>
+                    </div>
+                    <div className="crs_fl_last">
+                      <div className="crs_linkview">
+                        <Link to={adminstrator ? "/course" : "/enroll"}>
+                          <span
+                            onClick={
+                              adminstrator
+                                ? this.handle_course
+                                : this.handle_enroll
+                            }
+                            className="btn btn_view_detail theme-bg text-light"
+                          >
+                            {adminstrator ? "View Course" : "Enroll Now"}
+                          </span>
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
+          );
+        }}
+      </Flash_promo.Consumer>
     );
   }
 }
 
 export default Featured_course;
+export { pricey };

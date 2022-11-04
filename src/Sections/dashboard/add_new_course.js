@@ -3,8 +3,9 @@ import { Link } from "react-router-dom";
 import { to_title } from "../../Assets/js/utils/functions";
 import { get_request, post_request } from "../../Assets/js/utils/services";
 import Handle_image_upload from "../../Components/handle_image_upload";
+import Listempty from "../../Components/list_empty";
 import Loadindicator from "../../Components/loadindicator";
-import { domain } from "../../Constants/constants";
+import { domain, SKILL_LEVEL } from "../../Constants/constants";
 import { emitter } from "../../Giit";
 import Dashboard_breadcrumb from "./dashboard_breadcrumb";
 
@@ -39,11 +40,13 @@ class Add_new_course extends Handle_image_upload {
     let course_sections = await get_request("sections/all");
     let master_courses_options = await get_request("master_courses/all");
     let course_certifications = await get_request("certifications");
+    let instructors = await get_request("instructors");
 
     this.setState({
       course_sections,
       master_courses_options,
       course_certifications,
+      instructors,
     });
   };
 
@@ -255,6 +258,8 @@ class Add_new_course extends Handle_image_upload {
       requirement_in_edit,
       requirement_index,
       learn_index,
+      instructors,
+      duration,
     } = this.state;
 
     return (
@@ -268,6 +273,32 @@ class Add_new_course extends Handle_image_upload {
         role="tabpanel"
         aria-labelledby="v-pills-meta_info-tab"
       >
+        <div className="form-group smalls">
+          <label>Instructor</label>
+          {instructors ? (
+            instructors.length ? (
+              <div className="simple-input">
+                <select
+                  id="instructor"
+                  onChange={this.set_instructor}
+                  className="form-control"
+                >
+                  <option value="">-- Choose Instructor --</option>
+                  {instructors.map((instructor) => (
+                    <option key={instructor._id} value={instructor._id}>
+                      {to_title(instructor.name.replace(/_/g, " "))}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            ) : (
+              <Listempty text="Cannot get instructors." />
+            )
+          ) : (
+            <Loadindicator />
+          )}
+        </div>
+
         {course_certifications && course_certifications.length ? (
           <div className="form-group smalls">
             <label>Course Certifications</label>
@@ -288,6 +319,17 @@ class Add_new_course extends Handle_image_upload {
             </div>
           </div>
         ) : null}
+
+        <div className="form-group smalls">
+          <label>Course Duration (weeks)</label>
+          <input
+            type="number"
+            className="form-control"
+            placeholder="Type requirement"
+            value={duration}
+            onChange={({ target }) => this.setState({ duration: target.value })}
+          />
+        </div>
 
         <div className="form-group smalls">
           <label>Requirements</label>
@@ -375,6 +417,24 @@ class Add_new_course extends Handle_image_upload {
             </ul>
           </div>
         ) : null}
+
+        <div className="form-group smalls">
+          <label>Skill Level</label>
+          <div className="simple-input">
+            <select
+              id="skill_level"
+              onChange={this.set_skill_level}
+              className="form-control"
+            >
+              <option value="">-- Select Skill Level --</option>
+              {SKILL_LEVEL.map((skill_level) => (
+                <option key={skill_level} value={skill_level}>
+                  {to_title(skill_level.replace(/_/g, " "))}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
       </div>
     );
   };
@@ -508,7 +568,7 @@ class Add_new_course extends Handle_image_upload {
         onChange={() => this.handle_check(_id, "master_courses")}
       />
       <label for={_id} className="checkbox-custom-label">
-        {to_title(title)}
+        {to_title(title.replace(/_/g, " "))}
       </label>
     </div>
   );
@@ -524,7 +584,7 @@ class Add_new_course extends Handle_image_upload {
         onChange={() => this.handle_check(_id, "sections")}
       />
       <label for={_id} className="checkbox-custom-label">
-        {to_title(title)}
+        {to_title(title.replace(/_/g, " "))}
       </label>
     </div>
   );
@@ -587,7 +647,7 @@ class Add_new_course extends Handle_image_upload {
         </div>
 
         <div className="form-group smalls">
-          <label>Image *</label>
+          <label>Image (1200 x 800)*</label>
           <div className="custom-file">
             <input
               type="file"
@@ -616,7 +676,7 @@ class Add_new_course extends Handle_image_upload {
         </div>
 
         <div className="form-group smalls">
-          <label>Banner Image *</label>
+          <label>Banner Image (1920 x 1200)*</label>
           <div className="custom-file">
             <input
               type="file"
@@ -649,6 +709,20 @@ class Add_new_course extends Handle_image_upload {
     );
   };
 
+  set_skill_level = ({ target }) =>
+    this.setState({ skill_level: target.value });
+
+  set_instructor = ({ target }) => {
+    let { instructors } = this.state;
+
+    this.setState({
+      instructor: target.value,
+      instructor_full: instructors.find(
+        (instruct) => instruct._id === target.value
+      ),
+    });
+  };
+
   on_finish = async () => {
     this.setState({ uploading_course: true });
     let {
@@ -667,6 +741,10 @@ class Add_new_course extends Handle_image_upload {
       banner_image,
       image_hash,
       banner_image_hash,
+      instructor,
+      skill_level,
+      duration,
+      instructor_full,
     } = this.state;
     let course = {
       short_description,
@@ -680,6 +758,9 @@ class Add_new_course extends Handle_image_upload {
       image_hash,
       banner_image_hash,
       banner_image,
+      instructor,
+      skill_level,
+      duration,
     };
     if (what_you_will_learn.length)
       course.what_you_will_learn = what_you_will_learn;
@@ -702,7 +783,10 @@ class Add_new_course extends Handle_image_upload {
     if (response?._id) {
       this.setState({ new_course: course });
 
-      emitter.emit(_id ? "course_updated" : "new_course", course);
+      emitter.emit(_id ? "course_updated" : "new_course", {
+        ...course,
+        instructor: instructor_full,
+      });
       this.reset_state();
     }
   };

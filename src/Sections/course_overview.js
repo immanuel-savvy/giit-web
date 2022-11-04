@@ -48,23 +48,9 @@ class Course_overview extends React.Component {
         </div>
 
         {certifications && certifications.length ? (
-          <div class="edu_wraper">
-            <h4 class="edu_title">Certification</h4>
+          <div>
+            <h4 class="edu_title">Certifications</h4>
             <Certification_courses certifications={certifications} />
-            {/* <p>
-              At vero eos et accusamus et iusto odio dignissimos ducimus qui
-              blanditiis praesentium voluptatum deleniti atque corrupti quos
-              dolores et quas molestias excepturi sint occaecati cupiditate non
-              provident, similique sunt in culpa qui officia deserunt mollitia
-              animi, id est laborum et dolorum fuga. Et harum quidem rerum
-              facilis est et expedita distinctio.
-            </p>
-            <p>
-              Aperiam, eaque ipsa quae ab illo inventore veritatis et quasi
-              architecto. Sam voluptatem quia voluptas sit aspernatur aut odit
-              aut fugit, sed quia consequuntur magni dolores eos qui ratione
-              voluptatem sequi nesciunt.
-            </p> */}
           </div>
         ) : null}
 

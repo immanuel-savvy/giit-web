@@ -83,7 +83,7 @@ class Add_service_form extends React.Component {
             <div className="modal-body">
               <form className="forms_block">
                 <div className="form-group smalls">
-                  <label>Image*</label>
+                  <label>Image (400 x 400)*</label>
                   <div className="custom-file">
                     <input
                       type="file"

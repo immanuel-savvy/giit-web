@@ -8,9 +8,7 @@ class Header extends React.Component {
     this.state = {};
   }
 
-  componentDidMount = () => {
-    console.log(this.refs?.nav.forceUpdate());
-  };
+  componentDidMount = () => {};
 
   render() {
     let { page, navs, lock } = this.props;

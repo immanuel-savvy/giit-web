@@ -16,6 +16,10 @@ import Associates from "../Sections/associates";
 import Services from "../Sections/services";
 import Student_reviews from "../Sections/student_reviews";
 import Login from "./Login";
+import Flash_promo from "../Sections/flash_promo";
+import Best_instructors from "../Sections/best_instructors";
+import Onboarding_steps from "../Sections/onboarding_steps";
+import Faqs from "../Sections/faqs";
 
 const sections_alignment = new Array("degree", "master", "professional");
 
@@ -28,9 +32,7 @@ class Index extends React.Component {
 
   componentDidMount = async () => {
     let sections = await get_request("sections/all");
-    sections &&
-      sections.push &&
-      sections.push("master_course", "combo", "certification");
+    sections && sections.push && sections.push("master_course", "combo");
 
     sections = sections.sort((s1, s2) => {
       let s1_index = sections_alignment.findIndex((m) =>
@@ -50,7 +52,8 @@ class Index extends React.Component {
 
   render = () => {
     let { sections } = this.state;
-    let { navs } = this.props;
+    let { navs, banner_stuffs, onboarding_stuffs, best_instructors_stuffs } =
+      this.props;
 
     return (
       <Logged_user.Consumer>
@@ -64,16 +67,12 @@ class Index extends React.Component {
           ) : (
             <div id="main-wrapper">
               <Header navs={navs} />
-              <Banner />
+              <Banner banner_stuffs={banner_stuffs} />
               <Associates />
               {sections && sections.map ? (
                 sections.map((section, index) => {
                   if (section === "combo")
                     return <Combo_courses gray={!!(index % 2)} key={index} />;
-                  else if (section === "certification")
-                    return (
-                      <Certification_courses gray={!!(index % 2)} key={index} />
-                    );
                   else if (section === "master_course")
                     return <Master_courses gray={!!(index % 2)} key={index} />;
                   else
@@ -88,10 +87,20 @@ class Index extends React.Component {
               ) : (
                 <Loadindicator contained />
               )}
+              <Flash_promo />
+              <Certification_courses gray={true} />
+              <Best_instructors
+                best_instructors_stuffs={best_instructors_stuffs}
+              />
+              <Onboarding_steps
+                // gray={!!best_instructors_stuffs}
+                onboarding_stuffs={onboarding_stuffs}
+              />
 
               <Student_reviews />
               <Latest_news_and_articles />
               <Services />
+              <Faqs limit={6} />
               <Contact_us_today />
               <Footer />
             </div>

@@ -12,6 +12,7 @@ class Dashboard_stats extends React.Component {
 
   componentDidMount = async () => {
     let stats = await get_request("stats");
+
     this.setState({ stats });
   };
 
@@ -19,6 +20,7 @@ class Dashboard_stats extends React.Component {
     courses: "fa-book",
     students: "fa-users",
     enrollments: "fa-gem",
+    instructors: "fa-users",
   };
 
   format_figure = (figure) => figure;

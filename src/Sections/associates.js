@@ -19,23 +19,19 @@ class Ratings extends React.Component {
     let { ratings } = this.state;
 
     return (
-      <section className="p-0">
-        <div className="container">
-          <div className="row justify-content-center">
-            <div className="col-lg-12 col-md-12 col-sm-12">
-              <div className="crp_box sm ovr_top">
-                <div className="row align-items-center m-0">
-                  <div className="col-xl-2 col-lg-3 col-md-4 col-sm-12">
-                    <div className="crt_169">
-                      <img
-                        src={`${domain}/Images/ncc_with_giit_africa.png`}
-                        className="img-fluid"
-                        alt=""
-                      />
+      <section class="p-0">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <div class="crp_box ovr_top">
+                <div class="row align-items-center m-0">
+                  <div class="col-xl-2 col-lg-3 col-md-4 col-sm-12">
+                    <div class="crp_tags">
+                      <h6>{`Vast array of courses in one place`}</h6>
                     </div>
                   </div>
-                  <div className="col-xl-10 col-lg-9 col-md-8 col-sm-12">
-                    <div className="part_rcp">
+                  <div class="col-xl-10 col-lg-9 col-md-8 col-sm-12">
+                    <div class="part_rcp">
                       <ul>
                         {ratings.map((rating, index) => (
                           <li key={index}>

@@ -65,6 +65,7 @@ class Add_student_review extends React.Component {
   };
 
   render() {
+    let { toggle } = this.props;
     let { name, email, text, image, organisation, position, posting } =
       this.state;
 
@@ -72,6 +73,7 @@ class Add_student_review extends React.Component {
       <div className="row justify-content-center">
         <div class="edu_wraper">
           <h4 class="edu_title">Submit Reviews</h4>
+
           <div class="review-form-box form-submit">
             <form>
               <div class="row">

@@ -3251,11 +3251,14 @@ span.esli_vd {
   left: 0;
   background-size: cover !important;
   background-position: 50% 50% !important;
-  background: #252525;
+  /* background: #252525; */
   right: 0;
 }
 .background-image-holder img {
-  display: none;
+  /* display: none; */
+  background-size: cover !important;
+  background-position: 50% 50% !important;
+  background-size: contain;
 }
 .imageblock .imageblock__content.left {
   left: 0;
@@ -8534,18 +8537,28 @@ footer.skin-dark-footer ul.footer-bottom-social li a:focus {
 /* My Style */
 
 .my_header_style {
-  color: blueviolet !important;
+  color: #000b47 !important;
 }
 .my_header_style_init {
   background-color: #000b47 !important;
   color: #fff !important;
 }
+
+.my_header_style_init span {
+  color: #fff !important;
+}
+
 .my_header_style {
   background-color: #fff !important;
-  color: blueviolet !important;
+  color: #000b47 !important;
 }
+
+.my_header_style span {
+  color: #000b47 !important;
+}
+
 .my_header_style ul.nav-menu li {
-  color: blueviolet !important;
+  color: #000b47 !important;
 }
 
 .combo_hover {

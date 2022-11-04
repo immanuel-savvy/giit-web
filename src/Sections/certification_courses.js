@@ -15,7 +15,7 @@ class Certification_courses extends React.Component {
 
     let certifications =
       cert_ids && cert_ids.length
-        ? await post_request("get_certifications", cert_ids)
+        ? await post_request("get_certifications", { cert_ids })
         : await get_request("certifications");
 
     this.setState({ certifications });
@@ -28,38 +28,32 @@ class Certification_courses extends React.Component {
     if (certifications && !certifications.length) return null;
 
     return (
-      <section
-        className={gray ? `gray` : ""}
-        style={{
-          background: "linear-gradient(#33bef0, #0a85d9)",
-        }}
-      >
+      <section className={(cert_ids && cert_ids.length) || gray ? `gray` : ""}>
         <div className="container">
           {cert_ids && cert_ids.length ? null : (
-            <div className="row justify-content-center">
-              <div className="col-lg-7 col-md-8">
-                <div className="sec-heading center">
-                  <h2 className="text-light">Certification Courses</h2>
-                  {subtitle ? <p>{subtitle}</p> : null}
+            <div class="row justify-content-center">
+              <div class="col-lg-7 col-md-8">
+                <div class="sec-heading center">
+                  <h2>
+                    Explore Courses by{" "}
+                    <span class="theme-cl">Certifications</span>
+                  </h2>
+                  <p></p>
                 </div>
               </div>
             </div>
           )}
-          <div className="row justify-content-center rounded">
-            <div className="col-xl-12 col-lg-12 col-sm-12 rounded">
-              {certifications ? (
-                <div className="certification-slide space">
-                  {certifications.map((certification) => (
-                    <Certification_course
-                      key={certification._id}
-                      certification={certification}
-                    />
-                  ))}
-                </div>
-              ) : (
-                <Loadindicator contained />
-              )}
-            </div>
+          <div class="row justify-content-center">
+            {certifications ? (
+              certifications.map((certification) => (
+                <Certification_course
+                  key={certification._id}
+                  certification={certification}
+                />
+              ))
+            ) : (
+              <Loadindicator contained />
+            )}
           </div>
         </div>
       </section>

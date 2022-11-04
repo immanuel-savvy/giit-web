@@ -4,6 +4,8 @@ import Loadindicator from "../Components/loadindicator";
 import Breadcrumb from "../Sections/breadcrumb";
 import Footer from "../Sections/footer";
 import Header from "../Sections/header";
+import Student_reviews from "../Sections/student_reviews";
+import { scroll_to_top } from "./Adminstrator";
 
 class Contact extends React.Component {
   constructor(props) {
@@ -11,6 +13,10 @@ class Contact extends React.Component {
 
     this.state = {};
   }
+
+  componentDidMount = () => {
+    scroll_to_top();
+  };
 
   send_message = async () => {
     let { text, name, phone, email, organisation, sending, interest } =
@@ -51,7 +57,7 @@ class Contact extends React.Component {
                 <div className="form-group">
                   <h4>We'd love to here from you</h4>
                   <span>
-                    Send a message and we'll responed as soos as possible{" "}
+                    Send a message and we'll responed as soon as possible{" "}
                   </span>
                 </div>
                 <div className="row">
@@ -255,6 +261,7 @@ class Contact extends React.Component {
             </div>
           </div>
         </section>
+        <Student_reviews />
         <Footer />
       </div>
     );

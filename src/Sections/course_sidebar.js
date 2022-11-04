@@ -1,8 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { gen_random_int, to_title } from "../Assets/js/utils/functions";
 import Video from "../Components/video";
-import { domain } from "../Constants/constants";
+import { domain, SKILL_LEVEL } from "../Constants/constants";
+import { Flash_promo } from "../Contexts";
 import { emitter } from "../Giit";
+import { pricey } from "./course";
 
 class Course_sidebar extends React.Component {
   constructor(props) {
@@ -23,45 +26,113 @@ class Course_sidebar extends React.Component {
   render() {
     let { show_full } = this.state;
     let { course, cummulative_price } = this.props;
-    let { image, video, price, short_description } = course;
+    let {
+      image,
+      video,
+      enrollments,
+      duration,
+      lectures,
+      skill_level,
+      price,
+      short_description,
+    } = course;
     price = price || cummulative_price || 0;
 
     return (
-      <div className="col-lg-4 col-md-12 order-lg-last">
-        <div className="ed_view_box style_3 ovrlio stick_top">
-          <Video
-            thumbnail_class="pro_img img-fluid w100"
-            thumbnail={`${domain}/Images/${image}`}
-            url={video}
-          />
+      <Flash_promo.Consumer>
+        {({ flash_promo }) => {
+          return (
+            <div className="col-lg-4 col-md-12 order-lg-last">
+              <div className="ed_view_box style_3 ovrlio stick_top">
+                <Video
+                  thumbnail_class="pro_img img-fluid w100"
+                  thumbnail={`${domain}/Images/${image}`}
+                  url={video}
+                />
 
-          <div className="ed_view_price pl-4">
-            <span>Actual Price</span>
-            <h2 className="theme-cl">&#8358; {Number(price).toFixed(2)}</h2>
-          </div>
+                <div className="d-flex">
+                  <div className="ed_view_price pl-4">
+                    <span>Actual Price</span>
+                    {flash_promo ? (
+                      <em
+                        style={{ textDecoration: "line-through" }}
+                        className="theme-cl h4"
+                      >
+                        <br />
+                        &#8358; {Number(price).toFixed(2)}
+                      </em>
+                    ) : (
+                      <h2 className="theme-cl">
+                        &#8358; {Number(price).toFixed(2)}
+                      </h2>
+                    )}
+                  </div>
 
-          <div
-            onClick={this.toggle_short_description}
-            className="ed_view_short pl-4 pr-4 pb-2"
-          >
-            <p>
-              {show_full
-                ? short_description
-                : `${short_description.slice(0, 150)}...`}
-            </p>
-          </div>
-          <div className="ed_view_link">
-            <Link to="/enroll">
-              <span
-                onClick={this.handle_enroll}
-                className="btn theme-bg enroll-btn"
-              >
-                Enroll Now<i className="ti-angle-right"></i>
-              </span>
-            </Link>
-          </div>
-        </div>
-      </div>
+                  {flash_promo ? (
+                    <div className="ed_view_price pl-4">
+                      <span>Promo Price</span>
+                      <h2 className="theme-cl">
+                        &#8358;{" "}
+                        {Number(
+                          pricey(price, flash_promo.percentage_off)
+                        ).toFixed(2)}
+                      </h2>
+                    </div>
+                  ) : null}
+                </div>
+                <div
+                  onClick={this.toggle_short_description}
+                  className="ed_view_short pl-4 pr-4 pb-2"
+                >
+                  <p>
+                    {show_full
+                      ? short_description
+                      : `${short_description.slice(0, 150)}...`}
+                  </p>
+                </div>
+
+                <div class="ed_view_features half_list pl-4 pr-3">
+                  <span>Course Features</span>
+                  <ul>
+                    <li>
+                      <i class="fa fa-gem"></i>
+                      {`${enrollments || 0} Enrollments`}
+                    </li>
+                    <li>
+                      <i class="ti-time"></i>
+                      {`${duration || 12} Weeks`}
+                    </li>
+                    <li>
+                      <i class="fa fa-users"></i>
+                      {`${lectures || 13} Lectures`}
+                    </li>
+                    <li>
+                      <i class="ti-bar-chart-alt"></i>
+                      {to_title(
+                        `${
+                          skill_level ||
+                          SKILL_LEVEL[gen_random_int(SKILL_LEVEL.length)]
+                        }`
+                      )}
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="ed_view_link">
+                  <Link to="/enroll" style={{ textDecorationLine: "none" }}>
+                    <span
+                      onClick={this.handle_enroll}
+                      className="btn theme-bg enroll-btn"
+                    >
+                      Enroll Now<i className="ti-angle-right"></i>
+                    </span>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          );
+        }}
+      </Flash_promo.Consumer>
     );
   }
 }

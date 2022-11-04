@@ -21,7 +21,7 @@ class Services extends React.Component {
     if (services && !services.length) return null;
 
     return (
-      <section className={bg === "light" ? "" : "gray"}>
+      <section id="services" className={bg === "light" ? "" : "gray"}>
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-lg-7 col-md-8">

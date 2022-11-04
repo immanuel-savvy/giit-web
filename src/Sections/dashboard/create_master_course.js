@@ -177,7 +177,7 @@ class Add_master_course extends Handle_image_upload {
             <div className="modal-body">
               <form className="forms_block">
                 <div className="form-group smalls">
-                  <label>Image*</label>
+                  <label>Image (1200 x 800)*</label>
                   <div className="custom-file">
                     <input
                       type="file"

@@ -436,7 +436,7 @@ $(function () {
       $("#fixed_socials").fadeIn();
     } else {
       $("#back2Top").fadeOut();
-      $("#logo_blue")[0].style.display = "none";
+      $("#logo_blue")[0]?.style.display = "none";
       $("#logo_white")[0].style.display = "inline";
       $("#fixed_socials").fadeOut();
     }

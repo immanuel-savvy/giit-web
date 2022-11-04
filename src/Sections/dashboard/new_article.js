@@ -104,7 +104,7 @@ class New_article extends Handle_image_upload {
         <div class="row">
           <form className="forms_block">
             <div className="form-group smalls">
-              <label>Image*</label>
+              <label>Image (1200 x 800)*</label>
               <div className="custom-file">
                 <input
                   type="file"
