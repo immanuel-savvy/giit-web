@@ -125,6 +125,8 @@ class Faqs extends React.Component {
     let { admin, paged } = this.props;
     let { faqs } = this.state;
 
+    if (faqs && !faqs.length) return null;
+
     return (
       <section>
         <div class="container">

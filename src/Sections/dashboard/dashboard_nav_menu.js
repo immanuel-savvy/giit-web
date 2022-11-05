@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { to_title } from "../../Assets/js/utils/functions";
 import { default_admin } from "../../Constants/constants";
 import { emitter } from "../../Giit";
@@ -54,6 +53,17 @@ class Dashboard_nav_menu extends React.Component {
           ),
         },
         { title: "gallery", icon: "fa-image" },
+        {
+          title: "careers",
+          icon: "fa-image",
+          subnav: new Array(
+            {
+              title: "career_page",
+            },
+            { title: "manage_work_benefits" },
+            { title: "manage_vacancies" }
+          ),
+        },
         {
           title: "blog",
           icon: "fa-th",
@@ -122,52 +132,70 @@ class Dashboard_nav_menu extends React.Component {
       emitter.emit("dash_nav_click", subtitle)
     );
 
-  render_nav = ({ title, icon, subnav }, i) => {
-    let { current_nav } = this.state;
+  render_nav = ({ title, icon, subnav }, index) => {
+    let { current_nav, current_slide_index } = this.state;
 
     return subnav ? (
-      <li
-        key={i}
-        className={`${current_nav === title ? "active dropdown" : "dropdown"}`}
-      >
-        <a href="javascript:void(0);">
-          <i className={`fas ${icon}`}></i>
-          {to_title(title.replace(/_/g, " "))}
-          <span className="ti-angle-left"></span>
-        </a>
-        <ul className={`nav nav-second-level`}>
-          {subnav.map((sub) => (
-            <li>
-              <Link onClick={() => this.nav_sub_click(sub.title)}>
-                {to_title(sub.title.replace(/_/g, " "))}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </li>
+      <div>
+        <div id="headingOne" class="card-header bg-white shadow-sm border-0">
+          <h6 class="m-2 accordion_title">
+            <a
+              href="#"
+              data-toggle="collapse"
+              data-target={`#collapse${index}`}
+              aria-expanded={current_slide_index === index ? "true" : "false"}
+              aria-controls={`collapse${index}`}
+              class="d-block position-relative text-dark collapsible-link py-2"
+            >
+              {`${title}`}
+            </a>
+          </h6>
+        </div>
+        <div
+          id={`collapse${index}`}
+          aria-labelledby="headingOne"
+          data-parent="#accordionExample"
+          class={`collapse ${current_slide_index === index ? "show" : ""}`}
+          style={{ margin: 0, marginLeft: 0, padding: 0, paddingRight: 0 }}
+        >
+          <div>
+            {subnav.map(({ title }, index) => (
+              <li
+                style={{ flexWrap: "wrap", padding: 10, cursor: "pointer" }}
+                key={index}
+                class={"incomplete" || "complete"}
+                onClick={() => this.nav_dash(title)}
+              >
+                {to_title(title.replace(/_/g, " "))}
+              </li>
+            ))}
+          </div>
+        </div>
+      </div>
     ) : (
-      <li className={`${current_nav === title ? "active" : ""}`}>
-        <Link onClick={() => this.nav_click(title)}>
-          <i className={`fas ${icon}`}></i>
-          {to_title(title.replace(/_/g, " "))}
-        </Link>
-      </li>
+      <h6
+        class="p-2"
+        style={{ cursor: "pointer" }}
+        onClick={() => this.nav_dash(title)}
+      >
+        <a class="d-block position-relative text-dark py-2">{`${title}`}</a>
+      </h6>
     );
   };
+
+  nav_dash = (title) => emitter.emit("dash_nav_click", title);
 
   render = () => {
     let { admin } = this.props;
     let { navs } = this.state;
 
     return (
-      <div className="d-navigation">
-        <ul id="side-menu">
-          {navs.map((nav, i) =>
-            admin && admin._id !== default_admin && nav.title === "admins"
-              ? null
-              : this.render_nav(nav, i)
-          )}
-        </ul>
+      <div id="accordionExample" class="accordion shadow circullum">
+        {navs.map((nav, i) =>
+          admin && admin._id !== default_admin && nav.title === "admins"
+            ? null
+            : this.render_nav(nav, i)
+        )}
       </div>
     );
   };

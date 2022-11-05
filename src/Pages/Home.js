@@ -20,6 +20,8 @@ import Flash_promo from "../Sections/flash_promo";
 import Best_instructors from "../Sections/best_instructors";
 import Onboarding_steps from "../Sections/onboarding_steps";
 import Faqs from "../Sections/faqs";
+import Modal from "../Components/modal";
+import Subscribe from "../Components/subscribe";
 
 const sections_alignment = new Array("degree", "master", "professional");
 
@@ -48,6 +50,9 @@ class Index extends React.Component {
     });
 
     this.setState({ sections });
+
+    if (!window.localStorage.getItem("ask_to_subscribe"))
+      this.subscribe?.setState({ show: true });
   };
 
   render = () => {
@@ -92,10 +97,7 @@ class Index extends React.Component {
               <Best_instructors
                 best_instructors_stuffs={best_instructors_stuffs}
               />
-              <Onboarding_steps
-                // gray={!!best_instructors_stuffs}
-                onboarding_stuffs={onboarding_stuffs}
-              />
+              <Onboarding_steps onboarding_stuffs={onboarding_stuffs} />
 
               <Student_reviews />
               <Latest_news_and_articles />
@@ -103,6 +105,18 @@ class Index extends React.Component {
               <Faqs limit={6} />
               <Contact_us_today />
               <Footer />
+
+              <Modal
+                style={{ backgroundColor: "#000b47" }}
+                title="Subscribe to our newletters."
+                on_hide={() =>
+                  window.localStorage.setItem("ask_to_subscribe", "true")
+                }
+                aria_labelled_by="contained-modal-title-vcenter"
+                ref={(subscribe) => (this.subscribe = subscribe)}
+              >
+                <Subscribe toggle={() => this.subscribe?.toggle()} />
+              </Modal>
             </div>
           );
         }}

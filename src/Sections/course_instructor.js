@@ -8,7 +8,6 @@ class Course_instructor extends React.Component {
   }
 
   render() {
-    let { course } = this.props;
     return (
       <div
         class="tab-pane fade"

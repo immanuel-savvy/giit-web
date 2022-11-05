@@ -1,6 +1,5 @@
 import React from "react";
 import { domain } from "../Constants/constants";
-import Preview_image from "./preview_image";
 import Video from "./video";
 
 class Media extends React.Component {

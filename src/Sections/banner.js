@@ -30,7 +30,7 @@ class Banner extends React.Component {
         }}
         data-overlay="1"
       >
-        <Container style={{ height: 300 }}>
+        <Container style={{ height: 400, overflow: "auto" }} id="banner_video">
           <Row className="align-items-center mb-2">
             <Col xl={6} lg={6} md={6} sm={12}>
               <div
@@ -69,6 +69,7 @@ class Banner extends React.Component {
               style={{
                 display: thumbnail ? "inline" : "none",
                 overflow: "hidden",
+                height: "2%",
               }}
               xl={6}
               lg={6}
@@ -80,6 +81,7 @@ class Banner extends React.Component {
                   url={`${domain}/Videos/${video}`}
                   thumbnail={thumbnail}
                   thumbnail_hash={thumbnail_hash}
+                  style={{ height: "2%", overflow: "hidden" }}
                 />
               ) : null}
             </Col>

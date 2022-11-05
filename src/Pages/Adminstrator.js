@@ -38,6 +38,9 @@ import Manage_gallery from "../Sections/dashboard/manage_gallery";
 import Manage_onboarding from "../Sections/dashboard/manage_onboarding";
 import Manage_best_instructors_section from "../Sections/dashboard/manage_best_instructors_section";
 import Manage_faqs from "../Sections/dashboard/manage_faqs";
+import Career_page from "../Sections/dashboard/career_page";
+import Manage_work_benefits from "../Sections/dashboard/manage_work_benefits";
+import Manage_vacancies from "../Sections/dashboard/manage_vacancies";
 
 const scroll_to_top = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
@@ -119,6 +122,9 @@ class Adminstrator extends React.Component {
       gallery: <Manage_gallery />,
       onboarding: <Manage_onboarding />,
       FAQs: <Manage_faqs />,
+      career_page: <Career_page />,
+      manage_work_benefits: <Manage_work_benefits />,
+      manage_vacancies: <Manage_vacancies />,
       best_instructors: <Manage_best_instructors_section />,
       create_newsletter: <Create_newsletter />,
       manage_newsletters: <Manage_newsletters />,

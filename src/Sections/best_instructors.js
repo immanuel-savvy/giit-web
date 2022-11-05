@@ -38,7 +38,7 @@ class Best_instructors extends React.Component {
           </div>
         ) : null}
         {best_instructors_stuffs ? (
-          <section class="imageblock">
+          <section class="imageblock pt-m-0">
             <div class="imageblock__content">
               <div
                 class="background-image-holder"

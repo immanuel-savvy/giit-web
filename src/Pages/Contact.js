@@ -57,7 +57,7 @@ class Contact extends React.Component {
                 <div className="form-group">
                   <h4>We'd love to here from you</h4>
                   <span>
-                    Send a message and we'll responed as soon as possible{" "}
+                    Send a message and we'll respond as soon as possible{" "}
                   </span>
                 </div>
                 <div className="row">

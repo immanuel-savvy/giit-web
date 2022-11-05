@@ -61,6 +61,11 @@ class Article extends React.Component {
 
     let { title, image, comments, sections } = article;
 
+    sections.push({
+      type: "blockquote",
+      text: "Sunt nisi amet aute non enim proident deserunt aliqua minim magna ex occaecat dolor.",
+    });
+
     return (
       <div className="blog-page">
         <div id="main-wrapper">

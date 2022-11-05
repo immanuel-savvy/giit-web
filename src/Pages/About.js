@@ -7,6 +7,7 @@ import Services from "../Sections/services";
 import Student_reviews from "../Sections/student_reviews";
 import Trusted_by from "../Sections/trusted_by";
 import Best_instructors from "../Sections/best_instructors";
+import { Link } from "react-router-dom";
 
 class About extends React.Component {
   constructor(props) {
@@ -54,9 +55,12 @@ class About extends React.Component {
                   <br />
 
                   <div className="text-left mt-4">
-                    <a href="#" className="btn btn-md text-light theme-bg">
+                    <Link
+                      to="/courses"
+                      className="btn btn-md text-light theme-bg"
+                    >
                       Enrolled Today
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>

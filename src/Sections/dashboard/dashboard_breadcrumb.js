@@ -44,6 +44,7 @@ class Dashboard_breadcrumb extends React.Component {
                         onClick={() =>
                           emitter.emit("dash_nav_click", "dashboard")
                         }
+                        style={{ color: "#ff6905" }}
                       >
                         Home
                       </Link>

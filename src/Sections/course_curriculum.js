@@ -70,7 +70,6 @@ class Course_curriculum extends React.Component {
       let { curriculum } = this.state;
 
       let slide = curriculum.splice(index, 1);
-      console.log(slide, "slide removed");
       this.setState({ curriculum });
 
       await post_request("remove_slide", {
