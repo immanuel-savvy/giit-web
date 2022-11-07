@@ -5,7 +5,7 @@ const SKILL_LEVEL = new Array(
   "advance"
 );
 
-const DEV = false;
+const DEV = true;
 
 const hostname = DEV ? "http://localhost" : "http://giitafrica.com";
 

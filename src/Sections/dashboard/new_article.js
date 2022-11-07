@@ -11,7 +11,12 @@ class New_article extends Handle_image_upload {
     super(props);
 
     let { article } = this.props;
-    this.state = { sections: new Array(), categories: new Array(), ...article };
+    this.state = {
+      pages: new Array(),
+      sections: new Array(),
+      categories: new Array(),
+      ...article,
+    };
   }
 
   componentDidMount = async () => {
@@ -28,6 +33,35 @@ class New_article extends Handle_image_upload {
     sections[index].text = text;
 
     this.setState({ sections });
+  };
+
+  handle_pages = (value) => {
+    let { pages } = this.state;
+
+    if (pages.includes(value)) pages = pages.filter((val) => val !== value);
+    else pages.push(value);
+
+    this.setState({ pages });
+  };
+
+  pages = new Array("admission_assistance", "visa_assistance");
+
+  page = (page) => {
+    return (
+      <div className="form-group smalls" key={page}>
+        <input
+          id={page}
+          className="checkbox-custom"
+          name="article_pages"
+          type="checkbox"
+          checked={this.state.pages.includes(page)}
+          onChange={() => this.handle_pages(page)}
+        />
+        <label for={page} className="checkbox-custom-label">
+          {to_title(page.replace(/_/g, " "))}
+        </label>
+      </div>
+    );
   };
 
   add_section = (type) => {
@@ -63,12 +97,14 @@ class New_article extends Handle_image_upload {
       comments,
       sections,
       _id,
+      pages,
     } = this.state;
 
     let article = {
       title,
       image,
       image_hash,
+      pages,
       categories: categories.map((cat) => cat._id),
       sections,
     };
@@ -91,11 +127,20 @@ class New_article extends Handle_image_upload {
       image: null,
       categories: new Array(),
       sections: new Array(),
+      image_name: "",
     });
   };
 
   render() {
-    let { image, title, sections, _id, article_categories } = this.state;
+    let {
+      image,
+      title,
+      sections,
+      image_name,
+      image_loading,
+      _id,
+      article_categories,
+    } = this.state;
     let is_set = title && image && sections.find((section) => section.text);
 
     return (
@@ -104,19 +149,36 @@ class New_article extends Handle_image_upload {
         <div class="row">
           <form className="forms_block">
             <div className="form-group smalls">
-              <label>Image (1200 x 800)*</label>
-              <div className="custom-file">
-                <input
-                  type="file"
-                  className="custom-file-input"
-                  id="customFile"
-                  accept="image/*"
-                  onChange={this.handle_image}
-                />
-                <label className="custom-file-label" for="customFile">
-                  Choose image
-                </label>
+              <label>Pages</label>
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  flexDirection: "row",
+                }}
+              >
+                {this.pages.map((page) => this.page(page))}
               </div>
+            </div>
+
+            <div className="form-group smalls">
+              <label>Image (1200 x 800)*</label>
+              {image_loading ? (
+                <Loadindicator />
+              ) : (
+                <div className="custom-file">
+                  <input
+                    type="file"
+                    className="custom-file-input"
+                    id="customFile"
+                    accept="image/*"
+                    onChange={this.handle_image}
+                  />
+                  <label className="custom-file-label" for="customFile">
+                    {image_name || "Choose image"}
+                  </label>
+                </div>
+              )}
               <div class="d-flex align-items-center justify-content-center">
                 {image ? (
                   <img

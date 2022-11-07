@@ -36,6 +36,18 @@ class Dashboard_nav_menu extends React.Component {
           ),
         },
         {
+          title: "university_progression",
+          icon: "fa-th",
+          subnav: new Array(
+            {
+              title: "manage_universities",
+            },
+            {
+              title: "page_details",
+            }
+          ),
+        },
+        {
           title: "services",
           icon: "fa-th",
         },
@@ -147,7 +159,7 @@ class Dashboard_nav_menu extends React.Component {
               aria-controls={`collapse${index}`}
               class="d-block position-relative text-dark collapsible-link py-2"
             >
-              {`${title}`}
+              {`${to_title(title.replace(/_/g, " "))}`}
             </a>
           </h6>
         </div>
@@ -178,7 +190,9 @@ class Dashboard_nav_menu extends React.Component {
         style={{ cursor: "pointer" }}
         onClick={() => this.nav_dash(title)}
       >
-        <a class="d-block position-relative text-dark py-2">{`${title}`}</a>
+        <a class="d-block position-relative text-dark py-2">{`${to_title(
+          title.replace(/_/g, " ")
+        )}`}</a>
       </h6>
     );
   };

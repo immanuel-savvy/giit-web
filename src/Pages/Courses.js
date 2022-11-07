@@ -71,7 +71,7 @@ class Courses extends React.Component {
 
   next_page = async () => {
     let { page, total_pages } = this.state;
-    page !== total_pages - 1 && (await this.fetch_courses(null, page + 1));
+    page < total_pages - 1 && (await this.fetch_courses(null, page + 1));
   };
 
   prev_page = async () => {
@@ -123,7 +123,7 @@ class Courses extends React.Component {
 
               <li
                 className={`page-item ${
-                  total_pages === page ? "disabled" : ""
+                  total_pages - 1 === page ? "disabled" : ""
                 }`}
                 onClick={this.next_page}
               >

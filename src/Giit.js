@@ -32,6 +32,9 @@ import Gallery from "./Pages/Gallery";
 import Instructors from "./Pages/Instructors";
 import { master_course_alignment } from "./Sections/master_courses";
 import FAQS from "./Pages/FAQs";
+import University_progressions from "./Pages/university_progressions";
+import Visa_assistance from "./Pages/visa_assistance";
+import Admission_assistance from "./Pages/admission_assistance";
 
 let emitter = new Emitter();
 
@@ -80,6 +83,24 @@ class Giit extends React.Component {
         {
           title: "career",
           path: "/career",
+        },
+        {
+          title: "ncc uk",
+          path: "/ncc",
+          submenu: new Array(
+            {
+              title: "university progressions",
+              path: "/university_progressions",
+            },
+            {
+              title: "visa assistance",
+              path: "/visa_assistance",
+            },
+            {
+              title: "admission assistance",
+              path: "/admission_assistance",
+            }
+          ),
         },
         {
           title: "testimonials",
@@ -272,6 +293,18 @@ class Giit extends React.Component {
                       <Route path="signup" element={<Signup />} />
                       <Route path="login" element={<Login />} />
                       <Route path="faqs" element={<FAQS />} />
+                      <Route
+                        path="university_progressions"
+                        element={<University_progressions />}
+                      />
+                      <Route
+                        path="visa_assistance"
+                        element={<Visa_assistance />}
+                      />
+                      <Route
+                        path="admission_assistance"
+                        element={<Admission_assistance />}
+                      />
                       <Route path="gallery" element={<Gallery />} />
                       <Route path="instructors" element={<Instructors />} />
                       <Route path="verify_email" element={<Verify_email />} />

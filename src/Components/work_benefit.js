@@ -21,7 +21,7 @@ const Work_benefit = ({ benefit, remove }) => {
           <span className="center">
             <div className="crs_cate_icon">
               <img src={`${domain}/Images/${image}`} className="img-fluid" />
-              {remove || true ? (
+              {remove ? (
                 <a
                   onClick={() => window.confirm("Remove benefit?") && remove()}
                   className="btn btn-action"

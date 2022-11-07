@@ -8,6 +8,7 @@ import Breadcrumb from "../Sections/breadcrumb";
 import Contact_us_today from "../Sections/contact_us_today";
 import Footer from "../Sections/footer";
 import Header from "../Sections/header";
+import { scroll_to_top } from "./Adminstrator";
 
 class Article extends React.Component {
   constructor(props) {
@@ -21,11 +22,14 @@ class Article extends React.Component {
     if (article) {
       this.setState({ article: JSON.parse(article) });
       await post_request(`article_viewed/${article._id}`);
+
+      scroll_to_top();
     }
 
     this.push_article = async (article) => {
       if (article._id === this.state.article._id) return;
       this.setState({ article });
+      scroll_to_top();
       await post_request(`article_viewed/${article._id}`);
     };
 
@@ -60,11 +64,6 @@ class Article extends React.Component {
     if (!article) return null;
 
     let { title, image, comments, sections } = article;
-
-    sections.push({
-      type: "blockquote",
-      text: "Sunt nisi amet aute non enim proident deserunt aliqua minim magna ex occaecat dolor.",
-    });
 
     return (
       <div className="blog-page">

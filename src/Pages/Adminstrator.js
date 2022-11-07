@@ -41,6 +41,8 @@ import Manage_faqs from "../Sections/dashboard/manage_faqs";
 import Career_page from "../Sections/dashboard/career_page";
 import Manage_work_benefits from "../Sections/dashboard/manage_work_benefits";
 import Manage_vacancies from "../Sections/dashboard/manage_vacancies";
+import University_progression_page_stuff from "../Sections/dashboard/university_progression_page_stuff";
+import Manage_universities from "../Sections/dashboard/manage_universities";
 
 const scroll_to_top = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
@@ -129,6 +131,8 @@ class Adminstrator extends React.Component {
       create_newsletter: <Create_newsletter />,
       manage_newsletters: <Manage_newsletters />,
       subscribers: <Manage_subscribers />,
+      page_details: <University_progression_page_stuff />,
+      manage_universities: <Manage_universities />,
       messages: <Manage_messages />,
       manage_reviews: <Manage_reviews />,
       alumni_overview: <Manage_alumni_overview />,
