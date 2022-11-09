@@ -32,9 +32,10 @@ import Gallery from "./Pages/Gallery";
 import Instructors from "./Pages/Instructors";
 import { master_course_alignment } from "./Sections/master_courses";
 import FAQS from "./Pages/FAQs";
-import University_progressions from "./Pages/university_progressions";
-import Visa_assistance from "./Pages/visa_assistance";
-import Admission_assistance from "./Pages/admission_assistance";
+import University_progressions from "./Pages/University_progressions";
+import Visa_assistance from "./Pages/Visa_assistance";
+import Admission_assistance from "./Pages/Admission_assistance";
+import Services_page from "./Pages/Services";
 
 let emitter = new Emitter();
 
@@ -44,6 +45,7 @@ class Giit extends React.Component {
 
     this.state = {
       loggeduser: "fetching",
+      subnavs: new Object(),
       navs: new Array(
         {
           title: "search",
@@ -59,35 +61,13 @@ class Giit extends React.Component {
           submenu: new Array(),
         },
         {
-          title: "about",
-          path: "/about",
-          submenu: new Array(
-            {
-              title: "who we are",
-              path: "/about",
-            },
-            {
-              title: "our instructors",
-              path: "/instructors",
-            },
-            {
-              title: "our services",
-              path: "/about#services",
-            },
-            {
-              title: "FAQs",
-              path: "/faqs",
-            }
-          ),
-        },
-        {
-          title: "career",
-          path: "/career",
-        },
-        {
           title: "ncc uk",
           path: "/ncc",
           submenu: new Array(
+            {
+              title: "courses",
+              path: `/courses?section=ncc`,
+            },
             {
               title: "university progressions",
               path: "/university_progressions",
@@ -101,6 +81,32 @@ class Giit extends React.Component {
               path: "/admission_assistance",
             }
           ),
+        },
+        {
+          title: "about",
+          path: "/about",
+          submenu: new Array(
+            {
+              title: "who we are",
+              path: "/about",
+            },
+            {
+              title: "our instructors",
+              path: "/instructors",
+            },
+            {
+              title: "career",
+              path: "/career",
+            },
+            {
+              title: "FAQs",
+              path: "/faqs",
+            }
+          ),
+        },
+        {
+          title: "services",
+          path: "/services",
         },
         {
           title: "testimonials",
@@ -127,7 +133,6 @@ class Giit extends React.Component {
           path: "/signup",
         }
       ),
-      subnavs: new Object(),
     };
   }
 
@@ -227,6 +232,10 @@ class Giit extends React.Component {
       banner_stuffs,
       best_instructors_stuffs,
     });
+
+    this.ncc_section = (ncc_section) => this.setState({ ncc_section });
+
+    emitter.listen("ncc_section", this.ncc_section);
   };
 
   login = (user) =>
@@ -238,7 +247,6 @@ class Giit extends React.Component {
 
   render = () => {
     let {
-      navs,
       admin_logged,
       banner_stuffs,
       onboarding_stuffs,
@@ -246,6 +254,7 @@ class Giit extends React.Component {
       loggeduser,
       best_instructors_stuffs,
       subnavs,
+      navs,
     } = this.state;
 
     return (
@@ -266,7 +275,11 @@ class Giit extends React.Component {
               value={{ admin_logged, log_admin: this.log_admin }}
             >
               <Nav_context.Provider
-                value={{ navs, subnavs, set_subnav: this.set_subnav }}
+                value={{
+                  navs,
+                  subnavs,
+                  set_subnav: this.set_subnav,
+                }}
               >
                 <Flash_promo.Provider value={{ flash_promo }}>
                   <BrowserRouter>
@@ -285,6 +298,7 @@ class Giit extends React.Component {
                       <Route path="contact_us" element={<Contact />} />
                       <Route path="blog" element={<Blog />} />
                       <Route path="article" element={<Article />} />
+                      <Route path="services" element={<Services_page />} />
                       <Route path="enroll" element={<Enroll />} />
                       <Route
                         path="master_courses"

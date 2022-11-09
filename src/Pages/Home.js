@@ -22,6 +22,7 @@ import Onboarding_steps from "../Sections/onboarding_steps";
 import Faqs from "../Sections/faqs";
 import Modal from "../Components/modal";
 import Subscribe from "../Components/subscribe";
+import { emitter } from "../Giit";
 
 const sections_alignment = new Array("degree", "master", "professional");
 
@@ -45,6 +46,14 @@ class Index extends React.Component {
         );
       if (s1_index === -1) s1_index = 200;
       if (s2_index === -1) s2_index = 200;
+
+      if (
+        s1 &&
+        s1.title &&
+        s1.title.toLowerCase().includes("degree") &&
+        s1.title.toLowerCase().includes("uk")
+      )
+        emitter.emit("ncc_section", s1._id);
 
       return s1_index - s2_index;
     });

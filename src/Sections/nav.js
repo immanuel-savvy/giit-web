@@ -129,96 +129,104 @@ class Custom_nav extends React.Component {
                               {to_title(nav.title.replace(/_/g, " "))}
                             </span>
                           </DropdownToggle>
-                          <DropdownMenu
-                            className="nav-dropdown nav-submenu"
-                            end
-                          >
-                            {nav.submenu.map((subnav, index) => (
-                              <li
-                                onMouseOver={
-                                  subnav.view_all
-                                    ? null
-                                    : () =>
-                                        this.setState(
-                                          { current_subnav: subnav },
-                                          this.set_submenu
-                                        )
-                                }
-                              >
-                                <Link
-                                  onClick={subnav.on_click}
-                                  to={
-                                    subnav.view_all ? "/courses" : subnav.path
+                          {current_nav === nav.title ? (
+                            <DropdownMenu
+                              className="nav-dropdown nav-submenu"
+                              end
+                            >
+                              {nav.submenu.map((subnav, index) => (
+                                <li
+                                  onMouseOver={
+                                    subnav.view_all
+                                      ? null
+                                      : () =>
+                                          this.setState(
+                                            { current_subnav: subnav },
+                                            this.set_submenu
+                                          )
                                   }
                                 >
-                                  {subnav.view_all
-                                    ? "View all courses..."
-                                    : to_title(subnav.title.replace(/_/g, " "))}
-                                </Link>
-                                {nav.title !==
-                                "courses" ? null : subnav.submenu &&
-                                  !subnav.submenu.length ? null : subnav._id ===
-                                  (current_subnav && current_subnav._id) ? (
-                                  <UncontrolledDropdown
-                                    key={index}
-                                    nav
-                                    inNavbar
+                                  <Link
                                     onClick={subnav.on_click}
+                                    to={
+                                      subnav.view_all ? "/courses" : subnav.path
+                                    }
                                   >
-                                    <DropdownToggle
-                                      style={{
-                                        backgroundColor: "transparent",
-                                      }}
+                                    {subnav.view_all
+                                      ? "View all courses..."
+                                      : to_title(
+                                          subnav.title.replace(/_/g, " ")
+                                        )}
+                                  </Link>
+                                  {nav.title !==
+                                  "courses" ? null : subnav.submenu &&
+                                    !subnav.submenu
+                                      .length ? null : subnav._id ===
+                                    (current_subnav && current_subnav._id) ? (
+                                    <UncontrolledDropdown
+                                      key={index}
                                       nav
-                                      caret
-                                      ref={(dropdown) =>
-                                        (this[`dropdown_${index}`] = dropdown)
-                                      }
-                                      onMouseOver={
-                                        subnav.view_all
-                                          ? null
-                                          : () => {
-                                              let comp =
-                                                this[`dropdown_${index}`];
-                                              !comp.context.isOpen &&
-                                                comp.context.toggle();
-                                            }
-                                      }
-                                    ></DropdownToggle>
-                                    <DropdownMenu
-                                      className="nav-dropdown nav-submenu"
-                                      end
+                                      inNavbar
+                                      onClick={subnav.on_click}
                                     >
-                                      {subnavs[subnav._id] ? (
-                                        subnavs[subnav._id].length ? (
-                                          subnavs[subnav._id].map((sub_nav) => (
-                                            <li
-                                              onClick={() =>
-                                                this.handle_course(sub_nav)
+                                      <DropdownToggle
+                                        style={{
+                                          backgroundColor: "transparent",
+                                        }}
+                                        nav
+                                        caret
+                                        ref={(dropdown) =>
+                                          (this[`dropdown_${index}`] = dropdown)
+                                        }
+                                        onMouseOver={
+                                          subnav.view_all
+                                            ? null
+                                            : () => {
+                                                let comp =
+                                                  this[`dropdown_${index}`];
+                                                !comp.context.isOpen &&
+                                                  comp.context.toggle();
                                               }
-                                              style={{
-                                                backgroundColor: "transparent",
-                                              }}
-                                              key={sub_nav._id}
-                                            >
-                                              <Link to="/course">
-                                                {sub_nav.title.replace(
-                                                  /_/g,
-                                                  " "
-                                                )}
-                                              </Link>
-                                            </li>
-                                          ))
-                                        ) : null
-                                      ) : (
-                                        <Loadindicator />
-                                      )}
-                                    </DropdownMenu>
-                                  </UncontrolledDropdown>
-                                ) : null}
-                              </li>
-                            ))}
-                          </DropdownMenu>
+                                        }
+                                      ></DropdownToggle>
+                                      <DropdownMenu
+                                        className="nav-dropdown nav-submenu"
+                                        end
+                                      >
+                                        {subnavs[subnav._id] ? (
+                                          subnavs[subnav._id].length ? (
+                                            subnavs[subnav._id].map(
+                                              (sub_nav) => (
+                                                <li
+                                                  onClick={() =>
+                                                    this.handle_course(sub_nav)
+                                                  }
+                                                  style={{
+                                                    backgroundColor:
+                                                      "transparent",
+                                                  }}
+                                                  key={sub_nav._id}
+                                                >
+                                                  <Link to="/course">
+                                                    {sub_nav.title.replace(
+                                                      /_/g,
+                                                      " "
+                                                    )}
+                                                  </Link>
+                                                </li>
+                                              )
+                                            )
+                                          ) : null
+                                        ) : (
+                                          <Loadindicator />
+                                        )}
+                                      </DropdownMenu>
+                                    </UncontrolledDropdown>
+                                  ) : null}
+                                </li>
+                              ))}
+                            </DropdownMenu>
+                          ) : null}
                         </UncontrolledDropdown>
                       ) : nav.title === "search" ? (
                         <li

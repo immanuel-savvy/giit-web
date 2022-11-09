@@ -62,8 +62,6 @@ class Article extends React.Component {
 
     let text = sections.find((sec) => sec.type === "paragraph")?.text;
 
-    console.log(views);
-
     return (
       <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12">
         <div className="blg_grid_box">

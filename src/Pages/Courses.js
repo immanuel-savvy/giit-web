@@ -34,14 +34,17 @@ class Courses extends React.Component {
     let i = 0;
     for (let p = 0; p < total_courses; p += page_size) i++;
 
-    this.setState({
-      courses,
-      page,
-      total_courses,
-      filter: filter || new Object(),
-      fetching_courses: false,
-      total_pages: i,
-    });
+    this.setState(
+      {
+        courses,
+        page,
+        total_courses,
+        filter: filter || new Object(),
+        fetching_courses: false,
+        total_pages: i,
+      },
+      scroll_to_top
+    );
   };
 
   componentDidMount = async () => {
@@ -59,6 +62,10 @@ class Courses extends React.Component {
       delete filter.search;
       this.setState({ search_focus: true });
     }
+
+    filter.section &&
+      filter.section === "ncc" &&
+      this.setState({ ncc_stuff: true });
 
     await this.fetch_courses();
   };
@@ -147,6 +154,7 @@ class Courses extends React.Component {
       fetching_courses,
       total_courses,
       filter,
+      ncc_stuff,
     } = this.state;
 
     return (
@@ -161,6 +169,7 @@ class Courses extends React.Component {
                 category={filter.category}
                 search_focus={search_focus}
                 fetch_courses={this.fetch_courses}
+                ncc_stuff={ncc_stuff}
                 ref={(courses_sidebar) =>
                   (this.courses_sidebar = courses_sidebar)
                 }

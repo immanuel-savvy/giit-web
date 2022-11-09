@@ -56,7 +56,20 @@ class Courses_sidebar extends React.Component {
     let certifications = await get_request("certifications");
     let instructors = await get_request("instructors/all");
 
-    this.setState({ master_courses, sections, certifications, instructors });
+    let { ncc_stuff } = this.props,
+      section;
+    if (ncc_stuff) {
+      section = sections.find(
+        (sect) =>
+          sect.title.toLowerCase().includes("degree") &&
+          sect.title.toLowerCase().includes("uk")
+      )._id;
+    }
+
+    this.setState(
+      { master_courses, sections, certifications, instructors, section },
+      async () => section && (await this.filter())
+    );
   };
 
   render_selections = (prop) => {
@@ -116,7 +129,7 @@ class Courses_sidebar extends React.Component {
   );
 
   filter = async (e) => {
-    e.preventDefault();
+    e && e.preventDefault();
 
     let {
       search_param,

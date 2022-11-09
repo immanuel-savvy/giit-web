@@ -20,7 +20,8 @@ class Article extends React.Component {
   componentDidMount = async () => {
     let article = window.sessionStorage.getItem("article");
     if (article) {
-      this.setState({ article: JSON.parse(article) });
+      article = JSON.parse(article);
+      this.setState({ article });
       await post_request(`article_viewed/${article._id}`);
 
       scroll_to_top();
