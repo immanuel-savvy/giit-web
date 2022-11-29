@@ -19,6 +19,7 @@ class Course_banner extends React.Component {
       banner_image,
       reviews,
       short_description,
+      description,
     } = course;
     tags = tags && tags.split(",");
 
@@ -49,7 +50,7 @@ class Course_banner extends React.Component {
                   </h2>
                 </div>
                 <div className="ed_header_short">
-                  <p>{short_description}</p>
+                  <p>{short_description.slice(0, 500)}</p>
                 </div>
 
                 <div className="ed_rate_info">

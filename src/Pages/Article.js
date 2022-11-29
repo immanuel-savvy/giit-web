@@ -1,5 +1,6 @@
 import React from "react";
-import { post_request } from "../Assets/js/utils/services";
+import { get_request, post_request } from "../Assets/js/utils/services";
+import Loadindicator from "../Components/loadindicator";
 import { domain } from "../Constants/constants";
 import { emitter } from "../Giit";
 import Article_comments from "../Sections/article_comments";
@@ -22,10 +23,24 @@ class Article extends React.Component {
     if (article) {
       article = JSON.parse(article);
       this.setState({ article });
-      await post_request(`article_viewed/${article._id}`);
 
       scroll_to_top();
+    } else {
+      let article_filter = new Object();
+      let query = window.location.search;
+      let params = query.slice(1).split("&");
+      params.map((param) => {
+        param = param.split("=");
+        article_filter[param[0]] = param[1];
+      });
+      if (!article_filter._id) this.setState({ fetching_article: true });
+      article = await get_request(`article/${article_filter._id}`);
+
+      if (!article) return window.location.assign("/");
+
+      this.setState({ article, fetching_article: false });
     }
+    await post_request(`article_viewed/${article._id}`);
 
     this.push_article = async (article) => {
       if (article._id === this.state.article._id) return;
@@ -61,10 +76,10 @@ class Article extends React.Component {
 
   render() {
     let { navs } = this.props;
-    let { article } = this.state;
-    if (!article) return null;
+    let { article, fetching_article } = this.state;
+    if (!article && !fetching_article) return null;
 
-    let { title, image, comments, sections } = article;
+    let { title, image, comments, sections } = article || new Object();
 
     return (
       <div className="blog-page">
@@ -73,57 +88,60 @@ class Article extends React.Component {
           <div className="clearfix"></div>
           <Breadcrumb page_text="Article" page_title={title} no_gray />
 
-          <section className="gray">
-            <div className="container">
-              <div className="row">
-                <div className="col-lg-8 col-md-12 col-sm-12 col-12">
-                  <div className="article_detail_wrapss single_article_wrap format-standard">
-                    <div className="article_body_wrap">
-                      <div className="article_featured_image">
-                        <img
-                          className="img-fluid"
-                          src={`${domain}/Images/${image}`}
-                          alt=""
-                        />
-                      </div>
-                      <div className="article_top_info">
-                        <ul className="article_middle_info">
-                          <li>
-                            <a href="#article_comments">
-                              <span className="icons">
-                                <i className="ti-comment-alt"></i>
+          {fetching_article ? (
+            <Loadindicator contained />
+          ) : (
+            <section className="gray">
+              <div className="container">
+                <div className="row">
+                  <div className="col-lg-8 col-md-12 col-sm-12 col-12">
+                    <div className="article_detail_wrapss single_article_wrap format-standard">
+                      <div className="article_body_wrap">
+                        <div className="article_featured_image">
+                          <img
+                            className="img-fluid"
+                            src={`${domain}/Images/${image}`}
+                            alt=""
+                          />
+                        </div>
+                        <div className="article_top_info">
+                          <ul className="article_middle_info">
+                            <li>
+                              <a href="#article_comments">
+                                <span className="icons">
+                                  <i className="ti-comment-alt"></i>
+                                </span>
+                                {`${comments || 0} Comments`}
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                        <h2 className="post-title">{`${title}.`}</h2>
+                        {sections.map((section, index) =>
+                          section.type === "paragraph" ? (
+                            <p key={index}>{section.text}</p>
+                          ) : (
+                            <blockquote key={index}>
+                              <span className="icon">
+                                <i className="fas fa-quote-left"></i>
                               </span>
-                              {`${comments || 0} Comments`}
-                            </a>
-                          </li>
-                        </ul>
+                              <p className="text">{section.text}</p>
+
+                              <h5 className="name">{`- ${
+                                section.speaker || ""
+                              }`}</h5>
+                            </blockquote>
+                          )
+                        )}
                       </div>
-                      <h2 className="post-title">{`${title}.`}</h2>
-                      {sections.map((section, index) =>
-                        section.type === "paragraph" ? (
-                          <p key={index}>{section.text}</p>
-                        ) : (
-                          <blockquote key={index}>
-                            <span className="icon">
-                              <i className="fas fa-quote-left"></i>
-                            </span>
-                            <p className="text">{section.text}</p>
-
-                            <h5 className="name">{`- ${
-                              section.speaker || ""
-                            }`}</h5>
-                          </blockquote>
-                        )
-                      )}
+                      <Article_comments article={article} />
                     </div>
-                    <Article_comments article={article} />
                   </div>
+                  <Article_sidebar article={article} />
                 </div>
-                <Article_sidebar article={article} />
               </div>
-            </div>
-          </section>
-
+            </section>
+          )}
           <Contact_us_today />
           <Footer />
         </div>

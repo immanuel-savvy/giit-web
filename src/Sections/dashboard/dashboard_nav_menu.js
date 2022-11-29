@@ -48,6 +48,13 @@ class Dashboard_nav_menu extends React.Component {
           ),
         },
         {
+          title: "about",
+          icon: "fa-th",
+          subnav: new Array({
+            title: "about_statement",
+          }),
+        },
+        {
           title: "services",
           icon: "fa-th",
         },

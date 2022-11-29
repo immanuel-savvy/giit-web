@@ -12,12 +12,26 @@ class Add_master_course extends Handle_image_upload {
     this.state = { search_results: new Array(), courses: new Array() };
   }
 
+  fetch_master_courses = async (master_course) => {
+    if (!master_course) return;
+
+    let courses = await post_request("get_courses", {
+      courses: master_course.courses,
+    });
+    this.setState({ courses });
+  };
+
   componentDidMount = () => {
     let { master_course } = this.props;
+
+    this.fetch_master_courses(master_course);
+
     master_course && this.setState({ ...master_course });
 
     this.master_course_to_update = (master_course) =>
-      this.setState({ ...master_course });
+      this.setState({ ...master_course }, () =>
+        this.fetch_master_courses(master_course)
+      );
 
     emitter.listen("master_course_to_update", this.master_course_to_update);
   };

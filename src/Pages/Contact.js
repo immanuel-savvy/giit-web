@@ -55,7 +55,7 @@ class Contact extends React.Component {
             <div className="row align-items-start">
               <div className="col-xl-7 col-lg-6 col-md-12 col-sm-12">
                 <div className="form-group">
-                  <h4>We'd love to here from you</h4>
+                  <h4>We'd love to hear from you</h4>
                   <span>
                     Send a message and we'll respond as soon as possible{" "}
                   </span>

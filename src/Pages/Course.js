@@ -2,6 +2,7 @@ import React from "react";
 import { post_request } from "../Assets/js/utils/services";
 import Loadindicator from "../Components/loadindicator";
 import { emitter } from "../Giit";
+import Certification_courses from "../Sections/certification_courses";
 import Contact_us_today from "../Sections/contact_us_today";
 import Featured_course from "../Sections/course";
 import Course_banner from "../Sections/course_banner";
@@ -61,9 +62,23 @@ class Course extends React.Component {
     emitter.remove_listener("push_course", this.push_course);
   };
 
+  cummulate_certifications = (courses) => {
+    if (!this.state.cummulative_price) return;
+
+    let certifications = new Array();
+
+    courses.map(
+      (course) =>
+        course.certifications && certifications.push(...course.certifications)
+    );
+    return certifications;
+  };
+
   render() {
     let { navs } = this.props;
     let { course, courses, cummulative_price } = this.state;
+
+    let certifications = this.cummulate_certifications(courses);
 
     return (
       <div id="main-wrapper">
@@ -95,6 +110,15 @@ class Course extends React.Component {
                         <Loadindicator contained />
                       )}
                     </div>
+
+                    {certifications ? (
+                      <>
+                        <h4 class="edu_title">Certifications</h4>
+                        <Certification_courses
+                          certifications={this.cummulate_certifications}
+                        />
+                      </>
+                    ) : null}
                   </div>
                 ) : (
                   <Course_details course={course} />

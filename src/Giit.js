@@ -17,6 +17,7 @@ import { get_request, post_request } from "./Assets/js/utils/services";
 import Course from "./Pages/Course";
 import {
   Flash_promo,
+  Footer_context,
   Logged_admin,
   Logged_user,
   Nav_context,
@@ -44,6 +45,7 @@ class Giit extends React.Component {
     super(props);
 
     this.state = {
+      submenus: new Object(),
       loggeduser: "fetching",
       subnavs: new Object(),
       navs: new Array(
@@ -175,6 +177,19 @@ class Giit extends React.Component {
     this.setState({ subnavs });
   };
 
+  load_subnavs = async (current_subnav) => {
+    let { submenus } = this.state;
+
+    let courses = await post_request("get_courses", {
+      courses: current_subnav.submenu,
+    });
+    submenus[current_subnav._id] = courses;
+
+    this.setState({
+      submenus,
+    });
+  };
+
   componentDidMount = async () => {
     !document.getElementsByName("script").length &&
       this.script_paths.map((script_path) => this.append_script(script_path));
@@ -230,6 +245,9 @@ class Giit extends React.Component {
       flash_promo,
       onboarding_stuffs,
       banner_stuffs,
+      master_courses: Array.isArray(master_courses)
+        ? master_courses
+        : new Array(),
       best_instructors_stuffs,
     });
 
@@ -255,6 +273,8 @@ class Giit extends React.Component {
       best_instructors_stuffs,
       subnavs,
       navs,
+      master_courses,
+      submenus,
     } = this.state;
 
     return (
@@ -279,62 +299,66 @@ class Giit extends React.Component {
                   navs,
                   subnavs,
                   set_subnav: this.set_subnav,
+                  load_subnavs: this.load_subnavs,
+                  submenus,
                 }}
               >
-                <Flash_promo.Provider value={{ flash_promo }}>
-                  <BrowserRouter>
-                    <Routes>
-                      <Route
-                        index
-                        element={
-                          <Index
-                            banner_stuffs={banner_stuffs}
-                            onboarding_stuffs={onboarding_stuffs}
-                            best_instructors_stuffs={best_instructors_stuffs}
-                          />
-                        }
-                      />
-                      <Route path="courses" element={<Courses />} />
-                      <Route path="contact_us" element={<Contact />} />
-                      <Route path="blog" element={<Blog />} />
-                      <Route path="article" element={<Article />} />
-                      <Route path="services" element={<Services_page />} />
-                      <Route path="enroll" element={<Enroll />} />
-                      <Route
-                        path="master_courses"
-                        element={<Master_courses />}
-                      />
-                      <Route path="signup" element={<Signup />} />
-                      <Route path="login" element={<Login />} />
-                      <Route path="faqs" element={<FAQS />} />
-                      <Route
-                        path="university_progressions"
-                        element={<University_progressions />}
-                      />
-                      <Route
-                        path="visa_assistance"
-                        element={<Visa_assistance />}
-                      />
-                      <Route
-                        path="admission_assistance"
-                        element={<Admission_assistance />}
-                      />
-                      <Route path="gallery" element={<Gallery />} />
-                      <Route path="instructors" element={<Instructors />} />
-                      <Route path="verify_email" element={<Verify_email />} />
-                      <Route
-                        path="forgot_password"
-                        element={<Forgot_password />}
-                      />
-                      <Route path="about" element={<About />} />
-                      <Route path="course" element={<Course />} />
-                      <Route path="career" element={<Careers />} />
-                      <Route path="testimonials" element={<Testimonials />} />
-                      <Route path="adminstrator" element={<Adminstrator />} />
-                      <Route path="*" element={<Page_not_found />} />
-                    </Routes>
-                  </BrowserRouter>
-                </Flash_promo.Provider>
+                <Footer_context.Provider value={{ master_courses }}>
+                  <Flash_promo.Provider value={{ flash_promo }}>
+                    <BrowserRouter>
+                      <Routes>
+                        <Route
+                          index
+                          element={
+                            <Index
+                              banner_stuffs={banner_stuffs}
+                              onboarding_stuffs={onboarding_stuffs}
+                              best_instructors_stuffs={best_instructors_stuffs}
+                            />
+                          }
+                        />
+                        <Route path="courses" element={<Courses />} />
+                        <Route path="contact_us" element={<Contact />} />
+                        <Route path="blog" element={<Blog />} />
+                        <Route path="article" element={<Article />} />
+                        <Route path="services" element={<Services_page />} />
+                        <Route path="enroll" element={<Enroll />} />
+                        <Route
+                          path="master_courses"
+                          element={<Master_courses />}
+                        />
+                        <Route path="signup" element={<Signup />} />
+                        <Route path="login" element={<Login />} />
+                        <Route path="faqs" element={<FAQS />} />
+                        <Route
+                          path="university_progressions"
+                          element={<University_progressions />}
+                        />
+                        <Route
+                          path="visa_assistance"
+                          element={<Visa_assistance />}
+                        />
+                        <Route
+                          path="admission_assistance"
+                          element={<Admission_assistance />}
+                        />
+                        <Route path="gallery" element={<Gallery />} />
+                        <Route path="instructors" element={<Instructors />} />
+                        <Route path="verify_email" element={<Verify_email />} />
+                        <Route
+                          path="forgot_password"
+                          element={<Forgot_password />}
+                        />
+                        <Route path="about" element={<About />} />
+                        <Route path="course" element={<Course />} />
+                        <Route path="career" element={<Careers />} />
+                        <Route path="testimonials" element={<Testimonials />} />
+                        <Route path="adminstrator" element={<Adminstrator />} />
+                        <Route path="*" element={<Page_not_found />} />
+                      </Routes>
+                    </BrowserRouter>
+                  </Flash_promo.Provider>
+                </Footer_context.Provider>
               </Nav_context.Provider>
             </Logged_admin.Provider>
           </Logged_user.Provider>

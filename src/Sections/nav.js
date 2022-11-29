@@ -37,19 +37,6 @@ class Custom_nav extends React.Component {
     });
   }
 
-  set_submenu = async () => {
-    let { current_subnav, subnavs } = this.state;
-
-    let courses = await post_request("get_courses", {
-      courses: current_subnav.submenu,
-    });
-    subnavs[current_subnav._id] = courses;
-
-    this.setState({
-      subnavs,
-    });
-  };
-
   handle_course = (course) => {
     window.sessionStorage.setItem("course", JSON.stringify(course));
     emitter.emit("push_course", course);
@@ -69,9 +56,12 @@ class Custom_nav extends React.Component {
 
     return (
       <Nav_context.Consumer>
-        {({ navs, set_subnav }) => {
+        {({ navs, set_subnav, submenus, load_subnavs, subnavs }) => {
           this.navs = navs;
           this.set_subnav = set_subnav;
+
+          if (current_subnav && !submenus[current_subnav._id])
+            load_subnavs(current_subnav);
 
           return (
             <div id="navigation" className="navigation navigation-landscape">
@@ -193,9 +183,9 @@ class Custom_nav extends React.Component {
                                         className="nav-dropdown nav-submenu"
                                         end
                                       >
-                                        {subnavs[subnav._id] ? (
-                                          subnavs[subnav._id].length ? (
-                                            subnavs[subnav._id].map(
+                                        {submenus[subnav._id] ? (
+                                          submenus[subnav._id].length ? (
+                                            submenus[subnav._id].map(
                                               (sub_nav) => (
                                                 <li
                                                   onClick={() =>
