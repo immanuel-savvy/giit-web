@@ -1,7 +1,6 @@
 import React from "react";
 import { get_request } from "../Assets/js/utils/services";
 import Loadindicator from "../Components/loadindicator";
-import Student_reviews from "./student_reviews";
 import Trustee from "./trustee";
 
 class Trusted_by extends React.Component {

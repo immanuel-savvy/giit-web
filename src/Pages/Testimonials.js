@@ -8,6 +8,7 @@ import Review from "../Sections/review";
 import Listempty from "../Components/list_empty";
 import Loadindicator from "../Components/loadindicator";
 import Add_student_review from "../Sections/dashboard/add_review_form";
+import { organisation_name } from "../Constants/constants";
 
 class Testimonials extends React.Component {
   constructor(props) {
@@ -20,8 +21,7 @@ class Testimonials extends React.Component {
   }
 
   componentDidMount = async () => {
-    document.title =
-      "Testimonials | Globalstar Innovative Information Technology";
+    document.title = `Testimonials | ${organisation_name}`;
 
     let { page_size, page } = this.state;
 
