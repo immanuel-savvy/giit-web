@@ -17,6 +17,8 @@ class Banner extends React.Component {
     let { image, thumbnail, thumbnail_hash, video } =
       banner_stuffs || new Object();
 
+    console.log(banner_stuffs);
+
     return (
       <div
         className="hero_banner d-flex justify-content-center image-cover for_top_info"
