@@ -61,6 +61,30 @@ let phone_regex =
 let email_regex =
   /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
+const commalise_figures = (figure) => {
+  if (typeof figure !== "number") {
+    return figure;
+  }
+
+  if (figure >= 1e21) return figure.toLocaleString("fullwide");
+
+  figure = figure.toString();
+  if (figure.length <= 3) return figure;
+
+  let ff = "",
+    i;
+  for (i = 0; i < figure.length; i += 3)
+    ff = `${figure.slice(figure.length - i - 3, figure.length - i)},${ff}`;
+
+  if (i < figure.length) ff = `${figure.slice(0, i)}${ff}`;
+  else if (i > figure.length) {
+    ff = `${figure.slice(0, figure.length % 3)}${ff}`;
+  }
+  if (ff.startsWith(",")) ff = ff.slice(1);
+
+  return ff.slice(0, -1);
+};
+
 export {
   to_title,
   gen_random_int,
@@ -69,4 +93,5 @@ export {
   phone_regex,
   date_string,
   shuffle_array,
+  commalise_figures,
 };

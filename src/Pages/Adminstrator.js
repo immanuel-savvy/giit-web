@@ -44,6 +44,7 @@ import Manage_vacancies from "../Sections/dashboard/manage_vacancies";
 import University_progression_page_stuff from "../Sections/dashboard/university_progression_page_stuff";
 import Manage_universities from "../Sections/dashboard/manage_universities";
 import About_statement from "../Sections/dashboard/about_statement";
+import { organisation_name } from "../Constants/constants";
 
 const scroll_to_top = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
@@ -68,8 +69,6 @@ class Adminstrator extends React.Component {
   };
 
   componentDidMount = () => {
-    document.title = "Dashboard | Globalstar Innovative Information Technology";
-
     this.script_paths.map((script_path) => this.append_script(script_path));
 
     this.dash_nav_click = (nav_title) =>

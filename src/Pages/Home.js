@@ -74,11 +74,7 @@ class Index extends React.Component {
         {({ loggeduser }) => {
           if (loggeduser) document.title = `Home | ${organisation_name}`;
 
-          return loggeduser === "fetching" ? (
-            <Loadindicator contained />
-          ) : !loggeduser ? (
-            <Login lock />
-          ) : (
+          return (
             <div id="main-wrapper">
               <Header navs={navs} />
               <Banner banner_stuffs={banner_stuffs} />

@@ -683,7 +683,7 @@ class Add_new_course extends Handle_image_upload {
               className="custom-file-input"
               id="customFileBanner"
               accept="image/*"
-              onChange={(e) => this.handle_image(e, "banner_")}
+              onChange={(e) => this.handle_image(e, "banner")}
             />
             <label className="custom-file-label" for="customFileBanner">
               Choose file

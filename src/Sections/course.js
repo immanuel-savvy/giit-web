@@ -1,6 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { gen_random_int, to_title } from "../Assets/js/utils/functions";
+import {
+  commalise_figures,
+  gen_random_int,
+  to_title,
+} from "../Assets/js/utils/functions";
 import { post_request } from "../Assets/js/utils/services";
 import Handle_image_upload from "../Components/handle_image_upload";
 import Preview_image from "../Components/preview_image";
@@ -12,7 +16,11 @@ import { emitter } from "../Giit";
 const pricey = (price, percentage_off) => {
   if (!percentage_off) return price;
 
-  return ((100 - percentage_off) / 100) * price;
+  let return_val = ((100 - percentage_off) / 100) * price;
+  if (parseInt(return_val) === return_val)
+    return_val = commalise_figures(Number(return_val));
+
+  return return_val;
 };
 
 class Featured_course extends React.Component {
@@ -278,7 +286,7 @@ class Featured_course extends React.Component {
                               style={{ textDecoration: "line-through" }}
                               className="theme-cl"
                             >
-                              {price}
+                              {commalise_figures(Number(price))}
                             </em>
                           </span>
                         ) : null}

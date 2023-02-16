@@ -13,7 +13,6 @@ import {
   DropdownMenu,
 } from "reactstrap";
 import { to_title } from "../Assets/js/utils/functions";
-import { post_request } from "../Assets/js/utils/services";
 import Loadindicator from "../Components/loadindicator";
 import { client_domain, domain } from "../Constants/constants";
 import { Nav_context } from "../Contexts";

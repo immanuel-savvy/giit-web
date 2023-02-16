@@ -263,18 +263,17 @@ class Footer extends React.Component {
                 <div className="footer-bottom">
                   <div className="container">
                     <div className="row align-items-center">
-                      <Link to="/adminstrator">
-                        <div
-                          onClick={() =>
-                            window.scrollTo({ top: 0, behavior: "smooth" })
-                          }
-                          className="col-lg-12 col-md-12 text-center"
-                        >
-                          <p className="mb-0">
-                            © 2022 GIIT Africa. All rights reserved.
-                          </p>
-                        </div>
-                      </Link>
+                      <div
+                        onClick={() =>
+                          window.scrollTo({ top: 0, behavior: "smooth" })
+                        }
+                        className="col-lg-12 col-md-12 text-center"
+                      >
+                        <p className="mb-0">
+                          © {new Date().getFullYear()} GIIT Africa. All rights
+                          reserved.
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>

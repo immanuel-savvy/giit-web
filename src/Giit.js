@@ -261,7 +261,10 @@ class Giit extends React.Component {
       window.sessionStorage.setItem("loggeduser", JSON.stringify(user))
     );
 
-  log_admin = (admin) => this.setState({ admin_logged: admin });
+  log_admin = (admin) =>
+    this.setState({ admin_logged: admin }, () => {
+      window.sessionStorage.setItem("logged_admin", JSON.stringify(admin));
+    });
 
   render = () => {
     let {
@@ -278,92 +281,75 @@ class Giit extends React.Component {
     } = this.state;
 
     return (
-      <html lang="en">
-        <head>
-          <meta charSet="utf-8" />
-          <meta
-            name="Savvy"
-            content="Globalstar Innovative Information Technology"
-          />
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <link rel="shortcut icon" href="../assets/images/gt_favicon.png" />
-        </head>
-
-        <body>
-          <Logged_user.Provider value={{ loggeduser, login: this.login }}>
-            <Logged_admin.Provider
-              value={{ admin_logged, log_admin: this.log_admin }}
-            >
-              <Nav_context.Provider
-                value={{
-                  navs,
-                  subnavs,
-                  set_subnav: this.set_subnav,
-                  load_subnavs: this.load_subnavs,
-                  submenus,
-                }}
-              >
-                <Footer_context.Provider value={{ master_courses }}>
-                  <Flash_promo.Provider value={{ flash_promo }}>
-                    <BrowserRouter>
-                      <Routes>
-                        <Route
-                          index
-                          element={
-                            <Index
-                              banner_stuffs={banner_stuffs}
-                              onboarding_stuffs={onboarding_stuffs}
-                              best_instructors_stuffs={best_instructors_stuffs}
-                            />
-                          }
+      <Logged_user.Provider value={{ loggeduser, login: this.login }}>
+        <Logged_admin.Provider
+          value={{ admin_logged, log_admin: this.log_admin }}
+        >
+          <Nav_context.Provider
+            value={{
+              navs,
+              subnavs,
+              set_subnav: this.set_subnav,
+              load_subnavs: this.load_subnavs,
+              submenus,
+            }}
+          >
+            <Footer_context.Provider value={{ master_courses }}>
+              <Flash_promo.Provider value={{ flash_promo }}>
+                <BrowserRouter>
+                  <Routes>
+                    <Route
+                      index
+                      element={
+                        <Index
+                          banner_stuffs={banner_stuffs}
+                          onboarding_stuffs={onboarding_stuffs}
+                          best_instructors_stuffs={best_instructors_stuffs}
                         />
-                        <Route path="courses" element={<Courses />} />
-                        <Route path="contact_us" element={<Contact />} />
-                        <Route path="blog" element={<Blog />} />
-                        <Route path="article" element={<Article />} />
-                        <Route path="services" element={<Services_page />} />
-                        <Route path="enroll" element={<Enroll />} />
-                        <Route
-                          path="master_courses"
-                          element={<Master_courses />}
-                        />
-                        <Route path="signup" element={<Signup />} />
-                        <Route path="login" element={<Login />} />
-                        <Route path="faqs" element={<FAQS />} />
-                        <Route
-                          path="university_progressions"
-                          element={<University_progressions />}
-                        />
-                        <Route
-                          path="visa_assistance"
-                          element={<Visa_assistance />}
-                        />
-                        <Route
-                          path="admission_assistance"
-                          element={<Admission_assistance />}
-                        />
-                        <Route path="gallery" element={<Gallery />} />
-                        <Route path="instructors" element={<Instructors />} />
-                        <Route path="verify_email" element={<Verify_email />} />
-                        <Route
-                          path="forgot_password"
-                          element={<Forgot_password />}
-                        />
-                        <Route path="about" element={<About />} />
-                        <Route path="course" element={<Course />} />
-                        <Route path="career" element={<Careers />} />
-                        <Route path="testimonials" element={<Testimonials />} />
-                        <Route path="adminstrator" element={<Adminstrator />} />
-                        <Route path="*" element={<Page_not_found />} />
-                      </Routes>
-                    </BrowserRouter>
-                  </Flash_promo.Provider>
-                </Footer_context.Provider>
-              </Nav_context.Provider>
-            </Logged_admin.Provider>
-          </Logged_user.Provider>
-        </body>
-      </html>
+                      }
+                    />
+                    <Route path="courses" element={<Courses />} />
+                    <Route path="contact_us" element={<Contact />} />
+                    <Route path="blog" element={<Blog />} />
+                    <Route path="article" element={<Article />} />
+                    <Route path="services" element={<Services_page />} />
+                    <Route path="enroll" element={<Enroll />} />
+                    <Route path="master_courses" element={<Master_courses />} />
+                    <Route path="signup" element={<Signup />} />
+                    <Route path="login" element={<Login />} />
+                    <Route path="faqs" element={<FAQS />} />
+                    <Route
+                      path="university_progressions"
+                      element={<University_progressions />}
+                    />
+                    <Route
+                      path="visa_assistance"
+                      element={<Visa_assistance />}
+                    />
+                    <Route
+                      path="admission_assistance"
+                      element={<Admission_assistance />}
+                    />
+                    <Route path="gallery" element={<Gallery />} />
+                    <Route path="instructors" element={<Instructors />} />
+                    <Route path="verify_email" element={<Verify_email />} />
+                    <Route
+                      path="forgot_password"
+                      element={<Forgot_password />}
+                    />
+                    <Route path="about" element={<About />} />
+                    <Route path="course" element={<Course />} />
+                    <Route path="career" element={<Careers />} />
+                    <Route path="testimonials" element={<Testimonials />} />
+                    <Route path="adminstrator" element={<Adminstrator />} />
+                    <Route path="*" element={<Page_not_found />} />
+                  </Routes>
+                </BrowserRouter>
+              </Flash_promo.Provider>
+            </Footer_context.Provider>
+          </Nav_context.Provider>
+        </Logged_admin.Provider>
+      </Logged_user.Provider>
     );
   };
 }

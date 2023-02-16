@@ -1,6 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { gen_random_int, to_title } from "../Assets/js/utils/functions";
+import {
+  commalise_figures,
+  gen_random_int,
+  to_title,
+} from "../Assets/js/utils/functions";
 import Video from "../Components/video";
 import { domain, SKILL_LEVEL } from "../Constants/constants";
 import { Flash_promo } from "../Contexts";
@@ -59,11 +63,11 @@ class Course_sidebar extends React.Component {
                         className="theme-cl h4"
                       >
                         <br />
-                        &#8358; {Number(price).toFixed(2)}
+                        &#8358; {commalise_figures(Number(price))}
                       </em>
                     ) : (
                       <h2 className="theme-cl">
-                        &#8358; {Number(price).toFixed(2)}
+                        &#8358; {commalise_figures(Number(price))}
                       </h2>
                     )}
                   </div>
@@ -73,9 +77,7 @@ class Course_sidebar extends React.Component {
                       <span>Promo Price</span>
                       <h2 className="theme-cl">
                         &#8358;{" "}
-                        {Number(
-                          pricey(price, flash_promo.percentage_off)
-                        ).toFixed(2)}
+                        {Number(pricey(price, flash_promo.percentage_off))}
                       </h2>
                     </div>
                   ) : null}

@@ -13,26 +13,29 @@ class Breadcrumb extends React.Component {
 
     return (
       <section
-        style={
-          page_title === "courses"
+        style={{
+          ...(page_title === "courses"
             ? new Object({ paddingTop: 30, paddingBottom: 20 })
-            : null
-        }
+            : null),
+          backgroundImage: `url(${require("../Assets/css/img/breadcrumb_bg.jpg")})`,
+          backgroundRepeat: "no-repeat",
+          backgroundColor: "#ff9800",
+        }}
+        data-overlay="8"
         className={`page-title ${no_gray ? "" : "gray"}`}
       >
         <div className="container">
           <div className="row">
             <div className="col-lg-12 col-md-12">
               <div className="breadcrumbs-wrap">
-                <h1 className="breadcrumb-title">{page_title}</h1>
+                <h1 className="breadcrumb-title text-light">{page_title}</h1>
                 <nav className="transparent">
                   <ol className="breadcrumb p-0">
                     <li className="breadcrumb-item">
                       <Link
                         to="/"
                         style={{
-                          color: "#333",
-                          backgroundColor: no_gray ? "" : "#f7f8f9",
+                          color: "#eee",
                         }}
                       >
                         Home
