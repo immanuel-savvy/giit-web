@@ -14,7 +14,7 @@ import { Flash_promo } from "../Contexts";
 import { emitter } from "../Giit";
 
 const pricey = (price, percentage_off) => {
-  if (!percentage_off) return price;
+  if (!percentage_off) return commalise_figures(price);
 
   let return_val = ((100 - percentage_off) / 100) * price;
   if (parseInt(return_val) === return_val)

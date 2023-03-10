@@ -16,7 +16,7 @@ class Service extends React.Component {
   };
 
   render() {
-    let { service, remove } = this.props;
+    let { service } = this.props;
     let { title, image, description, _id } = service;
 
     return (
@@ -33,7 +33,11 @@ class Service extends React.Component {
           <div onClick={this.handle_service} class="cates_crs_wrip">
             <div class="crs_trios">
               <div class="crs_cate_icon">
-                <img src={`${domain}/Images/${image}`} className="img-fluid" />
+                <img
+                  src={`${domain}/Images/${image}`}
+                  className="img-fluid"
+                  style={{ height: 80 }}
+                />
               </div>
             </div>
             <div class="crs_capt_cat">

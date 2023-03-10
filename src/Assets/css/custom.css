@@ -52,3 +52,15 @@
 #banner_video::-webkit-scrollbar {
   display: none !important;
 }
+
+.gallery_pager {
+  justify-content: center;
+  display: flex;
+  cursor: pointer;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.gallery_pager:hover {
+  background-color: #ccc;
+}

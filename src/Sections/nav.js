@@ -36,6 +36,18 @@ class Custom_nav extends React.Component {
     });
   }
 
+  componentDidMount = () => {
+    window.onscroll = (e) => {
+      if (window.scrollY > 200) {
+        document.querySelector(".header").classList.add("header-fixed");
+        document.getElementById("top_info").style.display = "none";
+      } else {
+        document.querySelector(".header").classList.remove("header-fixed");
+        document.getElementById("top_info").style.display = "block";
+      }
+    };
+  };
+
   handle_course = (course) => {
     window.sessionStorage.setItem("course", JSON.stringify(course));
     emitter.emit("push_course", course);

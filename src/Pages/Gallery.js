@@ -38,7 +38,7 @@ class Gallery extends React.Component {
   };
 
   render() {
-    let { gallery, total_media, hide_nav } = this.state;
+    let { gallery, hide_nav } = this.state;
 
     return (
       <div id="main-wrapper">

@@ -98,7 +98,11 @@ class Course_sidebar extends React.Component {
                   <ul>
                     <li>
                       <i class="fa fa-gem"></i>
-                      {`${enrollments || 0} Enrollments`}
+                      {`${
+                        Number(enrollments) > 25
+                          ? enrollments
+                          : gen_random_int(600, 120)
+                      } Enrollments`}
                     </li>
                     <li>
                       <i class="ti-time"></i>

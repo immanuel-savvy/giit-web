@@ -15,7 +15,6 @@ import Master_courses from "../Sections/master_courses";
 import Associates from "../Sections/associates";
 import Services from "../Sections/services";
 import Student_reviews from "../Sections/student_reviews";
-import Login from "./Login";
 import Flash_promo from "../Sections/flash_promo";
 import Best_instructors from "../Sections/best_instructors";
 import Onboarding_steps from "../Sections/onboarding_steps";
@@ -23,6 +22,7 @@ import Faqs from "../Sections/faqs";
 import Modal from "../Components/modal";
 import Subscribe from "../Components/subscribe";
 import { emitter } from "../Giit";
+import Gallery from "../Sections/gallery";
 
 const sections_alignment = new Array("degree", "master", "professional");
 
@@ -104,7 +104,9 @@ class Index extends React.Component {
               />
               <Onboarding_steps onboarding_stuffs={onboarding_stuffs} />
 
+              <Gallery />
               <Student_reviews />
+
               <Latest_news_and_articles />
               <Services />
               <Faqs limit={6} />
