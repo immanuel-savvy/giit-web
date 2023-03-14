@@ -20,6 +20,7 @@ class Footer extends React.Component {
   handle_course = (course) => {
     window.sessionStorage.setItem("course", JSON.stringify(course));
     emitter.emit("push_course", course);
+    scroll_to_top();
   };
 
   set_email_subscription = ({ target }) =>
@@ -234,22 +235,40 @@ class Footer extends React.Component {
                                 <h4 className="widget_title">Company</h4>
                                 <ul className="footer-menu">
                                   <li>
-                                    <Link to="/">Home</Link>
+                                    <Link onClick={scroll_to_top} to="/">
+                                      Home
+                                    </Link>
                                   </li>
                                   <li>
-                                    <Link to="/about">About</Link>
+                                    <Link onClick={scroll_to_top} to="/about">
+                                      About
+                                    </Link>
                                   </li>
                                   <li>
-                                    <Link to="/blog">Blog</Link>
+                                    <Link onClick={scroll_to_top} to="/blog">
+                                      Blog
+                                    </Link>
                                   </li>
                                   <li>
-                                    <Link to="/testimonials">Testimonials</Link>
+                                    <Link
+                                      onClick={scroll_to_top}
+                                      to="/testimonials"
+                                    >
+                                      Testimonials
+                                    </Link>
                                   </li>
                                   <li>
-                                    <Link to="/contact_us">Contact</Link>
+                                    <Link
+                                      onClick={scroll_to_top}
+                                      to="/contact_us"
+                                    >
+                                      Contact
+                                    </Link>
                                   </li>
                                   <li>
-                                    <Link to="/login">Login</Link>
+                                    <Link onClick={scroll_to_top} to="/login">
+                                      Login
+                                    </Link>
                                   </li>
                                 </ul>
                               </div>

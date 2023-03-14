@@ -56,7 +56,7 @@ class Header extends React.Component {
                       <i className="fas fa-phone"></i> Contact
                     </span>
                     <br />
-                    +2348060515686, 08129252489{" "}
+                    +2348060515686, +2348129252489{" "}
                   </li>
                   <li>
                     <span className="topheader_whatsapp"> Whatsapp</span>

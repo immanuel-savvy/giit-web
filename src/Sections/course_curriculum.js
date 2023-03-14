@@ -1,4 +1,5 @@
 import React from "react";
+import { Accordion } from "react-bootstrap";
 import { get_request, post_request } from "../Assets/js/utils/services";
 import Loadindicator from "../Components/loadindicator";
 import { Logged_admin } from "../Contexts";
@@ -17,12 +18,106 @@ class Course_curriculum extends React.Component {
   tabname = "curriculum";
 
   componentDidMount = async () => {
-    let { course } = this.props;
+    let { course, in_all } = this.props;
 
     let curriculum = await get_request(`curriculum/${course._id}`);
     if (Array.isArray(curriculum))
       curriculum = curriculum.sort((c1, c2) => c1.created - c2.created);
 
+    if (in_all)
+      curriculum = new Array(
+        {
+          course: "1",
+          created: Date.now(),
+          subtopics: new Array(
+            {
+              text: "Officia aliqua consequat officia enim consequat culpa proident exercitation.",
+            },
+            {
+              text: "Pariatur fugiat eu consectetur occaecat esse dolor adipisicing id.",
+            },
+            {
+              text: "Est fugiat eu eiusmod ullamco dolor dolore id adipisicing aliqua eiusmod.",
+            },
+            {
+              text: "Elit adipisicing eiusmod mollit consequat ut veniam sint sit.",
+            },
+            {
+              text: "Officia aliqua consequat officia enim consequat culpa proident exercitation.",
+            }
+          ),
+          topic:
+            "Incididunt ipsum velit ullamco consectetur exercitation in ex anim labore magna.",
+        },
+        {
+          course: "1",
+          created: Date.now(),
+          subtopics: new Array(
+            {
+              text: "Officia aliqua consequat officia enim consequat culpa proident exercitation.",
+            },
+            {
+              text: "Pariatur fugiat eu consectetur occaecat esse dolor adipisicing id.",
+            },
+            {
+              text: "Est fugiat eu eiusmod ullamco dolor dolore id adipisicing aliqua eiusmod.",
+            },
+            {
+              text: "Elit adipisicing eiusmod mollit consequat ut veniam sint sit.",
+            },
+            {
+              text: "Officia aliqua consequat officia enim consequat culpa proident exercitation.",
+            }
+          ),
+          topic: "Qui non ex deserunt dolor commodo occaecat veniam.",
+        },
+        {
+          course: "1",
+          created: Date.now(),
+          subtopics: new Array(
+            {
+              text: "Officia aliqua consequat officia enim consequat culpa proident exercitation.",
+            },
+            {
+              text: "Pariatur fugiat eu consectetur occaecat esse dolor adipisicing id.",
+            },
+            {
+              text: "Est fugiat eu eiusmod ullamco dolor dolore id adipisicing aliqua eiusmod.",
+            },
+            {
+              text: "Elit adipisicing eiusmod mollit consequat ut veniam sint sit.",
+            },
+            {
+              text: "Officia aliqua consequat officia enim consequat culpa proident exercitation.",
+            }
+          ),
+          topic:
+            "Fugiat aliqua Lorem ad occaecat deserunt qui ipsum qui ut ad.",
+        },
+        {
+          course: "1",
+          created: Date.now(),
+          subtopics: new Array(
+            {
+              text: "Officia aliqua consequat officia enim consequat culpa proident exercitation.",
+            },
+            {
+              text: "Pariatur fugiat eu consectetur occaecat esse dolor adipisicing id.",
+            },
+            {
+              text: "Est fugiat eu eiusmod ullamco dolor dolore id adipisicing aliqua eiusmod.",
+            },
+            {
+              text: "Elit adipisicing eiusmod mollit consequat ut veniam sint sit.",
+            },
+            {
+              text: "Officia aliqua consequat officia enim consequat culpa proident exercitation.",
+            }
+          ),
+          topic:
+            "Enim voluptate commodo laborum exercitation dolore mollit sit sunt mollit occaecat.",
+        }
+      );
     this.setState({ curriculum });
 
     this.new_slide = (slide) => {
@@ -89,16 +184,16 @@ class Course_curriculum extends React.Component {
     let { current_slide_index } = this.state;
 
     return (
-      <div class="card" key={_id}>
-        <div id="headingOne" class="card-header bg-white shadow-sm border-0">
-          <h6 class="mb-0 accordion_title">
+      <Accordion.Item eventKey={`${index}`} key={_id}>
+        <Accordion.Header>
+          <h6 class="mb-0 accordion_title mt-5">
             <a
               href="#"
               data-toggle="collapse"
               data-target={`#collapse${index}`}
               aria-expanded={current_slide_index === index ? "true" : "false"}
               aria-controls={`collapse${index}`}
-              class="d-block position-relative text-dark collapsible-link py-2"
+              class="d-block position-relative text-dark py-2"
             >
               {`Part ${String(index + 1).padStart(2, "0")}: ${topic}`}
 
@@ -121,13 +216,14 @@ class Course_curriculum extends React.Component {
               ) : null}
             </a>
           </h6>
-        </div>
-        <div
-          id={`collapse${index}`}
-          aria-labelledby="headingOne"
-          data-parent="#accordionExample"
-          class={`collapse ${current_slide_index === index ? "show" : ""}`}
-        >
+        </Accordion.Header>
+        <Accordion.Body>
+          {/* <div
+            id={`collapse${index}`}
+            aria-labelledby="headingOne"
+            data-parent="#accordionExample"
+            class={`collapse ${current_slide_index === index ? "show" : ""}`}
+          > */}
           <div class="card-body pl-3 pr-3">
             <ul class="lectures_lists">
               {subtopics.map(({ text, book, video }, index) => (
@@ -145,8 +241,9 @@ class Course_curriculum extends React.Component {
               ))}
             </ul>
           </div>
-        </div>
-      </div>
+          {/* </div> */}
+        </Accordion.Body>
+      </Accordion.Item>
     );
   };
 
@@ -166,7 +263,7 @@ class Course_curriculum extends React.Component {
   };
 
   render() {
-    let { active_tab, course } = this.props;
+    let { active_tab, course, in_all } = this.props;
     let { curriculum, show_form, slide_in_edit } = this.state;
 
     return (
@@ -176,15 +273,22 @@ class Course_curriculum extends React.Component {
 
           return (
             <div
-              class={`tab-pane fade ${
-                active_tab === this.tabname ? " show active" : ""
+              class={`tab-pane fade mt-5 ${
+                active_tab === this.tabname || in_all ? " show active" : ""
               }`}
               id="curriculum"
               role="tabpanel"
               aria-labelledby="curriculum-tab"
             >
               <div class="edu_wraper">
-                <h4 class="edu_title">Course Circullum</h4>
+                <h4
+                  class="edu_title"
+                  style={in_all ? { fontSize: 30, marginBottom: 20 } : null}
+                >
+                  {in_all
+                    ? "Discover our Python for Data Science Modules"
+                    : "Course Circullum"}
+                </h4>
 
                 {admin_logged && !show_form ? this.curriculum_btn() : null}
 
@@ -198,14 +302,11 @@ class Course_curriculum extends React.Component {
 
                 {curriculum ? (
                   curriculum.length ? (
-                    <div
-                      id="accordionExample"
-                      class="accordion shadow circullum"
-                    >
+                    <Accordion defaultActiveKey="0">
                       {curriculum.map((curr, index) =>
                         this.curriculum(curr, index)
                       )}
-                    </div>
+                    </Accordion>
                   ) : null
                 ) : (
                   <Loadindicator contained />

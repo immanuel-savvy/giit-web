@@ -17,8 +17,9 @@ const pricey = (price, percentage_off) => {
   if (!percentage_off) return commalise_figures(price);
 
   let return_val = ((100 - percentage_off) / 100) * price;
+
   if (parseInt(return_val) === return_val)
-    return_val = commalise_figures(Number(return_val));
+    return_val = commalise_figures(Number(parseInt(return_val)));
 
   return return_val;
 };

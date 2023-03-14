@@ -26,7 +26,7 @@ class Review extends React.Component {
             : "single_items lios_item mb-3"
         }
       >
-        <div className="_testimonial_wrios shadow_none">
+        <div className="_testimonial_wrios">
           <div className="_testimonial_flex">
             <div className="_testimonial_flex_first">
               <div className="_tsl_flex_thumb">

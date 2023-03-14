@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { emitter } from "../Giit";
 import Certification_courses from "./certification_courses";
 
 class Course_overview extends React.Component {
@@ -7,6 +9,12 @@ class Course_overview extends React.Component {
 
     this.state = {};
   }
+
+  handle_enroll = (e) => {
+    let { course } = this.props;
+    window.sessionStorage.setItem("enroll", JSON.stringify(course));
+    emitter.emit("push_enroll", course);
+  };
 
   tabname = "overview";
 
@@ -18,6 +26,7 @@ class Course_overview extends React.Component {
       what_you_will_learn,
       requirements,
       certifications,
+      description_title,
     } = course;
     description = description || short_description;
     if (requirements && !requirements.length) requirements = null;
@@ -32,10 +41,22 @@ class Course_overview extends React.Component {
         aria-labelledby="overview-tab"
       >
         <div class="edu_wraper">
-          <h4 class="edu_title">Course Overview</h4>
+          <h2 class="edu_title" style={{ fontSize: 24 }}>
+            {description_title || "Course Overview"}
+          </h2>
           {description.split("\n").map((d, i) => (
-            <p key={i}>{d}</p>
+            <p style={{ fontSize: 20, lineHeight: 2 }} key={i}>
+              {d}
+            </p>
           ))}
+
+          <Link
+            to="/enroll"
+            onClick={this.handle_enroll}
+            className="btn btn-md text-light theme-bg"
+          >
+            Get Started
+          </Link>
 
           {requirements && requirements.length ? <h6>Requirements</h6> : null}
           {requirements && requirements.length ? (
@@ -56,10 +77,12 @@ class Course_overview extends React.Component {
 
         {what_you_will_learn && what_you_will_learn.length ? (
           <div class="edu_wraper">
-            <h4 class="edu_title">What you'll learn</h4>
-            <ul class="lists-3 row">
+            <h4 class="edu_title" style={{ fontSize: 28 }}>
+              What you'll learn
+            </h4>
+            <ul class="lists-3 row" style={{ fontSize: 20 }}>
               {what_you_will_learn.map((learn, i) => (
-                <li key={i} class="col-xl-4 col-lg-6 col-md-6 m-0">
+                <li key={i} class="col-xl-4 mb-2 col-lg-6 col-md-6 m-0">
                   {learn}
                 </li>
               ))}

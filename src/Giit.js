@@ -37,6 +37,7 @@ import University_progressions from "./Pages/University_progressions";
 import Visa_assistance from "./Pages/Visa_assistance";
 import Admission_assistance from "./Pages/Admission_assistance";
 import Services_page from "./Pages/Services";
+import Course_template from "./Pages/Course_template";
 
 let emitter = new Emitter();
 
@@ -314,6 +315,10 @@ class Giit extends React.Component {
                     <Route path="article" element={<Article />} />
                     <Route path="services" element={<Services_page />} />
                     <Route path="enroll" element={<Enroll />} />
+                    <Route
+                      path="course_template"
+                      element={<Course_template />}
+                    />
                     <Route path="master_courses" element={<Master_courses />} />
                     <Route path="signup" element={<Signup />} />
                     <Route path="login" element={<Login />} />

@@ -33,7 +33,7 @@ class Flash_promo extends React.Component {
               <div class="imageblock__content">
                 <div
                   class="background-image-holder"
-                  style={{ background: `url(${domain}/Images/${image}` }}
+                  style={{ background: `url(${domain}/Images/${image})` }}
                 >
                   {/* <Preview_image
                     image={image || require("./../Assets/img/01_preview.jpg")}

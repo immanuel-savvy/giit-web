@@ -29,7 +29,7 @@ class Course_sidebar extends React.Component {
 
   render() {
     let { show_full } = this.state;
-    let { course, cummulative_price } = this.props;
+    let { course, cummulative_price, class_name } = this.props;
     let {
       image,
       video,
@@ -46,8 +46,8 @@ class Course_sidebar extends React.Component {
       <Flash_promo.Consumer>
         {({ flash_promo }) => {
           return (
-            <div className="col-lg-4 col-md-12 order-lg-last">
-              <div className="ed_view_box style_3 ovrlio stick_top">
+            <div className={class_name || "col-lg-4 col-md-12 order-lg-last"}>
+              <div className="ed_view_box">
                 <Video
                   thumbnail_class="pro_img img-fluid w100"
                   thumbnail={`${domain}/Images/${image}`}
@@ -76,8 +76,7 @@ class Course_sidebar extends React.Component {
                     <div className="ed_view_price pl-4">
                       <span>Promo Price</span>
                       <h2 className="theme-cl">
-                        &#8358;{" "}
-                        {Number(pricey(price, flash_promo.percentage_off))}
+                        &#8358; {pricey(price, flash_promo.percentage_off)}
                       </h2>
                     </div>
                   ) : null}
@@ -86,7 +85,7 @@ class Course_sidebar extends React.Component {
                   onClick={this.toggle_short_description}
                   className="ed_view_short pl-4 pr-4 pb-2"
                 >
-                  <p>
+                  <p style={{ fontSize: 18 }}>
                     {show_full
                       ? short_description
                       : `${short_description.slice(0, 150)}...`}
@@ -94,8 +93,8 @@ class Course_sidebar extends React.Component {
                 </div>
 
                 <div class="ed_view_features half_list pl-4 pr-3">
-                  <span>Course Features</span>
-                  <ul>
+                  <span style={{ fontSize: 20 }}>Course Features</span>
+                  <ul style={{ fontSize: 18 }}>
                     <li>
                       <i class="fa fa-gem"></i>
                       {`${

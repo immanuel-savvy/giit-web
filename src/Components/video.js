@@ -19,6 +19,7 @@ class Video extends React.Component {
       height,
       style,
       width,
+      loop,
       thumbnail,
       thumbnail_hash,
       thumbnail_class,
@@ -62,6 +63,7 @@ class Video extends React.Component {
           height="100%"
           width="100%"
           autoPlay
+          loop={loop}
           className="react-players embed-responsive embed-responsive-16by9 rounded"
           onLoadedData={() => this.setState({ video_loaded: false })}
           style={{ ...style }}
@@ -74,6 +76,7 @@ class Video extends React.Component {
           className="embed-responsive embed-responsive-16by9 rounded"
           autoPlay
           controls
+          loop={loop}
           onLoadedData={() => this.setState({ video_loaded: false })}
           style={{ ...style }}
         >
