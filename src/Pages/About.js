@@ -10,6 +10,7 @@ import Best_instructors from "../Sections/best_instructors";
 import { Link } from "react-router-dom";
 import { get_request } from "../Assets/js/utils/services";
 import Loadindicator from "../Components/loadindicator";
+import { organisation_name } from "../Constants/constants";
 
 class About extends React.Component {
   constructor(props) {
@@ -19,19 +20,18 @@ class About extends React.Component {
   }
 
   componentDidMount = async () => {
-    document.title = "About | Globalstar Innovative Information Technology";
+    document.title = `About | ${organisation_name}`;
 
     let about_statement = await get_request("about_statement");
     this.setState({ about_statement });
   };
 
   render() {
-    let { navs } = this.props;
     let { about_statement } = this.state;
 
     return (
       <div id="main-wrapper">
-        <Header navs={navs} page="about" refs="header" />
+        <Header page="about" refs="header" />
         <div className="clearfix"></div>
         <Breadcrumb page_title="Who we are?" page_text="About Us" />
 

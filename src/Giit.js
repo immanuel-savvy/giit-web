@@ -47,8 +47,8 @@ class Giit extends React.Component {
 
     this.state = {
       submenus: new Object(),
-      loggeduser: "fetching",
       subnavs: new Object(),
+      loggeduser: "fetching",
       navs: new Array(
         {
           title: "search",
