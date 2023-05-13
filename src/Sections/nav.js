@@ -62,8 +62,7 @@ class Custom_nav extends React.Component {
   };
 
   render() {
-    let { subnavs, current_subnav, current_nav, show_search, search_param } =
-      this.state;
+    let { current_subnav, current_nav, show_search, search_param } = this.state;
 
     return (
       <Nav_context.Consumer>

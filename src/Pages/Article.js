@@ -75,7 +75,6 @@ class Article extends React.Component {
   };
 
   render() {
-    let { navs } = this.props;
     let { article, fetching_article } = this.state;
     if (!article && !fetching_article) return null;
 
@@ -84,7 +83,7 @@ class Article extends React.Component {
     return (
       <div className="blog-page">
         <div id="main-wrapper">
-          <Header page="course" navs={navs} />
+          <Header page="article" />
           <div className="clearfix"></div>
           <Breadcrumb page_text="Article" page_title={title} no_gray />
 

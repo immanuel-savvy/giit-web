@@ -13,7 +13,6 @@ class Manage_subscribers extends React.Component {
 
   componentDidMount = async () => {
     let subscribers = await get_request("newsletter_subscribers");
-    console.log(subscribers);
     subscribers && this.setState({ subscribers });
   };
 
