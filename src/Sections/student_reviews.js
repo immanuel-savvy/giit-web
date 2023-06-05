@@ -7,6 +7,11 @@ import { domain, get_request, post_request } from "../Assets/js/utils/services";
 import Add_student_review from "./add_student_review";
 import { emitter } from "../Giit";
 import Explore_more_btn from "./explore_more_btn";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/autoplay";
+import { Autoplay, Pagination } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 class Student_reviews extends React.Component {
   constructor(props) {
@@ -82,9 +87,24 @@ class Student_reviews extends React.Component {
           <div className="row justify-content-center">
             {reviews ? (
               reviews && !reviews.length ? null : (
-                reviews.map((review, index) => (
-                  <Review testimonials review={review} key={index} />
-                ))
+                <Swiper
+                  modules={[Autoplay, Pagination]}
+                  pagination={{ clickable: true }}
+                  slidesPerView={window.innerWidth < 650 ? 1 : 3}
+                  autoplay={{
+                    delay: 2000,
+                    pauseOnMouseEnter: true,
+                    disableOnInteraction: false,
+                  }}
+                  loop
+                  // className="swiper-container"
+                >
+                  {reviews.map((review, index) => (
+                    <SwiperSlide key={index}>
+                      <Review review={review} />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
               )
             ) : (
               <Loadindicator contained />

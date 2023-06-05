@@ -23,6 +23,7 @@ import Modal from "../Components/modal";
 import Subscribe from "../Components/subscribe";
 import { emitter } from "../Giit";
 import Gallery from "../Sections/gallery";
+import Upcoming_seminars from "../Sections/upcoming_seminar";
 
 const sections_alignment = new Array("degree", "master", "professional");
 
@@ -105,6 +106,9 @@ class Index extends React.Component {
               <Onboarding_steps onboarding_stuffs={onboarding_stuffs} />
 
               <Gallery />
+
+              <Upcoming_seminars />
+
               <Student_reviews />
 
               <Latest_news_and_articles />

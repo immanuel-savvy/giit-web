@@ -17,6 +17,10 @@ const domain = DEV ? `${hostname}:3300` : `https://api.giitafrica.com`;
 
 const default_admin = "adminstrators~123giitafrica~1234567890123";
 
+const seminar_backend = `https://udaralinksapp.com`;
+
+const seminar_frontend = "https://giitfoundation.org";
+
 const month_index = new Object({
   0: "jan",
   1: "feb",
@@ -43,5 +47,7 @@ export {
   month_index,
   default_admin,
   organisation_name,
+  seminar_backend,
+  seminar_frontend,
   DEV,
 };

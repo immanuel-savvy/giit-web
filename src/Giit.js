@@ -102,6 +102,14 @@ class Giit extends React.Component {
               path: "/career",
             },
             {
+              title: "internships",
+              path: "https://giitfoundation.org/internship",
+            },
+            {
+              title: "mentorships",
+              path: "https://giitfoundation.org/mentorship",
+            },
+            {
               title: "FAQs",
               path: "/faqs",
             }
@@ -124,12 +132,22 @@ class Giit extends React.Component {
           path: "/blog",
         },
         {
-          title: "contact",
-          path: "/contact_us",
+          title: "events",
+          path: "",
+          submenu: new Array(
+            {
+              title: "seminars",
+              path: `https://giitfoundation.org/seminars?upcoming`,
+            },
+            {
+              title: "conferences",
+              path: "https://giitfoundation.org/conferences?upcoming",
+            }
+          ),
         },
         {
-          title: "login",
-          path: "/login",
+          title: "contact",
+          path: "/contact_us",
         },
         {
           title: "get started",

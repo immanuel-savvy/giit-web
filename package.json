@@ -25,6 +25,7 @@
     "react-scripts": "5.0.1",
     "reactstrap": "^9.1.5",
     "semitter": "latest",
+    "swiper": "^9.3.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

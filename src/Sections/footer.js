@@ -6,7 +6,11 @@ import Loadindicator from "../Components/loadindicator";
 import Socials from "../Components/socials";
 import { Footer_context } from "../Contexts";
 import { emitter } from "../Giit";
-import { scroll_to_top } from "../Pages/Adminstrator";
+
+const scroll_to_top = () => window.scrollTo({ top: 0, behavior: "smooth" });
+
+const save_to_session = (key, value) =>
+  window.sessionStorage.setItem(key, JSON.stringify(value));
 
 class Footer extends React.Component {
   constructor(props) {
@@ -315,3 +319,4 @@ class Footer extends React.Component {
 }
 
 export default Footer;
+export { save_to_session, scroll_to_top };

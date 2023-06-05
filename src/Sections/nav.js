@@ -146,18 +146,32 @@ class Custom_nav extends React.Component {
                                           )
                                   }
                                 >
-                                  <Link
-                                    onClick={subnav.on_click}
-                                    to={
-                                      subnav.view_all ? "/courses" : subnav.path
-                                    }
-                                  >
-                                    {subnav.view_all
-                                      ? "View all courses..."
-                                      : to_title(
-                                          subnav.title.replace(/_/g, " ")
-                                        )}
-                                  </Link>
+                                  {subnav?.path?.startsWith("http") ? (
+                                    <a
+                                      onClick={subnav.on_click}
+                                      href={subnav.path}
+                                    >
+                                      {to_title(
+                                        subnav.title.replace(/_/g, " ")
+                                      )}
+                                    </a>
+                                  ) : (
+                                    <Link
+                                      onClick={subnav.on_click}
+                                      to={
+                                        subnav.view_all
+                                          ? "/courses"
+                                          : subnav.path
+                                      }
+                                    >
+                                      {subnav.view_all
+                                        ? "View all courses..."
+                                        : to_title(
+                                            subnav.title.replace(/_/g, " ")
+                                          )}
+                                    </Link>
+                                  )}
+
                                   {nav.title !==
                                   "courses" ? null : subnav.submenu &&
                                     !subnav.submenu

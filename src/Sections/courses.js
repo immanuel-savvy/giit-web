@@ -5,6 +5,11 @@ import Loadindicator from "../Components/loadindicator";
 import { emitter } from "../Giit";
 import Featured_course from "./course";
 import Explore_more_btn from "./explore_more_btn";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/autoplay";
+import { Autoplay, Pagination } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 class Courses extends React.Component {
   constructor(props) {
@@ -56,9 +61,23 @@ class Courses extends React.Component {
           </div>
           <div className="row justify-content-center">
             {courses && courses.length ? (
-              courses.map((course, index) => (
-                <Featured_course course={course} key={index} />
-              ))
+              <Swiper
+                modules={[Autoplay, Pagination]}
+                pagination={{ clickable: true }}
+                slidesPerView={window.innerWidth < 650 ? 1 : 3}
+                autoplay={{
+                  delay: 2000,
+                  pauseOnMouseEnter: true,
+                  disableOnInteraction: false,
+                }}
+                loop
+              >
+                {courses.map((course) => (
+                  <SwiperSlide key={course._id}>
+                    <Featured_course full course={course} />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
             ) : (
               <div className="d-flex align-items-center justify-content-center my-5">
                 <Loadindicator />

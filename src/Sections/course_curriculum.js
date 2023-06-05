@@ -186,14 +186,14 @@ class Course_curriculum extends React.Component {
     return (
       <Accordion.Item eventKey={`${index}`} key={_id}>
         <Accordion.Header>
-          <h6 class="mb-0 accordion_title mt-5">
+          <h6 className="mb-0 accordion_title mt-5">
             <a
               href="#"
               data-toggle="collapse"
               data-target={`#collapse${index}`}
               aria-expanded={current_slide_index === index ? "true" : "false"}
               aria-controls={`collapse${index}`}
-              class="d-block position-relative text-dark py-2"
+              className="d-block position-relative text-dark py-2"
             >
               {`Part ${String(index + 1).padStart(2, "0")}: ${topic}`}
 
@@ -222,18 +222,18 @@ class Course_curriculum extends React.Component {
             id={`collapse${index}`}
             aria-labelledby="headingOne"
             data-parent="#accordionExample"
-            class={`collapse ${current_slide_index === index ? "show" : ""}`}
+            className={`collapse ${current_slide_index === index ? "show" : ""}`}
           > */}
-          <div class="card-body pl-3 pr-3">
-            <ul class="lectures_lists">
+          <div className="card-body pl-3 pr-3">
+            <ul className="lectures_lists">
               {subtopics.map(({ text, book, video }, index) => (
-                <li key={index} class={"incomplete" || "complete"}>
-                  <div class="lectures_lists_title">
-                    <i class="fas fa-check dios"></i>
+                <li key={index} className={"incomplete" || "complete"}>
+                  <div className="lectures_lists_title">
+                    <i className="fas fa-check dios"></i>
                   </div>
                   {text}
                   {video ? (
-                    <span class="cls_timing">40:20</span>
+                    <span className="cls_timing">40:20</span>
                   ) : book ? (
                     <></>
                   ) : null}
@@ -253,9 +253,9 @@ class Course_curriculum extends React.Component {
   curriculum_btn = () => {
     return (
       <div className="d-flex align-items-center justify-content-center my-5">
-        <div class="elkios" onClick={this.toggle_curriculum_form}>
-          <a href="#" class="add_new_btn">
-            <i class="fas fa-plus-circle mr-1"></i>Add Curriculum
+        <div className="elkios" onClick={this.toggle_curriculum_form}>
+          <a href="#" className="add_new_btn">
+            <i className="fas fa-plus-circle mr-1"></i>Add Curriculum
           </a>
         </div>
       </div>
@@ -273,16 +273,16 @@ class Course_curriculum extends React.Component {
 
           return (
             <div
-              class={`tab-pane fade mt-5 ${
+              className={`tab-pane fade mt-5 ${
                 active_tab === this.tabname || in_all ? " show active" : ""
               }`}
               id="curriculum"
               role="tabpanel"
               aria-labelledby="curriculum-tab"
             >
-              <div class="edu_wraper">
+              <div className="edu_wraper">
                 <h4
-                  class="edu_title"
+                  className="edu_title"
                   style={in_all ? { fontSize: 30, marginBottom: 20 } : null}
                 >
                   {in_all

@@ -91,7 +91,7 @@ class Featured_course extends React.Component {
   render() {
     let { progress, image_hash: img_hash, full_desc, play } = this.state;
 
-    let { course, classname, adminstrator, edit_course, delete_course } =
+    let { course, full, classname, adminstrator, edit_course, delete_course } =
       this.props;
 
     if (!course) return null;
@@ -136,7 +136,10 @@ class Featured_course extends React.Component {
           return (
             <div
               className={
-                classname || `col-xl-${"4"} col-lg-${"4"} col-md-6 col-sm-12`
+                full
+                  ? "col-12"
+                  : classname ||
+                    `col-xl-${"4"} col-lg-${"4"} col-md-6 col-sm-12`
               }
             >
               <div className="crs_grid">

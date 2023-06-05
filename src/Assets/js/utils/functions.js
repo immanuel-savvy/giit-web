@@ -42,6 +42,15 @@ const date_string = (timestamp) => {
   )} ${date.getFullYear()}`;
 };
 
+const time_string = (timestamp) => {
+  let date = new Date(timestamp);
+
+  return `${date.getHours().toString().padStart(2, "0")}:${date
+    .getMinutes()
+    .toString()
+    .padStart(2, "0")}`;
+};
+
 const generate_random_string = (len, combination) => {
   let string = "";
   combination = combinations[combination] || combinations["num"];
@@ -61,7 +70,7 @@ let phone_regex =
 let email_regex =
   /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
-const commalise_figures = (figure) => {
+const commalise_figures_ = (figure) => {
   if (typeof figure !== "number") {
     return figure;
   }
@@ -85,11 +94,32 @@ const commalise_figures = (figure) => {
   return ff.slice(0, -1);
 };
 
+const commalise_figures = (value, no_fixed) => {
+  if (typeof value !== "number") {
+    if (typeof value === "string") {
+      if (/[A-Za-z]\-/.test(value)) return value;
+      else value = Number(value);
+
+      if (!value) return;
+    } else return value;
+  }
+
+  let integer = Math.floor(value);
+  let decimal = (value - integer).toFixed(2).toString();
+
+  let commalised = commalise_figures_(integer);
+
+  return no_fixed
+    ? commalised
+    : `${commalised}${decimal.slice(decimal.indexOf("."))}`;
+};
+
 export {
   to_title,
   gen_random_int,
   generate_random_string,
   email_regex,
+  time_string,
   phone_regex,
   date_string,
   shuffle_array,

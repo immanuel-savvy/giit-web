@@ -49,14 +49,17 @@ const upload_file = async (file) => {
 const post_request = async (path, data) => {
   if (path && path.startsWith("/")) path = path.slice(1);
   try {
-    let ftch = await fetch(`${domain}/${path}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: data && JSON.stringify(data),
-    });
+    let ftch = await fetch(
+      path.startsWith("http") ? path : `${domain}/${path}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: data && JSON.stringify(data),
+      }
+    );
 
     let res;
     try {

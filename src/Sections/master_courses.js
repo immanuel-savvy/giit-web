@@ -3,6 +3,11 @@ import { get_request } from "../Assets/js/utils/services";
 import Loadindicator from "../Components/loadindicator";
 import Featured_course from "./course";
 import Explore_more_btn from "./explore_more_btn";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/autoplay";
+import { Autoplay, Pagination } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 let master_course_alignment = new Array(
   "science",
@@ -69,9 +74,23 @@ class Master_courses extends React.Component {
           )}
           <div className="row justify-content-center">
             {master_courses ? (
-              master_courses.map((course, index) => (
-                <Featured_course course={course} key={index} />
-              ))
+              <Swiper
+                modules={[Autoplay, Pagination]}
+                pagination={{ clickable: true }}
+                slidesPerView={window.innerWidth < 650 ? 1 : 3}
+                autoplay={{
+                  delay: 2000,
+                  pauseOnMouseEnter: true,
+                  disableOnInteraction: false,
+                }}
+                loop
+              >
+                {master_courses.map((course, index) => (
+                  <SwiperSlide key={index}>
+                    <Featured_course full course={course} />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
             ) : (
               <Loadindicator contained />
             )}
