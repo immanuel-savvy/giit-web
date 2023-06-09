@@ -21,13 +21,20 @@ class Manage_reviews extends React.Component {
     this.new_alumni_review = (review) => {
       let { reviews } = this.state;
       reviews = new Array(review, ...reviews);
-      this.setState({ reviews });
+      this.setState({ reviews, review_to_update: false });
     };
 
+    this.review_updated = (review) => {
+      let { reviews } = this.state;
+      reviews = reviews.map((rev) => (rev._id === review._id ? review : rev));
+      this.setState({ reviews, review_to_update: false });
+    };
     emitter.listen("new_alumni_review", this.new_alumni_review);
+    emitter.listen("review_updated", this.review_updated);
   };
 
   componentWillUnmount = () => {
+    emitter.remove_listener("review_updated", this.review_updated);
     emitter.remove_listener("new_alumni_review", this.new_alumni_review);
   };
 
@@ -43,7 +50,6 @@ class Manage_reviews extends React.Component {
   toggle_form = () =>
     this.setState({
       show_form: !this.state.show_form,
-      review_to_update: null,
     });
 
   add_new_review_btn = () =>
@@ -61,6 +67,9 @@ class Manage_reviews extends React.Component {
         </div>
       </div>
     );
+
+  edit_review = (review) =>
+    this.setState({ review_to_update: review }, this.toggle_form);
 
   render() {
     let { reviews, show_form, review_to_update } = this.state;
@@ -91,6 +100,7 @@ class Manage_reviews extends React.Component {
               reviews.map((review) => (
                 <Review
                   review={review}
+                  edit={() => this.edit_review(review)}
                   remove={() => this.remove_review(review._id)}
                 />
               ))

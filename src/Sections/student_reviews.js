@@ -12,6 +12,7 @@ import "swiper/css/pagination";
 import "swiper/css/autoplay";
 import { Autoplay, Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
+import Video_review from "../Components/video_review";
 
 class Student_reviews extends React.Component {
   constructor(props) {
@@ -26,6 +27,9 @@ class Student_reviews extends React.Component {
 
     let reviews = await post_request("reviews", { verified: true, limit: 12 });
     this.setState({ reviews });
+
+    let videos = await post_request("video_reviews", { limit: 12 });
+    this.setState({ videos });
 
     this.new_alumni_review = (review) => {
       let { reviews } = this.state;
@@ -46,7 +50,7 @@ class Student_reviews extends React.Component {
 
   render() {
     let { no_gray } = this.props;
-    let { reviews, add_review, alumni_overview } = this.state;
+    let { reviews, add_review, videos, alumni_overview } = this.state;
 
     if (!alumni_overview && reviews && !reviews.length) return;
 
@@ -61,7 +65,7 @@ class Student_reviews extends React.Component {
                 alumni_overview ? "" : "justify-content-center"
               } col-sm-12 align-items-center d-flex`}
             >
-              <div className="">
+              <div className="text-center">
                 <h2>
                   Our <span className="theme-cl">Testimonials</span>
                 </h2>
@@ -110,6 +114,36 @@ class Student_reviews extends React.Component {
               <Loadindicator contained />
             )}
           </div>
+
+          {videos && videos.length ? (
+            <>
+              {/* <Section_header
+                title="Video Testimonies"
+                style={{ marginTop: 25 }}
+              /> */}
+              <Swiper
+                modules={[Autoplay, Pagination]}
+                pagination={{ clickable: true }}
+                slidesPerView={window.innerWidth < 650 ? 1 : 3}
+                autoplay={{
+                  delay: 2000,
+                  pauseOnMouseEnter: true,
+                  disableOnInteraction: false,
+                }}
+                loop
+                className="swiper-container"
+              >
+                {videos.map((video) => (
+                  <SwiperSlide key={video._id}>
+                    <Video_review
+                      review={video}
+                      class_name="mx-2 text-center"
+                    />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </>
+          ) : null}
 
           {reviews && reviews.length ? (
             <Explore_more_btn title="Testimonies" to={"/testimonials"} />

@@ -14,7 +14,7 @@ class Banner extends React.Component {
 
   render() {
     let { banner_stuffs } = this.props;
-    let { image, thumbnail, thumbnail_hash, video } =
+    let { image, thumbnail, thumbnail_hash, video_url, video } =
       banner_stuffs || new Object();
 
     return (
@@ -83,7 +83,7 @@ class Banner extends React.Component {
             >
               {thumbnail ? (
                 <Video
-                  url={`${domain}/Videos/${video}`}
+                  url={video_url || `${domain}/Videos/${video}`}
                   thumbnail={thumbnail}
                   thumbnail_hash={thumbnail_hash}
                   style={{ overflow: "hidden" }}

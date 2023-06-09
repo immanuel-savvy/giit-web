@@ -45,6 +45,7 @@ import University_progression_page_stuff from "../Sections/dashboard/university_
 import Manage_universities from "../Sections/dashboard/manage_universities";
 import About_statement from "../Sections/dashboard/about_statement";
 import { organisation_name } from "../Constants/constants";
+import Video_reviews from "../Sections/dashboard/manage_video_reviews";
 
 const scroll_to_top = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
@@ -129,6 +130,7 @@ class Adminstrator extends React.Component {
       manage_vacancies: <Manage_vacancies />,
       best_instructors: <Manage_best_instructors_section />,
       create_newsletter: <Create_newsletter />,
+      video_reviews: <Video_reviews />,
       manage_newsletters: <Manage_newsletters />,
       subscribers: <Manage_subscribers />,
       page_details: <University_progression_page_stuff />,

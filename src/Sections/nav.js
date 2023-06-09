@@ -75,7 +75,7 @@ class Custom_nav extends React.Component {
 
           return (
             <div id="navigation" className="navigation navigation-landscape">
-              <Navbar dark expand="lg">
+              <Navbar dark expand="xl">
                 <NavbarBrand href="/" className="nav-brand">
                   <img
                     src={`${domain}/Images/giit_africa_logo_white.png`}

@@ -30,6 +30,7 @@ class Banner_stuffs extends Handle_image_upload {
       thumbnail_hash,
       thumbnail_image,
       thumbnail_image_hash,
+      video_url,
     } = this.state;
     this.setState({ uploading: true });
     if (thumbnail_image) thumbnail = thumbnail_image;
@@ -42,10 +43,11 @@ class Banner_stuffs extends Handle_image_upload {
       thumbnail_hash,
     };
 
-    if (video && video.startsWith("data")) {
+    if ((video && video.startsWith("data")) || video_url) {
       let response = await post_request("update_banner_video", {
         thumbnail,
         thumbnail_hash,
+        video_url,
         video,
       });
       banner_stuffs.video = response.video;
@@ -74,6 +76,7 @@ class Banner_stuffs extends Handle_image_upload {
       thumbnail_image_loading,
       video_loading,
       show_vid,
+      video_url,
       image_hash,
     } = this.state;
 
@@ -90,10 +93,13 @@ class Banner_stuffs extends Handle_image_upload {
                 />
               ) : null}
 
-              {(video || thumbnail || thumbnail_image) && show_vid ? (
+              {(video || video_url || thumbnail || thumbnail_image) &&
+              show_vid ? (
                 <Video
                   url={
-                    video.startsWith("data")
+                    video_url
+                      ? video_url
+                      : video.startsWith("data")
                       ? video
                       : `${domain}/Videos/${video}`
                   }
@@ -124,6 +130,18 @@ class Banner_stuffs extends Handle_image_upload {
                   )}
                 </div>
                 <hr />
+                <div class="form-group">
+                  <label>Video URL</label>
+                  <input
+                    class="form-control"
+                    type="text"
+                    placeholder="https://youtube.com/watch"
+                    value={video_url}
+                    onChange={({ target }) =>
+                      this.setState({ video_url: target.value })
+                    }
+                  />
+                </div>
                 <div className="form-group smalls">
                   <label>Video</label>
                   {video_loading ? (

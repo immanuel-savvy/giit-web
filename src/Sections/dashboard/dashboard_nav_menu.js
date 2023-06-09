@@ -68,7 +68,8 @@ class Dashboard_nav_menu extends React.Component {
           subnav: new Array(
             { title: "manage_reviews" },
             { title: "pending_reviews" },
-            { title: "alumni_overview" }
+            { title: "alumni_overview" },
+            { title: "video_reviews" }
           ),
         },
         { title: "gallery", icon: "fa-image" },

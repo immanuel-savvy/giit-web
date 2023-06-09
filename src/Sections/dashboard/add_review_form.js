@@ -3,14 +3,17 @@ import { domain, post_request } from "../../Assets/js/utils/services";
 import Handle_image_upload from "../../Components/handle_image_upload";
 import Loadindicator from "../../Components/loadindicator";
 import { emitter } from "../../Giit";
+import Add_video_review from "./add_video_review";
 
 class Add_student_review extends Handle_image_upload {
   constructor(props) {
     super(props);
 
+    let { review } = this.props;
     this.default_image = "user_image_placeholder.png";
     this.state = {
       image: `${domain}/Images/${this.default_image}`,
+      ...review,
     };
   }
 
@@ -32,6 +35,7 @@ class Add_student_review extends Handle_image_upload {
     e.preventDefault();
 
     let { admin, toggle, on_submit } = this.props;
+
     let {
       name,
       email,
@@ -41,6 +45,7 @@ class Add_student_review extends Handle_image_upload {
       organisation,
       position,
       posting,
+      _id,
     } = this.state;
     if (posting) return;
 
@@ -55,24 +60,35 @@ class Add_student_review extends Handle_image_upload {
       organisation,
       position,
       verified: !!admin,
+      _id,
     };
 
     let result = await post_request("new_review", review);
-    console.log(result);
     if (!result || (result && !result._id)) return;
 
     review._id = result._id;
     review.image = result.image;
     review.created = result.created;
 
-    admin && emitter.emit("new_alumni_review", review);
+    admin && emitter.emit(_id ? "review_updated" : "new_alumni_review", review);
 
     on_submit && on_submit(review);
     toggle();
   };
 
   render() {
-    let { toggle } = this.props;
+    let { toggle, video, review, on_submit } = this.props;
+
+    if (video)
+      return (
+        <Add_video_review
+          review={review}
+          admin
+          toggle={toggle}
+          on_submit={on_submit}
+        />
+      );
+
     let { name, email, text, image, organisation, position, posting } =
       this.state;
 
@@ -92,14 +108,18 @@ class Add_student_review extends Handle_image_upload {
                   {image ? (
                     <img
                       onClick={this.toggle_image_selector}
-                      className="py-3"
+                      className="py-3 img-fluid rounded"
                       style={{
                         maxHeight: 200,
                         cursor: "pointer",
                         maxWidth: 200,
                         resize: "both",
                       }}
-                      src={this.state.image}
+                      src={
+                        image?.startsWith("data")
+                          ? image
+                          : `${domain}/Images/${image}`
+                      }
                     />
                   ) : null}
                   <input
