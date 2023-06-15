@@ -7,8 +7,8 @@ import Breadcrumb from "../Sections/breadcrumb";
 import Contact_us_today from "../Sections/contact_us_today";
 import Footer from "../Sections/footer";
 import Header from "../Sections/header";
-import Nav from "../Sections/nav";
 import Student_reviews from "../Sections/student_reviews";
+import Explore_more_btn from "../Sections/explore_more_btn";
 
 class Gallery extends React.Component {
   constructor(props) {
@@ -21,15 +21,26 @@ class Gallery extends React.Component {
   }
 
   fetch_gallery = async (page = this.state.page) => {
-    let { page_size } = this.state;
+    let { page_size, loading_more, gallery } = this.state;
+    if (loading_more) return;
 
-    let { gallery, total_media } = await post_request("fetch_media", {
+    gallery && this.setState({ loading_more: true });
+    let { gallery: gallery_, total_media } = await post_request("fetch_media", {
       skip: page_size * page,
       limit: page_size,
       total_media: true,
     });
 
-    this.setState({ gallery, total_media });
+    if (!gallery) gallery = new Array();
+    gallery = new Array(...gallery, ...gallery_);
+
+    this.setState({
+      gallery,
+      total_media,
+      no_more: gallery_?.length < page_size,
+      loading_more: false,
+      page,
+    });
   };
 
   componentDidMount = async () => {
@@ -37,8 +48,14 @@ class Gallery extends React.Component {
     await this.fetch_gallery();
   };
 
+  load_more = async () => {
+    let { page } = this.state;
+
+    await this.fetch_gallery(page + 1);
+  };
+
   render() {
-    let { gallery, hide_nav } = this.state;
+    let { gallery, hide_nav, no_more, loading_more } = this.state;
 
     return (
       <div id="main-wrapper">
@@ -61,6 +78,12 @@ class Gallery extends React.Component {
               )}
             </div>
           </div>
+
+          {loading_more ? (
+            <Loadindicator />
+          ) : !gallery || no_more ? null : (
+            <Explore_more_btn action={this.load_more} text="Load more" />
+          )}
         </section>
         <Student_reviews />
         <Contact_us_today />

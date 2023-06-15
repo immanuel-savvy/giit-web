@@ -2,6 +2,13 @@ import React from "react";
 import { post_request } from "../Assets/js/utils/services";
 import Loadindicator from "../Components/loadindicator";
 import Seminar from "../Components/seminar";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/autoplay";
+import { Autoplay, Pagination } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
+import Explore_more_btn from "./explore_more_btn";
+import { seminar_frontend } from "../Constants/constants";
 
 class Upcoming_seminars extends React.Component {
   constructor(props) {
@@ -43,13 +50,27 @@ class Upcoming_seminars extends React.Component {
             <div className="row justify-content-center">
               <>
                 {upcoming_seminars ? (
-                  upcoming_seminars.map((seminar) => (
-                    <Seminar
-                      loggeduser={loggeduser}
-                      seminar={seminar}
-                      key={seminar._id}
-                    />
-                  ))
+                  <Swiper
+                    modules={[Autoplay, Pagination]}
+                    pagination={{ clickable: true }}
+                    slidesPerView={window.innerWidth < 650 ? 1 : 3}
+                    autoplay={{
+                      delay: 2000,
+                      pauseOnMouseEnter: true,
+                      disableOnInteraction: false,
+                    }}
+                    loop
+                  >
+                    {upcoming_seminars.map((seminar) => (
+                      <SwiperSlide key={seminar._id}>
+                        <Seminar
+                          loggeduser={loggeduser}
+                          class_name="col-11"
+                          seminar={seminar}
+                        />
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
                 ) : (
                   <div
                     style={{ width: "100%" }}
@@ -60,9 +81,16 @@ class Upcoming_seminars extends React.Component {
                 )}
               </>
             </div>
-            {/* {upcoming_seminars && upcoming_seminars.length ? (
-            <Explore_more to="seminars" />
-          ) : null} */}
+            {upcoming_seminars && upcoming_seminars.length ? (
+              <Explore_more_btn
+                title="seminars"
+                action={() =>
+                  window.location.assign(
+                    `${seminar_frontend}/seminars?upcoming`
+                  )
+                }
+              />
+            ) : null}
           </div>
         </section>
       </>

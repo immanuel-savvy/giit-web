@@ -10,21 +10,21 @@ class Explore_more_btn extends React.Component {
   }
 
   render() {
-    let { title, action, to } = this.props;
+    let { title, action, to, text } = this.props;
 
     return (
       <div class="row justify-content-center">
         <div class="col-lg-7 col-md-8 mt-2">
           <div class="text-center">
             <Link
-              to={to}
+              to={to || ""}
               onClick={(e) => {
                 action && action(e);
                 scroll_to_top();
               }}
               class="btn btn-md theme-bg-light theme-cl"
             >
-              {`Explore More ${title}`}
+              {text || `Explore More ${title}`}
             </Link>
           </div>
         </div>
