@@ -5,7 +5,7 @@ import Loadindicator from "../Components/loadindicator";
 import Media from "../Components/media";
 import Breadcrumb from "../Sections/breadcrumb";
 import Contact_us_today from "../Sections/contact_us_today";
-import Footer from "../Sections/footer";
+import Footer, { scroll_to_top } from "../Sections/footer";
 import Header from "../Sections/header";
 import Student_reviews from "../Sections/student_reviews";
 import Explore_more_btn from "../Sections/explore_more_btn";
@@ -44,6 +44,8 @@ class Gallery extends React.Component {
   };
 
   componentDidMount = async () => {
+    scroll_to_top();
+
     this.setState({ hide_nav: true }, () => this.setState({ hide_nav: false }));
     await this.fetch_gallery();
   };
@@ -80,7 +82,7 @@ class Gallery extends React.Component {
           </div>
 
           {loading_more ? (
-            <Loadindicator />
+            <Loadindicator contained />
           ) : !gallery || no_more ? null : (
             <Explore_more_btn action={this.load_more} text="Load more" />
           )}
