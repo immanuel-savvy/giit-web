@@ -1,5 +1,5 @@
 import React from "react";
-import { post_request } from "../Assets/js/utils/services";
+import { domain, post_request } from "../Assets/js/utils/services";
 import Listempty from "../Components/list_empty";
 import Loadindicator from "../Components/loadindicator";
 import Media from "../Components/media";
@@ -50,7 +50,7 @@ class Gallery extends React.Component {
     await this.fetch_gallery();
   };
 
-  load_more = async () => {
+  load_more = async (e) => {
     let { page } = this.state;
 
     await this.fetch_gallery(page + 1);
@@ -66,7 +66,13 @@ class Gallery extends React.Component {
         <Breadcrumb page_title="Gallery" page_text="Gallery" />
         <section class="min">
           <div class="container">
-            <div class="row justify-content-center">
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                flexWrap: "wrap",
+              }}
+            >
               {gallery ? (
                 gallery.length ? (
                   gallery.map((media) => (
@@ -82,7 +88,15 @@ class Gallery extends React.Component {
           </div>
 
           {loading_more ? (
-            <Loadindicator contained />
+            <div
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+                display: "flex",
+              }}
+            >
+              <Loadindicator contained />
+            </div>
           ) : !gallery || no_more ? null : (
             <Explore_more_btn action={this.load_more} text="Load more" />
           )}

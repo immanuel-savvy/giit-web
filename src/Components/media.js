@@ -1,6 +1,7 @@
 import React from "react";
 import { domain } from "../Constants/constants";
 import Video from "./video";
+import Preview_image from "./preview_image";
 
 class Media extends React.Component {
   constructor(props) {
@@ -10,35 +11,64 @@ class Media extends React.Component {
   }
 
   render() {
+    let { width } = this.state;
     let { media, remove, edit } = this.props;
     let { video, image, image_hash, title, description } = media;
 
     return (
-      <div className="col-lg-4 col-xl-3 col-md-6 col-sm-12 mb-3">
+      <div
+        style={{
+          boxSizing: "border-box",
+          width: width - 14,
+          position: "relative",
+          marginRight: 14,
+        }}
+      >
+        {edit || remove ? (
+          <span
+            style={{
+              justifyContent: "flex-end",
+              alignItems: "flex-end",
+              display: "flex",
+            }}
+          >
+            {edit ? (
+              <a onClick={edit} className="btn btn-action">
+                <i className={`fas fa-edit`}></i>
+              </a>
+            ) : null}
+            {remove ? (
+              <a onClick={remove} className="btn btn-action">
+                <i className={`fas fa-window-close`}></i>
+              </a>
+            ) : null}
+          </span>
+        ) : null}
+        {video ? (
+          <Video
+            thumbnail={image}
+            responsive
+            thumbnail_hash={image_hash}
+            url={video ? `${domain}/Videos/${video}` : null}
+          />
+        ) : (
+          <Preview_image
+            ref={(img) => (this.img = img)}
+            image={image}
+            image_hash={image_hash}
+            parent_size={(size) => this.setState(size)}
+            responsive={5}
+          />
+        )}
+
+        <br />
         <span
-          style={{
-            justifyContent: "flex-end",
-            alignItems: "flex-end",
-            display: "flex",
-          }}
+          style={{ textOverflow: "clip", flexWrap: "wrap" }}
+          className="h6 mt-2 text-bold"
         >
-          {edit ? (
-            <a onClick={edit} className="btn btn-action">
-              <i className={`fas fa-edit`}></i>
-            </a>
-          ) : null}
-          {remove ? (
-            <a onClick={remove} className="btn btn-action">
-              <i className={`fas fa-window-close`}></i>
-            </a>
-          ) : null}
+          <b>{title}</b>
         </span>
-        <Video
-          thumbnail={image}
-          thumbnail_hash={image_hash}
-          url={video ? `${domain}/Videos/${video}` : null}
-        />
-        <p className="h4 mt-2">{title}</p>
+        <br />
         <span>{description}</span>
       </div>
     );

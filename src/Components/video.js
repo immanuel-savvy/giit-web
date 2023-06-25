@@ -23,6 +23,7 @@ class Video extends React.Component {
       thumbnail,
       thumbnail_hash,
       thumbnail_class,
+      responsive,
     } = this.props;
     let { play, video_loaded } = this.state;
 
@@ -35,6 +36,7 @@ class Video extends React.Component {
           <Preview_image
             image={thumbnail}
             image_hash={thumbnail_hash}
+            responsive={responsive}
             height={height}
             width={width}
             style={{ ...style }}
