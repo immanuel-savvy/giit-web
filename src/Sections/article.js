@@ -6,6 +6,8 @@ import Handle_image_upload from "../Components/handle_image_upload";
 import Preview_image from "../Components/preview_image";
 import { domain } from "../Constants/constants";
 import { emitter } from "../Giit";
+import { Img_tag } from "../Pages/Article";
+import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 
 class Article extends React.Component {
   constructor(props) {
@@ -103,7 +105,12 @@ class Article extends React.Component {
               </h4>
             </div>
             <div className="blg_desc" onClick={this.toggle_full_text}>
-              <p>{full_text ? text : text && text.slice(0, 150)}</p>
+              <ReactMarkdown
+                children={full_text ? text : text && text.slice(0, 150)}
+                components={{
+                  img: Img_tag,
+                }}
+              />
             </div>
           </div>
           <div className="crs_grid_foot">

@@ -12,6 +12,14 @@ class Banner extends React.Component {
     this.state = {};
   }
 
+  componentDidMount = () => {
+    document.getElementById("my_video")?.play();
+
+    setTimeout(() => {
+      if (!this.state.playing) document.getElementById("my_video")?.play();
+    }, 1500);
+  };
+
   render() {
     let { banner_stuffs } = this.props;
     let { image, thumbnail, thumbnail_hash, video_url, video } =
@@ -20,18 +28,34 @@ class Banner extends React.Component {
     return (
       <div
         className="hero_banner d-flex justify-content-center image-cover for_top_info"
-        style={{
-          backgroundColor: "gray",
-          backgroundImage: `url(${domain}/Images/${
-            image || "giit_africa_banner_background_image.jpg"
-          })`,
-          backgroundRepeat: "no-repeat",
-          marginTop: "50px",
-          display: "flex",
-          alignItems: "center",
-        }}
+        style={
+          image?.endsWith(".jpg")
+            ? {
+                backgroundColor: "gray",
+                backgroundImage: `url(${domain}/Images/${
+                  image || "giit_africa_banner_background_image.jpg"
+                })`,
+                backgroundRepeat: "no-repeat",
+                marginTop: "50px",
+                display: "flex",
+                alignItems: "center",
+              }
+            : { backgroundImage: "#000" }
+        }
         data-overlay="1"
       >
+        {image?.endsWith(".mp4") ? (
+          <video
+            autoplay
+            muted
+            loop
+            id="my_video"
+            onPlaying={() => this.setState({ playing: true })}
+          >
+            <source src={`${domain}/Videos/${image}`} type="video/mp4" />
+          </video>
+        ) : null}
+
         <Container
           style={{ minHeight: "50vh", overflow: "auto" }}
           id="banner_video"

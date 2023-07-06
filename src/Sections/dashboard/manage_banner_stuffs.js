@@ -86,11 +86,23 @@ class Banner_stuffs extends Handle_image_upload {
           <div className="row ">
             <div className="justify-content-center">
               {image ? (
-                <Preview_image
-                  style={{ marginBottom: 20 }}
-                  image_hash={image_hash}
-                  image={image}
-                />
+                image?.startsWith("data:video") || image.endsWith(".mp4") ? (
+                  <Video
+                    muted
+                    url={
+                      image?.startsWith("data")
+                        ? image
+                        : `${domain}/Videos/${image}`
+                    }
+                    style={{ marginBottom: 20 }}
+                  />
+                ) : (
+                  <Preview_image
+                    style={{ marginBottom: 20 }}
+                    image_hash={image_hash}
+                    image={image}
+                  />
+                )
               ) : null}
 
               {(video || video_url || thumbnail || thumbnail_image) &&
@@ -111,7 +123,7 @@ class Banner_stuffs extends Handle_image_upload {
             <form>
               <div class="row mt-3">
                 <div className="form-group smalls">
-                  <label>Banner Image (1920 x 1200)</label>
+                  <label>Banner (1920 x 1200)</label>
                   {image_loading ? (
                     <Loadindicator />
                   ) : (
@@ -120,7 +132,7 @@ class Banner_stuffs extends Handle_image_upload {
                         type="file"
                         className="custom-file-input"
                         id="customFile"
-                        accept="image/*"
+                        accept="image/*,video/*"
                         onChange={this.handle_image}
                       />
                       <label className="custom-file-label" for="customFile">

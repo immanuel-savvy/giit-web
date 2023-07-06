@@ -51,6 +51,8 @@ class Gallery extends React.Component {
   };
 
   load_more = async (e) => {
+    e && e.preventDefault();
+
     let { page } = this.state;
 
     await this.fetch_gallery(page + 1);

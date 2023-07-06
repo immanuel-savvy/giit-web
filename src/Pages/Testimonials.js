@@ -1,7 +1,7 @@
 import React from "react";
 import Breadcrumb from "../Sections/breadcrumb";
 import Contact_us_today from "../Sections/contact_us_today";
-import Footer from "../Sections/footer";
+import Footer, { scroll_to_top } from "../Sections/footer";
 import Header from "../Sections/header";
 import { post_request } from "../Assets/js/utils/services";
 import Review from "../Sections/review";
@@ -22,6 +22,7 @@ class Testimonials extends React.Component {
   }
 
   componentDidMount = async () => {
+    scroll_to_top();
     document.title = `Testimonials | ${organisation_name}`;
 
     let { page_size, page } = this.state;

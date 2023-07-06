@@ -13,7 +13,9 @@ class Preview_image extends React.Component {
   }
 
   default_width = () => {
-    let { parent_size } = this.props;
+    let { parent_size, responsive } = this.props;
+    if (!responsive) return;
+
     let w;
     if (window.innerWidth < 500) w = window.innerWidth - 30;
     else if (window.innerWidth > 500 && window.innerWidth < 1200)
@@ -60,17 +62,20 @@ class Preview_image extends React.Component {
                 let x = window.innerWidth / set.width;
                 set.width *= x;
                 set.height *= x;
-                set.width -= 30;
+                // set.height -= 30;
+                // set.width -= 30;
               } else if (window.innerWidth > 500 && window.innerWidth < 1200) {
                 let x = (window.innerWidth - 100) / 3 / set.width;
                 set.width = (window.innerWidth - 100) / 3;
                 set.height *= x;
-                set.width -= 45;
+                // set.width -= 45;
+                // set.height -= 45;
               } else {
-                let x = (window.innerWidth - 160) / 4 / set.width;
-                set.width = (window.innerWidth - 160) / 4;
+                let x = (window.innerWidth - 500) / 4 / set.width;
+                set.width = (window.innerWidth - 500) / 4;
                 set.height *= x;
-                set.width -= 80;
+                // set.width -= 80;
+                // set.height -= 80;
               }
 
               parent_size && parent_size(set);

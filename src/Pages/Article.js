@@ -10,6 +10,19 @@ import Contact_us_today from "../Sections/contact_us_today";
 import Footer from "../Sections/footer";
 import Header from "../Sections/header";
 import { scroll_to_top } from "./Adminstrator";
+import { ReactMarkdown } from "react-markdown/lib/react-markdown";
+
+const Img_tag = ({ src }) => {
+  return (
+    <img
+      src={src}
+      className="img-fluid rounded"
+      style={{
+        width: "100%",
+      }}
+    />
+  );
+};
 
 class Article extends React.Component {
   constructor(props) {
@@ -118,13 +131,23 @@ class Article extends React.Component {
                         <h2 className="post-title">{`${title}.`}</h2>
                         {sections.map((section, index) =>
                           section.type === "paragraph" ? (
-                            <p key={index}>{section.text}</p>
+                            <ReactMarkdown
+                              children={section.text}
+                              components={{
+                                img: Img_tag,
+                              }}
+                            />
                           ) : (
                             <blockquote key={index}>
                               <span className="icon">
                                 <i className="fas fa-quote-left"></i>
                               </span>
-                              <p className="text">{section.text}</p>
+                              <ReactMarkdown
+                                children={section.text}
+                                components={{
+                                  img: Img_tag,
+                                }}
+                              />
 
                               <h5 className="name">{`- ${
                                 section.speaker || ""
@@ -150,3 +173,4 @@ class Article extends React.Component {
 }
 
 export default Article;
+export { Img_tag };

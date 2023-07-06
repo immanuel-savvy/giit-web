@@ -16,16 +16,19 @@ class Video extends React.Component {
   render() {
     let {
       url,
+      video: video_,
       height,
       style,
       width,
       loop,
+      muted,
       thumbnail,
       thumbnail_hash,
       thumbnail_class,
       responsive,
     } = this.props;
     let { play, video_loaded } = this.state;
+    if (!url) url = video_;
 
     return (thumbnail && !play) || !url ? (
       <div
@@ -65,6 +68,7 @@ class Video extends React.Component {
           height="100%"
           width="100%"
           autoPlay
+          muted={muted}
           loop={loop}
           className="react-players embed-responsive embed-responsive-16by9 rounded"
           onLoadedData={() => this.setState({ video_loaded: false })}
@@ -77,6 +81,7 @@ class Video extends React.Component {
           className="embed-responsive embed-responsive-16by9 rounded"
           autoPlay
           controls
+          muted={muted}
           loop={loop}
           onLoadedData={() => this.setState({ video_loaded: false })}
           style={{ ...style }}

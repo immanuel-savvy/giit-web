@@ -18,7 +18,6 @@ class Explore_more_btn extends React.Component {
             <Link
               to={to || ""}
               onClick={(e) => {
-                e.preventDefault();
                 action && action(e);
               }}
               class="btn btn-md theme-bg-light theme-cl"

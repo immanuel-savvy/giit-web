@@ -101,7 +101,6 @@ class Student_reviews extends React.Component {
                     disableOnInteraction: false,
                   }}
                   loop
-                  // className="swiper-container"
                 >
                   {reviews.map((review, index) => (
                     <SwiperSlide key={index}>
@@ -117,10 +116,6 @@ class Student_reviews extends React.Component {
 
           {videos && videos.length ? (
             <>
-              {/* <Section_header
-                title="Video Testimonies"
-                style={{ marginTop: 25 }}
-              /> */}
               <Swiper
                 modules={[Autoplay, Pagination]}
                 pagination={{ clickable: true }}

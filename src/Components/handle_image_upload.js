@@ -41,9 +41,10 @@ class Handle_image_upload extends React.Component {
     this.setState({ [prop_loading]: true });
 
     reader.onloadend = async (e) => {
-      await this.encode_image_to_blurhash(reader.result)
-        .then((res) => this.setState({ [prop_hash]: res }))
-        .catch((err) => console.log(err));
+      file?.type?.startsWith("image") &&
+        (await this.encode_image_to_blurhash(reader.result)
+          .then((res) => this.setState({ [prop_hash]: res }))
+          .catch((err) => console.log(err)));
       this.setState({
         file,
         [prop]: reader.result,

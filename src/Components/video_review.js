@@ -12,14 +12,14 @@ class Video_review extends React.Component {
 
   render() {
     let { review, class_name, update, remove } = this.props;
-    let { url, thumbnail, video_url, thumbnail_hash } = review;
+    let { url, thumbnail, video_url, image_hash } = review;
 
     return (
       <div className={class_name}>
         <Video
           url={video_url || `${domain}/videos/${url}`}
           thumbnail={thumbnail}
-          thumbnail_hash={thumbnail_hash}
+          thumbnail_hash={image_hash}
         />
 
         {update || remove ? (

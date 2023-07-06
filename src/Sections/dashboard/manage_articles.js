@@ -13,7 +13,7 @@ class Manage_articles extends React.Component {
   }
 
   componentDidMount = async () => {
-    let articles = await get_request("articles/all");
+    let articles = await post_request("articles");
 
     this.setState({ articles });
   };
