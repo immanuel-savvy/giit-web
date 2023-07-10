@@ -72,7 +72,6 @@ class Article_sidebar extends React.Component {
                         src={`${domain}/Images/${result.image}`}
                         alt=""
                         class=""
-                        // style={{ height }}
                       />
                     </span>
                     <span class="right">

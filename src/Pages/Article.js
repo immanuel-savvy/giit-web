@@ -11,6 +11,7 @@ import Footer from "../Sections/footer";
 import Header from "../Sections/header";
 import { scroll_to_top } from "./Adminstrator";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
+import Preview_image from "../Components/preview_image";
 
 const Img_tag = ({ src }) => {
   return (
@@ -46,7 +47,7 @@ class Article extends React.Component {
         param = param.split("=");
         article_filter[param[0]] = param[1];
       });
-      if (!article_filter._id) this.setState({ fetching_article: true });
+      if (article_filter._id) this.setState({ fetching_article: true });
       article = await get_request(`article/${article_filter._id}`);
 
       if (!article) return window.location.assign("/");
@@ -91,7 +92,8 @@ class Article extends React.Component {
     let { article, fetching_article } = this.state;
     if (!article && !fetching_article) return null;
 
-    let { title, image, comments, sections } = article || new Object();
+    let { title, image, image_hash, comments, sections } =
+      article || new Object();
 
     return (
       <div className="blog-page">
@@ -110,10 +112,10 @@ class Article extends React.Component {
                     <div className="article_detail_wrapss single_article_wrap format-standard">
                       <div className="article_body_wrap">
                         <div className="article_featured_image">
-                          <img
-                            className="img-fluid"
-                            src={`${domain}/Images/${image}`}
-                            alt=""
+                          <Preview_image
+                            image={image}
+                            class_name="img-fluid rounded"
+                            image_hash={image_hash}
                           />
                         </div>
                         <div className="article_top_info">

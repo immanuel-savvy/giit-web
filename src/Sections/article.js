@@ -58,6 +58,7 @@ class Article extends React.Component {
       sections,
       views,
       comments,
+      _id,
       created,
       categories,
     } = article;
@@ -68,7 +69,7 @@ class Article extends React.Component {
       <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12">
         <div className="blg_grid_box">
           <div className="blg_grid_thumb">
-            <Link to="/article">
+            <Link to={`/article?title=${title}&_id=${_id}`}>
               <Preview_image
                 image={image}
                 image_hash={image_hash}
@@ -99,7 +100,7 @@ class Article extends React.Component {
             ) : null}
             <div className="blg_title">
               <h4>
-                <Link to="/article">
+                <Link to={`/article?title=${title}&_id=${_id}`}>
                   <span onClick={this.handle_article}>{title}</span>
                 </Link>
               </h4>
