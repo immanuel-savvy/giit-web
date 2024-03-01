@@ -22,6 +22,7 @@ class Dashboard_nav_menu extends React.Component {
             { title: "add_new_course" },
             { title: "manage_master_courses" },
             { title: "manage_sections" },
+            { title: "manage_vendors" },
             { title: "add_certification" },
             { title: "manage_combo_courses" },
             { title: "manage_flash_promo" }
@@ -135,7 +136,8 @@ class Dashboard_nav_menu extends React.Component {
           title: "students",
           subnav: new Array(
             { title: "manage_students" },
-            { title: "add_new_student" }
+            { title: "add_new_student" },
+            { title: "students_works" }
           ),
         }
       ),

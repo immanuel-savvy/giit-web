@@ -146,7 +146,6 @@ class Courses extends React.Component {
   };
 
   render = () => {
-    let { navs } = this.props;
     let {
       courses,
       search_focus,
@@ -159,7 +158,7 @@ class Courses extends React.Component {
 
     return (
       <div id="main-wrapper">
-        <Header navs={navs} page="courses" />
+        <Header page="courses" />
         <Breadcrumb page_title="courses" no_gray page_text="Find Courses" />
         <section class="gray" style={{ paddingTop: 20 }}>
           <div class="container">

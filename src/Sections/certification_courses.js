@@ -44,7 +44,7 @@ class Certification_courses extends React.Component {
             </div>
           )}
           <div class="row justify-content-center">
-            {certifications ? (
+            {certifications && certifications.map ? (
               certifications.map((certification) => (
                 <Certification_course
                   key={certification._id}

@@ -1,5 +1,5 @@
 import React from "react";
-import { to_title } from "../../Assets/js/utils/functions";
+import { special_chars, to_title } from "../../Assets/js/utils/functions";
 import { get_request, post_request } from "../../Assets/js/utils/services";
 import Handle_image_upload from "../../Components/handle_image_upload";
 import Loadindicator from "../../Components/loadindicator";
@@ -88,16 +88,20 @@ class Add_instructor extends Handle_image_upload {
       this.state;
     this.setState({ uploading: true });
 
+    name = name.trim().replace(special_chars, "");
+
     let instructor = {
       name,
       profession,
       image,
       courses: courses.map((course) => course._id),
+      uri: name.toLowerCase().replace(/ /g, "_"),
       image_hash,
       linkedin,
       _id,
     };
 
+    console.log(instructor);
     if (_id) delete instructor.courses;
 
     let response = await post_request(

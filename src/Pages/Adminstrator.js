@@ -46,6 +46,8 @@ import Manage_universities from "../Sections/dashboard/manage_universities";
 import About_statement from "../Sections/dashboard/about_statement";
 import { organisation_name } from "../Constants/constants";
 import Video_reviews from "../Sections/dashboard/manage_video_reviews";
+import Manage_student_works from "../Sections/dashboard/manage_student_works";
+import Manage_vendors from "../Sections/dashboard/manage_vendors";
 
 const scroll_to_top = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
@@ -140,8 +142,10 @@ class Adminstrator extends React.Component {
       manage_reviews: <Manage_reviews />,
       alumni_overview: <Manage_alumni_overview />,
       pending_reviews: <Pending_reviews />,
+      students_works: <Manage_student_works />,
       manage_combo_courses: <Manage_combo_courses />,
       add_certification: <Add_certification />,
+      manage_vendors: <Manage_vendors />,
       manage_flash_promo: <Manage_flash_promo />,
       manage_categories: <Manage_article_categories />,
       new_article: <New_article article={this.state.article} />,

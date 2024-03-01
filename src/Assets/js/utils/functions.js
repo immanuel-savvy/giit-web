@@ -9,6 +9,8 @@ const combinations = {
   alpha: "abcdefghijklmnopqrstuvwxyz",
 };
 
+let special_chars = /[^\w\s]/gi;
+
 const shuffle_array = (array) => {
   const new_array = [...array];
   const length = new_array.length;
@@ -119,6 +121,7 @@ export {
   gen_random_int,
   generate_random_string,
   email_regex,
+  special_chars,
   time_string,
   phone_regex,
   date_string,

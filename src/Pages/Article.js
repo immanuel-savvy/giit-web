@@ -1,7 +1,6 @@
 import React from "react";
 import { get_request, post_request } from "../Assets/js/utils/services";
 import Loadindicator from "../Components/loadindicator";
-import { domain } from "../Constants/constants";
 import { emitter } from "../Giit";
 import Article_comments from "../Sections/article_comments";
 import Article_sidebar from "../Sections/article_sidebar";

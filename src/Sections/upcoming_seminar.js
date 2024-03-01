@@ -19,7 +19,7 @@ class Upcoming_seminars extends React.Component {
 
   componentDidMount = async () => {
     let upcoming_seminars = await post_request(
-      "https://seminar.udaralinksapp.com/seminars",
+      "https://seminar.giitafrica.com/seminars",
       {
         query: { date: { $gt: Date.now() } },
         limit: 10,

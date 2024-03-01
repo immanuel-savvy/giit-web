@@ -1,7 +1,7 @@
 import React from "react";
 import { get_request } from "../Assets/js/utils/services";
 import Loadindicator from "../Components/loadindicator";
-import { organisation_name } from "../Constants/constants";
+import { ELEARN, organisation_name } from "../Constants/constants";
 import { Logged_user } from "../Contexts";
 import Banner from "../Sections/banner";
 import Certification_courses from "../Sections/certification_courses";
@@ -24,6 +24,7 @@ import Subscribe from "../Components/subscribe";
 import { emitter } from "../Giit";
 import Gallery from "../Sections/gallery";
 import Upcoming_seminars from "../Sections/upcoming_seminar";
+import Student_works from "../Sections/student_works";
 
 const sections_alignment = new Array("degree", "master", "professional");
 
@@ -105,14 +106,16 @@ class Index extends React.Component {
               />
               <Onboarding_steps onboarding_stuffs={onboarding_stuffs} />
 
-              <Gallery />
+              {ELEARN ? null : <Gallery />}
 
               <Upcoming_seminars />
 
               <Student_reviews />
 
+              {ELEARN ? null : <Student_works />}
+
               <Latest_news_and_articles />
-              <Services />
+              {ELEARN ? null : <Services />}
               <Faqs limit={6} />
               <Contact_us_today />
               <Footer />

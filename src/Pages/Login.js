@@ -39,7 +39,7 @@ class Login extends React.Component {
           this.login = login;
           return (
             <div id="main-wrapper">
-              <Header page="signup" lock={lock} />
+              <Header page="signup" />
               <div className="clearfix"></div>
               <section>
                 <div className="container">

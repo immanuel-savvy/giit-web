@@ -38,6 +38,8 @@ import Visa_assistance from "./Pages/Visa_assistance";
 import Admission_assistance from "./Pages/Admission_assistance";
 import Services_page from "./Pages/Services";
 import Course_template from "./Pages/Course_template";
+import Students_works from "./Pages/Student_works";
+import Instructor from "./Pages/Instructor";
 
 let emitter = new Emitter();
 
@@ -331,6 +333,10 @@ class Giit extends React.Component {
                     <Route path="contact_us" element={<Contact />} />
                     <Route path="blog" element={<Blog />} />
                     <Route path="article" element={<Article />} />
+                    <Route
+                      path="instructor/:instructor_id"
+                      element={<Instructor />}
+                    />
                     <Route path="services" element={<Services_page />} />
                     <Route path="enroll" element={<Enroll />} />
                     <Route
@@ -341,6 +347,7 @@ class Giit extends React.Component {
                     <Route path="signup" element={<Signup />} />
                     <Route path="login" element={<Login />} />
                     <Route path="faqs" element={<FAQS />} />
+                    <Route path="students_works" element={<Students_works />} />
                     <Route
                       path="university_progressions"
                       element={<University_progressions />}

@@ -14,6 +14,7 @@ class Add_new_course extends Handle_image_upload {
     super(props);
 
     let { course } = this.props;
+
     if (course) {
       if (course.master_courses && course.master_courses.length)
         course.master_courses = Array.from(
@@ -26,6 +27,8 @@ class Add_new_course extends Handle_image_upload {
       sections: new Array(),
       master_courses: new Array(),
       certifications: new Array(),
+      vendors: new Array(),
+      instructor: course?.instructor?._id,
       requirements: new Array(),
       what_you_will_learn: new Array(),
       ...course,
@@ -40,13 +43,15 @@ class Add_new_course extends Handle_image_upload {
     let course_sections = await get_request("sections/all");
     let master_courses_options = await get_request("master_courses/all");
     let course_certifications = await get_request("certifications");
-    let instructors = await get_request("instructors");
+    let course_vendors = await get_request("vendors");
+    let instructors = await get_request("instructors/all");
 
     this.setState({
       course_sections,
       master_courses_options,
       course_certifications,
       instructors,
+      course_vendors,
     });
   };
 
@@ -259,7 +264,9 @@ class Add_new_course extends Handle_image_upload {
       requirement_index,
       learn_index,
       instructors,
+      instructor: instructor_,
       duration,
+      course_vendors,
     } = this.state;
 
     return (
@@ -282,10 +289,17 @@ class Add_new_course extends Handle_image_upload {
                   id="instructor"
                   onChange={this.set_instructor}
                   className="form-control"
+                  defaultValue={instructor_?._id || instructor_}
                 >
                   <option value="">-- Choose Instructor --</option>
                   {instructors.map((instructor) => (
-                    <option key={instructor._id} value={instructor._id}>
+                    <option
+                      key={instructor._id}
+                      selected={
+                        instructor._id === (instructor_?._id || instructor_)
+                      }
+                      value={instructor._id}
+                    >
                       {to_title(instructor.name.replace(/_/g, " "))}
                     </option>
                   ))}
@@ -298,6 +312,27 @@ class Add_new_course extends Handle_image_upload {
             <Loadindicator />
           )}
         </div>
+
+        {course_vendors && course_vendors.length ? (
+          <div className="form-group smalls">
+            <label>Course Vendors</label>
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                flexDirection: "row",
+              }}
+            >
+              {course_vendors ? (
+                course_vendors.map((vendor) =>
+                  this.course_vendor_checkbox(vendor)
+                )
+              ) : (
+                <Loadindicator />
+              )}
+            </div>
+          </div>
+        ) : null}
 
         {course_certifications && course_certifications.length ? (
           <div className="form-group smalls">
@@ -455,6 +490,22 @@ class Add_new_course extends Handle_image_upload {
     </div>
   );
 
+  course_vendor_checkbox = ({ title, _id }) => (
+    <div className="form-group smalls" key={_id}>
+      <input
+        id={_id}
+        className="checkbox-custom"
+        name="course_vendor"
+        type="checkbox"
+        checked={this.state.vendors.includes(_id)}
+        onChange={() => this.handle_check(_id, "vendors")}
+      />
+      <label for={_id} className="checkbox-custom-label">
+        {to_title(title)}
+      </label>
+    </div>
+  );
+
   basic_tab_panel = () => {
     let { course_sections, master_courses_options } = this.state;
     return (
@@ -592,7 +643,7 @@ class Add_new_course extends Handle_image_upload {
   handle_price = ({ target }) => this.setState({ price: target.value });
 
   pricing_tab_panel = () => {
-    let { price } = this.state;
+    let { price, online_price } = this.state;
 
     return (
       <div
@@ -613,6 +664,19 @@ class Add_new_course extends Handle_image_upload {
             placeholder="Enter Course Price"
             value={price}
             onChange={this.handle_price}
+          />
+        </div>
+
+        <div className="form-group smalls">
+          <label>Online Course Price(&#8358;) *</label>
+          <input
+            type="number"
+            className="form-control"
+            placeholder="Enter Course Price"
+            value={online_price}
+            onChange={({ target }) =>
+              this.setState({ online_price: Number(target.value) })
+            }
           />
         </div>
 
@@ -740,9 +804,11 @@ class Add_new_course extends Handle_image_upload {
       _id,
       banner_image,
       image_hash,
+      online_price,
       banner_image_hash,
       instructor,
       skill_level,
+      vendors,
       duration,
       instructor_full,
     } = this.state;
@@ -757,14 +823,16 @@ class Add_new_course extends Handle_image_upload {
       image,
       image_hash,
       banner_image_hash,
+      online_price,
       banner_image,
-      instructor,
+      instructor: instructor?._id || instructor,
       skill_level,
       duration,
     };
     if (what_you_will_learn.length)
       course.what_you_will_learn = what_you_will_learn;
     if (certifications.length) course.certifications = certifications;
+    if (vendors.length) course.vendors = vendors;
     if (requirements.length) course.requirements = requirements;
 
     let response;

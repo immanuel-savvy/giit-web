@@ -1,12 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import Preview_image from "./preview_image";
-import {
-  client_domain,
-  seminar_backend,
-  seminar_frontend,
-} from "../Constants/constants";
-import { post_request } from "../Assets/js/utils/services";
+import { seminar_backend, seminar_frontend } from "../Constants/constants";
 import {
   commalise_figures,
   date_string,

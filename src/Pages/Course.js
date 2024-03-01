@@ -115,7 +115,7 @@ class Course extends React.Component {
                       <>
                         <h4 class="edu_title">Certifications</h4>
                         <Certification_courses
-                          certifications={this.cummulate_certifications}
+                          certifications={certifications}
                         />
                       </>
                     ) : null}

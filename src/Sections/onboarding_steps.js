@@ -1,6 +1,7 @@
 import React from "react";
 import Preview_image from "../Components/preview_image";
-import { domain } from "../Constants/constants";
+import { client_domain, domain } from "../Constants/constants";
+import Small_btn from "../Components/small_btn";
 
 class Onboarding_steps extends React.Component {
   constructor(props) {
@@ -73,6 +74,12 @@ class Onboarding_steps extends React.Component {
                   ))}
                 </ol>
               </div>
+              <Small_btn
+                title="Find Courses"
+                action={() =>
+                  window.location.assign(`${client_domain}/courses`)
+                }
+              />
             </div>
           </div>
         </div>

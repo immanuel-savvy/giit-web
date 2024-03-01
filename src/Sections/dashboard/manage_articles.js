@@ -1,5 +1,5 @@
 import React from "react";
-import { get_request, post_request } from "../../Assets/js/utils/services";
+import { post_request } from "../../Assets/js/utils/services";
 import Loadindicator from "../../Components/loadindicator";
 import { emitter } from "../../Giit";
 import Article from "../article";
