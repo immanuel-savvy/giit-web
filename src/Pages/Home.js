@@ -25,6 +25,7 @@ import { emitter } from "../Giit";
 import Gallery from "../Sections/gallery";
 import Upcoming_seminars from "../Sections/upcoming_seminar";
 import Student_works from "../Sections/student_works";
+import Banner_keypoints from "../Components/banner_keypoints";
 
 const sections_alignment = new Array("degree", "master", "professional");
 
@@ -80,7 +81,7 @@ class Index extends React.Component {
             <div id="main-wrapper">
               <Header navs={navs} />
               <Banner banner_stuffs={banner_stuffs} />
-              <Associates />
+              {ELEARN ? <Banner_keypoints /> : <Associates />}
               {sections && sections.map ? (
                 sections.map((section, index) => {
                   if (section === "combo")
