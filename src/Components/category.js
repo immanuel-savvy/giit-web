@@ -13,7 +13,6 @@ class Category extends React.Component {
 
   handle_course = () => {
     let { category } = this.props;
-    console.log(category);
     window.sessionStorage.setItem("course", JSON.stringify(category));
     emitter.emit("push_course", category);
   };

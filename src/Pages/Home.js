@@ -27,6 +27,7 @@ import Upcoming_seminars from "../Sections/upcoming_seminar";
 import Student_works from "../Sections/student_works";
 import Banner_keypoints from "../Components/banner_keypoints";
 import Featured_categories from "../Sections/featured_categories";
+import E_banner from "../Sections/e_banner";
 
 const sections_alignment = new Array("degree", "master", "professional");
 
@@ -85,49 +86,55 @@ class Index extends React.Component {
           return (
             <div id="main-wrapper">
               <Header navs={navs} />
-              <Banner banner_stuffs={banner_stuffs} />
-              {ELEARN ? <Banner_keypoints /> : <Associates />}
+              <div className="body">
+                {ELEARN ? (
+                  <E_banner />
+                ) : (
+                  <Banner banner_stuffs={banner_stuffs} />
+                )}
+                {ELEARN ? <Banner_keypoints /> : <Associates />}
 
-              <Featured_categories />
+                <Featured_categories />
 
-              {sections && sections.map ? (
-                sections.map((section, index) => {
-                  if (section === "combo")
-                    return <Combo_courses gray={!!(index % 2)} key={index} />;
-                  else if (section === "master_course")
-                    return ELEARN ? null : (
-                      <Master_courses gray={!!(index % 2)} key={index} />
-                    );
-                  else
-                    return (
-                      <Courses
-                        gray={!!(index % 2)}
-                        section={section}
-                        key={index}
-                      />
-                    );
-                })
-              ) : (
-                <Loadindicator contained />
-              )}
-              <Flash_promo />
-              <Certification_courses gray={true} />
-              <Best_instructors
-                best_instructors_stuffs={best_instructors_stuffs}
-              />
-              <Onboarding_steps onboarding_stuffs={onboarding_stuffs} />
+                {sections && sections.map ? (
+                  sections.map((section, index) => {
+                    if (section === "combo")
+                      return <Combo_courses gray={!!(index % 2)} key={index} />;
+                    else if (section === "master_course")
+                      return ELEARN ? null : (
+                        <Master_courses gray={!!(index % 2)} key={index} />
+                      );
+                    else
+                      return (
+                        <Courses
+                          gray={!!(index % 2)}
+                          section={section}
+                          key={index}
+                        />
+                      );
+                  })
+                ) : (
+                  <Loadindicator contained />
+                )}
+                <Flash_promo />
+                <Certification_courses gray={true} />
+                <Best_instructors
+                  best_instructors_stuffs={best_instructors_stuffs}
+                />
+                <Onboarding_steps onboarding_stuffs={onboarding_stuffs} />
 
-              {ELEARN ? null : <Gallery />}
+                {ELEARN ? null : <Gallery />}
 
-              <Upcoming_seminars />
+                <Upcoming_seminars />
 
-              <Student_reviews />
+                <Student_reviews />
 
-              {ELEARN ? null : <Student_works />}
+                {ELEARN ? null : <Student_works />}
 
-              <Latest_news_and_articles />
-              {ELEARN ? null : <Services />}
-              <Faqs limit={6} />
+                <Latest_news_and_articles />
+                {ELEARN ? null : <Services />}
+                <Faqs limit={6} />
+              </div>
               <Contact_us_today />
               <Footer />
 
