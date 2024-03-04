@@ -67,7 +67,7 @@ class Banner_keypoints extends React.Component {
                             </div>
                             <div class="dro_142">
                               <h6>
-                                200+ Cources
+                                200+ Courses
                                 <br />
                                 Available
                               </h6>

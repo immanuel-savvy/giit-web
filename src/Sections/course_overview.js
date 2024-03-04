@@ -66,7 +66,7 @@ class Course_overview extends React.Component {
           <Link
             to="/enroll"
             onClick={this.handle_enroll}
-            className="btn btn-md text-light theme-bg"
+            className="btn btn-md text-light theme-bg mb-4"
           >
             Get Started
           </Link>

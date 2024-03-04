@@ -5,10 +5,14 @@ const SKILL_LEVEL = new Array(
   "advance"
 );
 
-const DEV = true;
+const DEV = false;
 const ELEARN = true;
 
-const hostname = DEV ? "http://localhost" : "https://giitafrica.com";
+const hostname = DEV
+  ? "http://localhost"
+  : ELEARN
+  ? "https://elearn.giitafrica.com"
+  : "https://giitafrica.com";
 
 const client_domain = DEV ? `${hostname}:1408` : `${hostname}`;
 

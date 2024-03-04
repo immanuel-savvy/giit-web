@@ -11,15 +11,18 @@ class Instructor extends React.Component {
   }
 
   render() {
-    let { instructor, remove, edit } = this.props;
-    let { name, profession, reviews, linkedin, _id, image, image_hash } =
-      instructor;
+    let { instructor, full, remove, edit } = this.props;
+    let { name, profession, reviews, uri, _id, image, image_hash } = instructor;
 
     return (
-      <div class={"col-md-3 col-lg-2 col-sm-12 mb-3" || "lios_item"}>
+      <div class={!full ? "col-md-3 col-lg-2 col-sm-12 mb-3" : "lios_item"}>
         <div class="crs_trt_grid shadow_none brd">
-          <div class="crs_trt_thumb">
-            <Link to={`/courses?instructor=${_id}`} class="crs_trt_thum_link">
+          <div class="crs_trt_thumb mx-auto">
+            <Link
+              to={`/instructor/${uri}`}
+              class="crs_trt_thum_link mx-auto"
+              style={{ textAlign: "center" }}
+            >
               <Preview_image image={image} image_hash={image_hash} />
             </Link>
           </div>
@@ -39,9 +42,7 @@ class Instructor extends React.Component {
             </div>
             <div class="instructor_title">
               <h4>
-                <a target="_blank" href={linkedin}>
-                  {to_title(name)}
-                </a>
+                <Link to={`/instructor/${uri}`}>{to_title(name)}</Link>
               </h4>
             </div>
             <div class="trt_rate_inf">

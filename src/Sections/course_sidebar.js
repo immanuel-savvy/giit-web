@@ -10,6 +10,7 @@ import { domain, ELEARN, SKILL_LEVEL } from "../Constants/constants";
 import { Flash_promo } from "../Contexts";
 import { emitter } from "../Giit";
 import { pricey } from "./course";
+import Instructor from "./instructor";
 
 class Course_sidebar extends React.Component {
   constructor(props) {
@@ -39,6 +40,7 @@ class Course_sidebar extends React.Component {
       skill_level,
       online_price,
       price,
+      instructor,
       short_description,
     } = course;
     price = price || cummulative_price || 0;
@@ -145,6 +147,8 @@ class Course_sidebar extends React.Component {
                   </Link>
                 </div>
               </div>
+
+              {ELEARN ? <Instructor instructor={instructor} full /> : null}
             </div>
           );
         }}
