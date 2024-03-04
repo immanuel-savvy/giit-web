@@ -1,18 +1,17 @@
 import React from "react";
 import Breadcrumb from "../Sections/breadcrumb";
+import Header from "../Sections/header";
+import Student_reviews from "../Sections/student_reviews";
 import Contact_us_today from "../Sections/contact_us_today";
 import Footer from "../Sections/footer";
-import Header from "../Sections/header";
-import Services from "../Sections/services";
-import Student_reviews from "../Sections/student_reviews";
-import Trusted_by from "../Sections/trusted_by";
-import Best_instructors from "../Sections/best_instructors";
-import { Link } from "react-router-dom";
 import { get_request } from "../Assets/js/utils/services";
 import Loadindicator from "../Components/loadindicator";
-import { organisation_name } from "../Constants/constants";
+import Preview_image from "../Components/preview_image";
+import { Link } from "react-router-dom";
+import { ReactMarkdown } from "react-markdown/lib/react-markdown";
+import { Img_tag } from "./Article";
 
-class About extends React.Component {
+class Vendor extends React.Component {
   constructor(props) {
     super(props);
 
@@ -20,31 +19,38 @@ class About extends React.Component {
   }
 
   componentDidMount = async () => {
-    document.title = `About | ${organisation_name}`;
+    let path = window.location.pathname.split("/").slice(-1)[0];
 
-    let about_statement = await get_request("about_statement");
-    this.setState({ about_statement });
+    let vendor = await get_request(`vendor/${path}`);
+
+    this.setState({ vendor });
   };
 
   render() {
-    let { about_statement } = this.state;
+    let { vendor } = this.state;
 
     return (
       <div id="main-wrapper">
-        <Header page="about" refs="header" />
+        <Header page="vendor" refs="header" />
         <div className="clearfix"></div>
-        <Breadcrumb page_title="Who we are?" page_text="About Us" />
+        <Breadcrumb page_title={vendor && vendor.title} page_text="About " />
 
-        {about_statement && about_statement.text ? (
+        {vendor ? (
           <section>
             <div className="container">
               <div className="row align-items-center justify-content-between">
                 <div className="col-xl-6 col-lg-6 col-md-7 col-sm-12 mb-3">
                   <div className="lmp_caption">
-                    <span className="theme-cl">About Us</span>
-                    <h2 className="mb-3">What We Do & Our Aim</h2>
-                    {about_statement.text.split("\n").map((text, index) => (
-                      <p key={index}>{text}</p>
+                    <span className="theme-cl">About</span>
+                    {/* <h2 className="mb-3">{vendor.title}</h2> */}
+                    {vendor.description.split("\n").map((text, index) => (
+                      <ReactMarkdown
+                        children={text}
+                        key={index}
+                        components={{
+                          img: Img_tag,
+                        }}
+                      />
                     ))}
                     <br />
 
@@ -61,10 +67,9 @@ class About extends React.Component {
 
                 <div className="col-xl-5 col-lg-5 col-md-5 col-sm-12">
                   <div className="lmp_thumb">
-                    <img
-                      src="../Assets/img/logo.png"
-                      className="img-fluid"
-                      alt=""
+                    <Preview_image
+                      image={vendor.icon}
+                      image_hash={vendor.image_hash}
                     />
                   </div>
                 </div>
@@ -72,12 +77,9 @@ class About extends React.Component {
             </div>
           </section>
         ) : (
-          <Loadindicator contained />
+          <Loadindicator />
         )}
 
-        <Services />
-        <Best_instructors />
-        <Trusted_by />
         <Student_reviews />
         <Contact_us_today />
         <Footer />
@@ -86,4 +88,4 @@ class About extends React.Component {
   }
 }
 
-export default About;
+export default Vendor;

@@ -16,7 +16,7 @@ class Instructor extends React.Component {
       instructor;
 
     return (
-      <div class={"col-md-4 col-lg-3 col-sm-12 mb-3" || "lios_item"}>
+      <div class={"col-md-3 col-lg-2 col-sm-12 mb-3" || "lios_item"}>
         <div class="crs_trt_grid shadow_none brd">
           <div class="crs_trt_thumb">
             <Link to={`/courses?instructor=${_id}`} class="crs_trt_thum_link">

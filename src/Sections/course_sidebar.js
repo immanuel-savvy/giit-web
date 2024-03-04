@@ -6,7 +6,7 @@ import {
   to_title,
 } from "../Assets/js/utils/functions";
 import Video from "../Components/video";
-import { domain, SKILL_LEVEL } from "../Constants/constants";
+import { domain, ELEARN, SKILL_LEVEL } from "../Constants/constants";
 import { Flash_promo } from "../Contexts";
 import { emitter } from "../Giit";
 import { pricey } from "./course";
@@ -37,6 +37,7 @@ class Course_sidebar extends React.Component {
       duration,
       lectures,
       skill_level,
+      online_price,
       price,
       short_description,
     } = course;
@@ -63,11 +64,17 @@ class Course_sidebar extends React.Component {
                         className="theme-cl h4"
                       >
                         <br />
-                        &#8358; {commalise_figures(Number(price))}
+                        &#8358;{" "}
+                        {commalise_figures(
+                          Number(ELEARN ? online_price || price : price)
+                        )}
                       </em>
                     ) : (
                       <h2 className="theme-cl">
-                        &#8358; {commalise_figures(Number(price))}
+                        &#8358;{" "}
+                        {commalise_figures(
+                          Number(ELEARN ? online_price || price : price)
+                        )}
                       </h2>
                     )}
                   </div>
@@ -76,7 +83,11 @@ class Course_sidebar extends React.Component {
                     <div className="ed_view_price pl-4">
                       <span>Promo Price</span>
                       <h2 className="theme-cl">
-                        &#8358; {pricey(price, flash_promo.percentage_off)}
+                        &#8358;{" "}
+                        {pricey(
+                          ELEARN ? online_price || price : price,
+                          flash_promo.percentage_off
+                        )}
                       </h2>
                     </div>
                   ) : null}

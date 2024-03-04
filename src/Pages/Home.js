@@ -26,6 +26,7 @@ import Gallery from "../Sections/gallery";
 import Upcoming_seminars from "../Sections/upcoming_seminar";
 import Student_works from "../Sections/student_works";
 import Banner_keypoints from "../Components/banner_keypoints";
+import Featured_categories from "../Sections/featured_categories";
 
 const sections_alignment = new Array("degree", "master", "professional");
 
@@ -38,7 +39,11 @@ class Index extends React.Component {
 
   componentDidMount = async () => {
     let sections = await get_request("sections/all");
-    sections && sections.push && sections.push("master_course", "combo");
+
+    if (sections && sections.push) {
+      sections.push("combo");
+      if (!ELEARN) sections.push("master_courses");
+    }
 
     sections = sections.sort((s1, s2) => {
       let s1_index = sections_alignment.findIndex((m) =>
@@ -82,12 +87,17 @@ class Index extends React.Component {
               <Header navs={navs} />
               <Banner banner_stuffs={banner_stuffs} />
               {ELEARN ? <Banner_keypoints /> : <Associates />}
+
+              <Featured_categories />
+
               {sections && sections.map ? (
                 sections.map((section, index) => {
                   if (section === "combo")
                     return <Combo_courses gray={!!(index % 2)} key={index} />;
                   else if (section === "master_course")
-                    return <Master_courses gray={!!(index % 2)} key={index} />;
+                    return ELEARN ? null : (
+                      <Master_courses gray={!!(index % 2)} key={index} />
+                    );
                   else
                     return (
                       <Courses

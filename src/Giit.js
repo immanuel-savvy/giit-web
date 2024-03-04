@@ -40,6 +40,7 @@ import Services_page from "./Pages/Services";
 import Course_template from "./Pages/Course_template";
 import Students_works from "./Pages/Student_works";
 import Instructor from "./Pages/Instructor";
+import Vendor from "./Pages/Vendor";
 
 let emitter = new Emitter();
 
@@ -256,6 +257,7 @@ class Giit extends React.Component {
       banner_stuffs,
       best_instructors_stuffs,
       onboarding_stuffs,
+      vendors,
     } = await get_request("entry");
     if (flash_promo && flash_promo.duration_timestamp <= Date.now)
       flash_promo = null;
@@ -266,6 +268,7 @@ class Giit extends React.Component {
       flash_promo,
       onboarding_stuffs,
       banner_stuffs,
+      vendors,
       master_courses: Array.isArray(master_courses)
         ? master_courses
         : new Array(),
@@ -298,6 +301,7 @@ class Giit extends React.Component {
       subnavs,
       navs,
       master_courses,
+      vendors,
       submenus,
     } = this.state;
 
@@ -310,6 +314,7 @@ class Giit extends React.Component {
             value={{
               navs,
               subnavs,
+              vendors,
               set_subnav: this.set_subnav,
               load_subnavs: this.load_subnavs,
               submenus,
@@ -368,6 +373,7 @@ class Giit extends React.Component {
                       element={<Forgot_password />}
                     />
                     <Route path="about" element={<About />} />
+                    <Route path="vendor/:vendor_uri" element={<Vendor />} />
                     <Route path="course" element={<Course />} />
                     <Route path="career" element={<Careers />} />
                     <Route path="testimonials" element={<Testimonials />} />

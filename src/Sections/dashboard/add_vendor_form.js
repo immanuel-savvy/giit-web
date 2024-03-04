@@ -42,6 +42,7 @@ class Add_vendor_form extends Handle_image_upload {
       icon: image,
       description,
       courses: 0,
+      uri: title.replace(/ /g, "_").toLowerCase(),
     };
 
     if (!_id) {

@@ -1,6 +1,8 @@
 import React from "react";
 import Nav from "./nav";
 import { ELEARN } from "../Constants/constants";
+import { Nav_context } from "../Contexts";
+import Sub_header from "./sub_header";
 
 class Header extends React.Component {
   constructor(props) {
@@ -82,6 +84,8 @@ class Header extends React.Component {
           <Nav lock={lock} ref="nav" />
           <div className="clearfix"></div>
         </div>
+
+        <Sub_header />
       </div>
     );
   }

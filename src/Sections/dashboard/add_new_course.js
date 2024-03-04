@@ -812,6 +812,7 @@ class Add_new_course extends Handle_image_upload {
       duration,
       instructor_full,
     } = this.state;
+
     let course = {
       short_description,
       sections,

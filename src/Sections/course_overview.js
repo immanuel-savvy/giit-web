@@ -2,6 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { emitter } from "../Giit";
 import Certification_courses from "./certification_courses";
+import { ReactMarkdown } from "react-markdown/lib/react-markdown";
+import { Img_tag } from "../Pages/Article";
+
+const P_tag = ({ children }) => {
+  return <p style={{ fontSize: 20, lineHeight: 2 }}>{children}</p>;
+};
 
 class Course_overview extends React.Component {
   constructor(props) {
@@ -44,11 +50,18 @@ class Course_overview extends React.Component {
           <h2 class="edu_title" style={{ fontSize: 24 }}>
             {description_title || "Course Overview"}
           </h2>
-          {description.split("\n").map((d, i) => (
-            <p style={{ fontSize: 20, lineHeight: 2 }} key={i}>
-              {d}
-            </p>
-          ))}
+          {description.split("\n").map((d, i) => {
+            return (
+              <ReactMarkdown
+                children={d}
+                key={i}
+                components={{
+                  img: Img_tag,
+                  p: P_tag,
+                }}
+              />
+            );
+          })}
 
           <Link
             to="/enroll"
