@@ -1,5 +1,4 @@
 import React from "react";
-import { Breadcrumb } from "react-bootstrap";
 import { get_request } from "../Assets/js/utils/services";
 import Listempty from "../Components/list_empty";
 import Loadindicator from "../Components/loadindicator";
@@ -8,6 +7,7 @@ import Footer from "../Sections/footer";
 import Header from "../Sections/header";
 import Instructor from "../Sections/instructor";
 import Student_reviews from "../Sections/student_reviews";
+import Breadcrumb from "../Sections/breadcrumb";
 
 class Instructors extends React.Component {
   constructor(props) {
@@ -28,7 +28,7 @@ class Instructors extends React.Component {
     return (
       <div id="main-wrapper">
         {hide_nav ? null : <Header page="instructors" />}
-
+        <div className="clearfix"></div>
         <Breadcrumb page_title="Instructors" page_text="Instructors" />
         <section class="min">
           <div class="container">
