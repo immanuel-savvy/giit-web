@@ -10,6 +10,7 @@ import Preview_image from "../Components/preview_image";
 import { Link } from "react-router-dom";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import { Img_tag } from "./Article";
+import Courses from "../Sections/courses";
 
 class Vendor extends React.Component {
   constructor(props) {
@@ -79,6 +80,8 @@ class Vendor extends React.Component {
         ) : (
           <Loadindicator />
         )}
+
+        {vendor ? <Courses title="Courses" section={vendor} /> : null}
 
         <Student_reviews />
         <Contact_us_today />

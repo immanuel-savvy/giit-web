@@ -19,10 +19,11 @@ class Courses extends React.Component {
   }
 
   componentDidMount = async () => {
-    let { section } = this.props;
+    let { section, courses } = this.props;
 
-    let arr = shuffle_array(section.courses.filter((c) => c));
-    let courses = arr.slice(0, 6);
+    let arr;
+    if (!courses) arr = shuffle_array(section.courses.filter((c) => c));
+    courses = courses || arr.slice(0, 6);
 
     courses = await post_request(`get_courses`, {
       courses,
@@ -43,7 +44,7 @@ class Courses extends React.Component {
   };
 
   render() {
-    let { section, gray } = this.props;
+    let { section, gray, title: title_ } = this.props;
     let { title, text, _id } = section;
     let { courses, removed } = this.state;
     if ((courses && !courses.length) || removed) return null;
@@ -54,7 +55,7 @@ class Courses extends React.Component {
           <div className="row justify-content-center">
             <div className="col-lg-7 col-md-8">
               <div className="sec-heading center">
-                <h2>{title}</h2>
+                <h2>{title_ || title}</h2>
                 <p>{text}</p>
               </div>
             </div>
@@ -84,7 +85,7 @@ class Courses extends React.Component {
               </div>
             )}
           </div>
-          {courses && courses.length ? (
+          {title_ ? null : courses && courses.length ? (
             <Explore_more_btn title={title} to={`/courses?section=${_id}`} />
           ) : null}
         </div>
