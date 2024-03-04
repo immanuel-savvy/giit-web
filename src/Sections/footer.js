@@ -66,8 +66,6 @@ class Footer extends React.Component {
 
           return (
             <span>
-              <Category_breadcrumb categories={master_courses_} />
-
               {lock ? <div style={{ height: 300 }}></div> : null}
               <footer className="dark-footer skin-dark-footer style-2">
                 {lock ? null : (

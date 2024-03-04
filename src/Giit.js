@@ -315,6 +315,7 @@ class Giit extends React.Component {
               navs,
               subnavs,
               vendors,
+              master_courses,
               set_subnav: this.set_subnav,
               load_subnavs: this.load_subnavs,
               submenus,
