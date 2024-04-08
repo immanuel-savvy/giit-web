@@ -12,6 +12,7 @@ import Footer from "../Sections/footer";
 import Header from "../Sections/header";
 import Student_reviews from "../Sections/student_reviews";
 import { scroll_to_top } from "./Adminstrator";
+import Latest_news_and_articles from "../Sections/latest_news_and_articles";
 
 class Course extends React.Component {
   constructor(props) {
@@ -94,7 +95,7 @@ class Course extends React.Component {
         {!course ? null : (
           <section class="gray pt-3">
             <div class="container">
-              <div class="row justify-content-between">
+              <div class="row">
                 {course.courses ? (
                   <div class="col-lg-8 col-md-12 order-lg-first">
                     <div class="row justify-content-center">
@@ -134,6 +135,9 @@ class Course extends React.Component {
         )}
 
         <Student_reviews />
+
+        <Latest_news_and_articles />
+
         <Contact_us_today />
         <Footer />
       </div>

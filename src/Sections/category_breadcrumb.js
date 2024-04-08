@@ -49,29 +49,34 @@ class Category_breadcrumb extends React.Component {
                             ) : (
                               <div class="edu_wraper">
                                 <ul class="lists-3 row">
-                                  {submenus[c._id].map((learn, i) =>
-                                    learn.title ? (
-                                      <li
-                                        key={i}
-                                        onClick={() =>
-                                          this.handle_course(learn)
-                                        }
-                                        class="col-12 m-0"
-                                        style={{ fontSize: 18, lineHeight: 3 }}
-                                      >
-                                        <Link
-                                          to="/course"
-                                          className=""
+                                  {submenus[c._id]
+                                    ?.slice(0, 6)
+                                    ?.map((learn, i) =>
+                                      learn.title ? (
+                                        <li
+                                          key={i}
+                                          onClick={() =>
+                                            this.handle_course(learn)
+                                          }
+                                          class="col-12 m-0"
                                           style={{
-                                            color: "#333",
-                                            textDecorationLine: "none",
+                                            fontSize: 18,
+                                            lineHeight: 3,
                                           }}
                                         >
-                                          {learn.title?.replace(/_/g, " ")}
-                                        </Link>
-                                      </li>
-                                    ) : null
-                                  )}
+                                          <Link
+                                            to="/course"
+                                            className=""
+                                            style={{
+                                              color: "#333",
+                                              textDecorationLine: "none",
+                                            }}
+                                          >
+                                            {learn.title?.replace(/_/g, " ")}
+                                          </Link>
+                                        </li>
+                                      ) : null
+                                    )}
                                 </ul>
                               </div>
                             )}

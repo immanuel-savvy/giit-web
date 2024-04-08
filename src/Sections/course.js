@@ -335,6 +335,17 @@ class Featured_course extends React.Component {
                               />
                             </Link>
                           </div>
+                          <Link to={`/instructor/${instructor.uri}`}>
+                            <span
+                              style={{
+                                overflowX: "hidden",
+                                color: "#000",
+                                textDecorationLine: "none",
+                              }}
+                            >
+                              &nbsp;{instructor.name}
+                            </span>
+                          </Link>
                         </div>
                       </div>
                       <div className="crs_fl_last">

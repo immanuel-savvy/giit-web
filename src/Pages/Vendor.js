@@ -34,7 +34,12 @@ class Vendor extends React.Component {
       <div id="main-wrapper">
         <Header page="vendor" refs="header" />
         <div className="clearfix"></div>
-        <Breadcrumb page_title={vendor && vendor.title} page_text="About " />
+        <Breadcrumb
+          image={vendor?.icon}
+          image_hash={vendor?.image_hash}
+          page_title={vendor?.title}
+          page_text="Vendor "
+        />
 
         {vendor ? (
           <section>

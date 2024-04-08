@@ -1,6 +1,7 @@
 import React from "react";
 import { to_title } from "../Assets/js/utils/functions";
 import { domain } from "../Constants/constants";
+import Preview_image from "../Components/preview_image";
 
 class Course_banner extends React.Component {
   constructor(props) {
@@ -35,7 +36,7 @@ class Course_banner extends React.Component {
       >
         <div className="container">
           <div className="row align-items-center">
-            <div className="col-lg-7 col-md-7">
+            <div className="col-lg-8 col-md-8">
               <div className="ed_detail_wrap light">
                 {tags && tags.length
                   ? tags.map((tag, index) => (
@@ -78,6 +79,9 @@ class Course_banner extends React.Component {
                   </div>
                 </div>
               </div>
+            </div>
+            <div className="col-lg-4 col-md-4">
+              {banner_image ? <Preview_image image={banner_image} /> : null}
             </div>
           </div>
         </div>

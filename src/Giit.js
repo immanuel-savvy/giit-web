@@ -41,6 +41,9 @@ import Course_template from "./Pages/Course_template";
 import Students_works from "./Pages/Student_works";
 import Instructor from "./Pages/Instructor";
 import Vendor from "./Pages/Vendor";
+import Profile from "./Pages/Profile";
+import Home2 from "./Pages/Home2";
+import { client_domain } from "./Constants/constants";
 
 let emitter = new Emitter();
 
@@ -65,6 +68,13 @@ class Giit extends React.Component {
           title: "courses",
           path: "/courses",
           submenu: new Array(),
+          on_click: () => window.location.assign(`${client_domain}/courses`),
+        },
+        {
+          title: "online courses",
+          path: "/online_courses",
+          on_click: () =>
+            window.location.assign(`${client_domain}/online_courses`),
         },
         {
           title: "ncc uk",
@@ -91,6 +101,7 @@ class Giit extends React.Component {
         {
           title: "about",
           path: "/about",
+          on_click: () => window.location.assign(`${client_domain}/about`),
           submenu: new Array(
             {
               title: "who we are",
@@ -105,6 +116,10 @@ class Giit extends React.Component {
               path: "/career",
             },
             {
+              title: "services",
+              path: "/services",
+            },
+            {
               title: "internships",
               path: "https://giitfoundation.org/internship",
             },
@@ -117,10 +132,6 @@ class Giit extends React.Component {
               path: "/faqs",
             }
           ),
-        },
-        {
-          title: "services",
-          path: "/services",
         },
         {
           title: "testimonials",
@@ -154,7 +165,7 @@ class Giit extends React.Component {
         },
         {
           title: "get started",
-          path: "/signup",
+          path: "/login",
         }
       ),
     };
@@ -247,6 +258,7 @@ class Giit extends React.Component {
             path: "/course",
           })
       );
+      navs[3].submenu = navs[2].submenu;
     }
 
     let loggeduser = window.sessionStorage.getItem("loggeduser");
@@ -335,6 +347,7 @@ class Giit extends React.Component {
                         />
                       }
                     />
+                    <Route path="online_courses" element={<Home2 />} />
                     <Route path="courses" element={<Courses />} />
                     <Route path="contact_us" element={<Contact />} />
                     <Route path="blog" element={<Blog />} />
@@ -352,6 +365,7 @@ class Giit extends React.Component {
                     <Route path="master_courses" element={<Master_courses />} />
                     <Route path="signup" element={<Signup />} />
                     <Route path="login" element={<Login />} />
+                    <Route path="dashboard" element={<Profile />} />
                     <Route path="faqs" element={<FAQS />} />
                     <Route path="students_works" element={<Students_works />} />
                     <Route

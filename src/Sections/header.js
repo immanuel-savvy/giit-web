@@ -14,7 +14,7 @@ class Header extends React.Component {
   componentDidMount = () => {};
 
   render() {
-    let { page, lock } = this.props;
+    let { page, lock, elearn } = this.props;
 
     return (
       <div
@@ -85,7 +85,7 @@ class Header extends React.Component {
           <div className="clearfix"></div>
         </div>
 
-        <Sub_header />
+        {ELEARN || elearn ? <Sub_header /> : null}
       </div>
     );
   }

@@ -11,6 +11,7 @@ import Header from "../Sections/header";
 import { scroll_to_top } from "./Adminstrator";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import Preview_image from "../Components/preview_image";
+import Latest_news_and_articles from "../Sections/latest_news_and_articles";
 
 const Img_tag = ({ src }) => {
   return (
@@ -165,6 +166,8 @@ class Article extends React.Component {
               </div>
             </section>
           )}
+
+          <Latest_news_and_articles />
           <Contact_us_today />
           <Footer />
         </div>

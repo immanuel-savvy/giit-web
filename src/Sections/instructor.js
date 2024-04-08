@@ -12,7 +12,10 @@ class Instructor extends React.Component {
 
   render() {
     let { instructor, full, remove, edit } = this.props;
-    let { name, profession, reviews, uri, _id, image, image_hash } = instructor;
+    if (!instructor) return;
+
+    let { name, profession, reviews, uri, _id, image, image_hash } =
+      instructor || {};
 
     return (
       <div class={!full ? "col-md-3 col-lg-2 col-sm-12 mb-3" : "lios_item"}>

@@ -35,9 +35,11 @@ class Featured_categories extends React.Component {
 
                 <div class="row justify-content-center">
                   {master_courses ? (
-                    master_courses.map((cat) => (
-                      <Category category={cat} key={cat._id} />
-                    ))
+                    master_courses.map((cat) =>
+                      cat?.title ? (
+                        <Category category={cat} key={cat._id} />
+                      ) : null
+                    )
                   ) : (
                     <Loadindicator />
                   )}

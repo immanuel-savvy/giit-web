@@ -6,7 +6,7 @@ const SKILL_LEVEL = new Array(
 );
 
 const DEV = false;
-const ELEARN = true;
+const ELEARN = false;
 
 const hostname = DEV
   ? "http://localhost"

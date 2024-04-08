@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Preview_image from "../Components/preview_image";
 
 class Breadcrumb extends React.Component {
   constructor(props) {
@@ -9,7 +10,7 @@ class Breadcrumb extends React.Component {
   }
 
   render() {
-    let { page_text, page_title, no_gray } = this.props;
+    let { page_text, page_title, no_gray, image, image_hash } = this.props;
 
     return (
       <section
@@ -26,7 +27,7 @@ class Breadcrumb extends React.Component {
       >
         <div className="container">
           <div className="row">
-            <div className="col-lg-12 col-md-12">
+            <div className="col-lg-8 col-md-8">
               <div className="breadcrumbs-wrap">
                 <h1 className="breadcrumb-title text-light">{page_title}</h1>
                 <nav className="transparent">
@@ -50,6 +51,11 @@ class Breadcrumb extends React.Component {
                   </ol>
                 </nav>
               </div>
+            </div>
+            <div className="col-lg-4 col-md-4">
+              {image ? (
+                <Preview_image image={image} image_hash={image_hash} />
+              ) : null}
             </div>
           </div>
         </div>

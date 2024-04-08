@@ -49,8 +49,14 @@ class Course_sidebar extends React.Component {
       <Flash_promo.Consumer>
         {({ flash_promo }) => {
           return (
-            <div className={class_name || "col-lg-4 col-md-12 order-lg-last"}>
-              <div className="ed_view_box">
+            <div
+              className={
+                class_name
+                  ? `${class_name} order-lg-last`
+                  : "col-lg-4 col-md-12 order-lg-last"
+              }
+            >
+              <div className="ed_view_box style_2 stick_top">
                 <Video
                   thumbnail_class="pro_img img-fluid w100"
                   thumbnail={`${domain}/Images/${image}`}
@@ -146,9 +152,19 @@ class Course_sidebar extends React.Component {
                     </span>
                   </Link>
                 </div>
-              </div>
+                <div className="ed_view_link">
+                  <Link to="/contact_us" style={{ textDecorationLine: "none" }}>
+                    <span
+                      onClick={this.handle_enroll}
+                      className="btn theme-light enroll-btn"
+                    >
+                      Contact Us<i className="fas fa-phone-alt"></i>
+                    </span>
+                  </Link>
+                </div>
 
-              {ELEARN ? <Instructor instructor={instructor} full /> : null}
+                {ELEARN ? <Instructor instructor={instructor} full /> : null}
+              </div>
             </div>
           );
         }}

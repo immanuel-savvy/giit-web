@@ -1,7 +1,7 @@
 import React from "react";
 import { get_request } from "../Assets/js/utils/services";
 import Loadindicator from "../Components/loadindicator";
-import { domain } from "../Constants/constants";
+import { ELEARN, domain } from "../Constants/constants";
 import Explore_more_btn from "./explore_more_btn";
 import Instructor from "./instructor";
 
@@ -74,24 +74,26 @@ class Best_instructors extends React.Component {
           </section>
         ) : null}
 
-        <div className="container">
-          <div className="row justify-content-center mt-5">
-            {instructors ? (
-              instructors && !instructors.length ? null : (
-                instructors.map((instructor, index) => (
-                  <Instructor
-                    testimonials
-                    instructor={instructor}
-                    key={index}
-                  />
-                ))
-              )
-            ) : (
-              <Loadindicator contained />
-            )}
+        {ELEARN ? (
+          <div className="container">
+            <div className="row justify-content-center mt-5">
+              {instructors ? (
+                instructors && !instructors.length ? null : (
+                  instructors.map((instructor, index) => (
+                    <Instructor
+                      testimonials
+                      instructor={instructor}
+                      key={index}
+                    />
+                  ))
+                )
+              ) : (
+                <Loadindicator contained />
+              )}
+            </div>
           </div>
-        </div>
-        {instructors && instructors.length ? (
+        ) : null}
+        {ELEARN && instructors && instructors.length ? (
           <Explore_more_btn title="Instructors" to={"/instructors"} />
         ) : null}
 

@@ -4,6 +4,7 @@ import { to_title } from "../../Assets/js/utils/functions";
 import { post_request } from "../../Assets/js/utils/services";
 import Footer from "../../Sections/footer";
 import Header from "../../Sections/header";
+import Stretch_button from "../../Components/stretch_button";
 
 class Admin_login extends React.Component {
   constructor(props) {
@@ -19,17 +20,23 @@ class Admin_login extends React.Component {
     this.setState({ password: target.value, message: "" });
 
   login = async () => {
-    let { email, password } = this.state;
+    let { email, password, loading } = this.state;
+    if (loading) return;
+    this.setState({ loading: !loading });
 
     let response = await post_request("admin_login", { email, password });
 
     response && response.admin
       ? this.props.log_admin(response.admin)
-      : this.setState({ password: "", message: response.message });
+      : this.setState({
+          password: "",
+          message: response.message,
+          loading: false,
+        });
   };
 
   render() {
-    let { email, password, message } = this.state;
+    let { email, password, message, loading } = this.state;
 
     return (
       <div id="main-wrapper">
@@ -80,13 +87,11 @@ class Admin_login extends React.Component {
                           />
                         </div>
                         <div className="form-group">
-                          <button
-                            type="button"
-                            className="btn full-width btn-md theme-bg text-white"
-                            onClick={this.login}
-                          >
-                            Login
-                          </button>
+                          <Stretch_button
+                            title="Login"
+                            action={this.login}
+                            loading={loading}
+                          />
                         </div>
                       </div>
                       {message ? (
