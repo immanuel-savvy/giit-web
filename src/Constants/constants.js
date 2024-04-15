@@ -5,7 +5,7 @@ const SKILL_LEVEL = new Array(
   "advance"
 );
 
-const DEV = true;
+const DEV = false;
 const ELEARN = false;
 
 const hostname = DEV
