@@ -16,7 +16,7 @@ class Profile extends React.Component {
       <Logged_user.Consumer>
         {({ loggeduser }) => {
           return (
-            <div id="main-wrapper">
+            <div>
               <Header />
               <div className="clearfix"></div>
 

@@ -1,6 +1,7 @@
 import React from "react";
 import Preview_image from "./preview_image";
 import {
+  client_domain,
   domain,
   seminar_backend,
   seminar_frontend,
@@ -68,8 +69,7 @@ class Seminar extends React.Component {
         <div className="crs_grid">
           <div className="crs_grid_thumb">
             <a
-              href={`${seminar_frontend}/seminar?${_id}`}
-              target="_blank"
+              href={`${client_domain}/seminar?${_id}`}
               onClick={() => {
                 save_to_session("seminar", {
                   ...seminar,

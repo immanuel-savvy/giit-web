@@ -44,7 +44,6 @@ class Seminars extends React.Component {
       <div>
         <Header page="seminars" />
 
-        <Padder />
         <Breadcrumb page_title="seminars" />
 
         <section className="gray">

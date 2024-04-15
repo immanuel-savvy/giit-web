@@ -118,11 +118,36 @@ const commalise_figures = (value, no_fixed) => {
     : `${commalised}${decimal.slice(decimal.indexOf("."))}`;
 };
 
+const countdown = (end_date, return_function, callback, caller) => {
+  let end = new Date(end_date).getTime();
+
+  caller.countdown = setInterval(() => {
+    let now = new Date().getTime();
+    let distance = end - now;
+
+    if (distance < 0) {
+      clearInterval(caller.countdown);
+      callback && callback();
+      return;
+    }
+
+    let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    let hours = Math.floor(
+      (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
+    let mins = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    return_function && return_function({ days, hours, mins, seconds });
+  }, 1000);
+};
+
 export {
   to_title,
   gen_random_int,
   generate_random_string,
   email_regex,
+  countdown,
   special_chars,
   time_string,
   phone_regex,

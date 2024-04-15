@@ -1,5 +1,5 @@
 import React from "react";
-import Countdown from "./countdown";
+import Countdown from "./seminar_countdown";
 import {
   date_string,
   time_string,

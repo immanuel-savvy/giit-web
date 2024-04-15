@@ -8,7 +8,7 @@ import "swiper/css/autoplay";
 import { Autoplay, Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Explore_more_btn from "./explore_more_btn";
-import { seminar_frontend } from "../Constants/constants";
+import { client_domain, seminar_frontend } from "../Constants/constants";
 
 class Upcoming_seminars extends React.Component {
   constructor(props) {
@@ -18,13 +18,10 @@ class Upcoming_seminars extends React.Component {
   }
 
   componentDidMount = async () => {
-    let upcoming_seminars = await post_request(
-      "https://seminar.giitafrica.com/seminars",
-      {
-        query: { date: { $gt: Date.now() } },
-        limit: 10,
-      }
-    );
+    let upcoming_seminars = await post_request("/seminars", {
+      query: { date: { $gt: Date.now() } },
+      limit: 10,
+    });
     this.setState({ upcoming_seminars });
   };
 
@@ -85,9 +82,7 @@ class Upcoming_seminars extends React.Component {
               <Explore_more_btn
                 title="seminars"
                 action={() =>
-                  window.location.assign(
-                    `${seminar_frontend}/seminars?upcoming`
-                  )
+                  window.location.assign(`${client_domain}/seminars?upcoming`)
                 }
               />
             ) : null}

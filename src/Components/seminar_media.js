@@ -70,7 +70,7 @@ class Seminar_media extends React.Component {
                   image={image.url}
                   height={70}
                   style={{ borderRadius: 10, cursor: "pointer" }}
-                  action={() => this.set_image(image)}
+                  onclick={() => this.set_image(image)}
                   class_name="pro_img img-fluid img-rounded w100"
                 />
               </span>
