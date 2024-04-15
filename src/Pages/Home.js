@@ -43,7 +43,7 @@ class Index extends React.Component {
 
     if (sections && sections.push) {
       sections.push("combo");
-      if (!ELEARN) sections.push("master_courses");
+      if (!ELEARN) sections.push("master_course");
     }
 
     sections = sections.sort((s1, s2) => {

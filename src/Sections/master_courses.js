@@ -74,23 +74,29 @@ class Master_courses extends React.Component {
           )}
           <div className="row justify-content-center">
             {master_courses ? (
-              <Swiper
-                modules={[Autoplay, Pagination]}
-                pagination={{ clickable: true }}
-                slidesPerView={window.innerWidth < 650 ? 1 : 3}
-                autoplay={{
-                  delay: 2000,
-                  pauseOnMouseEnter: true,
-                  disableOnInteraction: false,
-                }}
-                loop
-              >
-                {master_courses.map((course, index) => (
-                  <SwiperSlide key={index}>
-                    <Featured_course full course={course} />
-                  </SwiperSlide>
-                ))}
-              </Swiper>
+              !all ? (
+                <Swiper
+                  modules={[Autoplay, Pagination]}
+                  pagination={{ clickable: true }}
+                  slidesPerView={window.innerWidth < 650 ? 1 : 3}
+                  autoplay={{
+                    delay: 2000,
+                    pauseOnMouseEnter: true,
+                    disableOnInteraction: false,
+                  }}
+                  loop
+                >
+                  {master_courses.map((course, index) => (
+                    <SwiperSlide key={index}>
+                      <Featured_course full course={course} />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              ) : (
+                master_courses.map((course) => (
+                  <Featured_course course={course} key={course._id} />
+                ))
+              )
             ) : (
               <Loadindicator contained />
             )}

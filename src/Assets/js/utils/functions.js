@@ -12,6 +12,8 @@ const combinations = {
 let special_chars = /[^\w\s]/gi;
 
 const shuffle_array = (array) => {
+  if (!array || !Array.isArray(array)) return;
+
   const new_array = [...array];
   const length = new_array.length;
 

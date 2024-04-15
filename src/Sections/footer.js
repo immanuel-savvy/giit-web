@@ -8,6 +8,15 @@ import { Footer_context } from "../Contexts";
 import { emitter } from "../Giit";
 import Category_breadcrumb from "./category_breadcrumb";
 
+const get_session = (key) => {
+  let value = window.sessionStorage.getItem(key);
+
+  try {
+    value = JSON.parse(value);
+  } catch (e) {}
+
+  return value;
+};
 const scroll_to_top = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
 const go_back = () => window.history.go(-1);
@@ -322,4 +331,4 @@ class Footer extends React.Component {
 }
 
 export default Footer;
-export { save_to_session, scroll_to_top, go_back };
+export { save_to_session, scroll_to_top, go_back, get_session };

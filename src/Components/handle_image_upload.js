@@ -26,7 +26,7 @@ class Handle_image_upload extends React.Component {
     return encode(image_data.data, image_data.width, image_data.height, 4, 4);
   };
 
-  handle_image = ({ target }, prefix) => {
+  handle_image = ({ target }, prefix, cb) => {
     let file = target.files[0];
     let reader = new FileReader();
     reader.readAsDataURL(file);
@@ -45,12 +45,15 @@ class Handle_image_upload extends React.Component {
         (await this.encode_image_to_blurhash(reader.result)
           .then((res) => this.setState({ [prop_hash]: res }))
           .catch((err) => console.log(err)));
-      this.setState({
-        file,
-        [prop]: reader.result,
-        image_name: file.name,
-        [prop_loading]: false,
-      });
+      this.setState(
+        {
+          file,
+          [prop]: reader.result,
+          image_name: file.name,
+          [prop_loading]: false,
+        },
+        cb
+      );
     };
   };
 

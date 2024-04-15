@@ -48,6 +48,9 @@ import { organisation_name } from "../Constants/constants";
 import Video_reviews from "../Sections/dashboard/manage_video_reviews";
 import Manage_student_works from "../Sections/dashboard/manage_student_works";
 import Manage_vendors from "../Sections/dashboard/manage_vendors";
+import Manage_speakers from "../Sections/dashboard/manage_speakers";
+import Manage_sponsors from "../Sections/dashboard/manage_sponsors";
+import Manage_seminars from "../Sections/dashboard/manage_seminars";
 
 const scroll_to_top = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
@@ -125,6 +128,9 @@ class Adminstrator extends React.Component {
       services: <Manage_services />,
       trusted_by: <Manage_trusted_by />,
       gallery: <Manage_gallery />,
+      manage_speakers: <Manage_speakers />,
+      manage_sponsors: <Manage_sponsors />,
+      manage_seminars: <Manage_seminars />,
       onboarding: <Manage_onboarding />,
       FAQs: <Manage_faqs />,
       career_page: <Career_page />,

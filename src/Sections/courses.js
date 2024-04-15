@@ -22,8 +22,8 @@ class Courses extends React.Component {
     let { section, courses } = this.props;
 
     let arr;
-    if (!courses) arr = shuffle_array(section.courses.filter((c) => c));
-    courses = courses || arr.slice(0, 6);
+    if (!courses) arr = shuffle_array(section?.courses?.filter((c) => c));
+    courses = courses || arr?.slice(0, 6);
 
     courses = await post_request(`get_courses`, {
       courses,

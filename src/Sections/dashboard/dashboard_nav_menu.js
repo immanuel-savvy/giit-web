@@ -59,6 +59,15 @@ class Dashboard_nav_menu extends React.Component {
           title: "services",
           icon: "fa-th",
         },
+
+        {
+          title: "events",
+          subnav: new Array(
+            { title: "manage_seminars" },
+            { title: "manage_sponsors" },
+            { title: "manage_speakers" }
+          ),
+        },
         {
           title: "trusted_by",
           icon: "fa-th",

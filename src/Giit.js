@@ -44,6 +44,9 @@ import Vendor from "./Pages/Vendor";
 import Profile from "./Pages/Profile";
 import Home2 from "./Pages/Home2";
 import { client_domain } from "./Constants/constants";
+import New_seminar from "./Pages/New_seminar";
+import Seminar from "./Pages/Seminar";
+import Seminars from "./Pages/Seminars";
 
 let emitter = new Emitter();
 
@@ -65,7 +68,7 @@ class Giit extends React.Component {
           path: "/",
         },
         {
-          title: "courses",
+          title: "on-campus",
           path: "/courses",
           submenu: new Array(),
           on_click: () => window.location.assign(`${client_domain}/courses`),
@@ -148,16 +151,10 @@ class Giit extends React.Component {
         {
           title: "events",
           path: "",
-          submenu: new Array(
-            {
-              title: "seminars",
-              path: `https://giitfoundation.org/seminars?upcoming`,
-            },
-            {
-              title: "conferences",
-              path: "https://giitfoundation.org/conferences?upcoming",
-            }
-          ),
+          submenu: new Array({
+            title: "seminars",
+            path: `/seminars`,
+          }),
         },
         {
           title: "contact",
@@ -363,6 +360,8 @@ class Giit extends React.Component {
                       element={<Course_template />}
                     />
                     <Route path="master_courses" element={<Master_courses />} />
+                    <Route path="seminar" element={<Seminar />} />
+                    <Route path="seminars" element={<Seminars />} />
                     <Route path="signup" element={<Signup />} />
                     <Route path="login" element={<Login />} />
                     <Route path="dashboard" element={<Profile />} />
@@ -382,6 +381,7 @@ class Giit extends React.Component {
                     />
                     <Route path="gallery" element={<Gallery />} />
                     <Route path="instructors" element={<Instructors />} />
+                    <Route path="new_seminar" element={<New_seminar />} />
                     <Route path="verify_email" element={<Verify_email />} />
                     <Route
                       path="forgot_password"

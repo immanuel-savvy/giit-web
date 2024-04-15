@@ -1,6 +1,10 @@
 import React from "react";
 import Preview_image from "./preview_image";
-import { seminar_backend, seminar_frontend } from "../Constants/constants";
+import {
+  domain,
+  seminar_backend,
+  seminar_frontend,
+} from "../Constants/constants";
 import {
   commalise_figures,
   date_string,
@@ -78,7 +82,7 @@ class Seminar extends React.Component {
               className="crs_detail_link"
             >
               <Preview_image
-                image={`${seminar_backend}/images/${images[0]?.url}`}
+                image={`${domain}/Images/${images[0]?.url}`}
                 image_hash={images[0]?.image_hash}
                 class_name="img img-fluid rounded"
               />
