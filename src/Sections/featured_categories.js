@@ -2,6 +2,7 @@ import React from "react";
 import { Footer_context } from "../Contexts";
 import Loadindicator from "../Components/loadindicator";
 import Category from "../Components/category";
+import Explore_more_btn from "./explore_more_btn";
 
 class Featured_categories extends React.Component {
   constructor(props) {
@@ -45,6 +46,8 @@ class Featured_categories extends React.Component {
                   )}
                 </div>
               </div>
+
+              <Explore_more_btn to="/master_courses" />
             </section>
           );
         }}

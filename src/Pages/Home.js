@@ -85,14 +85,14 @@ class Index extends React.Component {
 
           return (
             <div id="main-wrapper">
-              <Header navs={navs} />
+              <Header navs={navs} elearn />
               <div className="body">
                 {ELEARN ? (
                   <E_banner />
                 ) : (
                   <Banner banner_stuffs={banner_stuffs} />
                 )}
-                {ELEARN ? <Banner_keypoints /> : <Associates />}
+                {ELEARN || true ? <Banner_keypoints /> : <Associates />}
 
                 <Featured_categories />
 

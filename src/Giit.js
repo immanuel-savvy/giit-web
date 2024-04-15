@@ -47,6 +47,7 @@ import { client_domain } from "./Constants/constants";
 import New_seminar from "./Pages/New_seminar";
 import Seminar from "./Pages/Seminar";
 import Seminars from "./Pages/Seminars";
+import { save_to_session } from "./Sections/footer";
 
 let emitter = new Emitter();
 
@@ -261,6 +262,15 @@ class Giit extends React.Component {
     let loggeduser = window.sessionStorage.getItem("loggeduser");
     if (loggeduser) loggeduser = JSON.parse(loggeduser);
 
+    this.edit_seminar = (seminar) =>
+      this.setState({ seminar_in_edit: seminar }, () => {
+        save_to_session("seminar_in_edit", seminar);
+
+        window.location.assign(`${client_domain}/edit_seminar`);
+      });
+
+    emitter.listen("edit_seminar", this.edit_seminar);
+
     let {
       flash_promo,
       banner_stuffs,
@@ -310,6 +320,7 @@ class Giit extends React.Component {
       subnavs,
       navs,
       master_courses,
+      seminar_in_edit,
       vendors,
       submenus,
     } = this.state;
@@ -382,6 +393,10 @@ class Giit extends React.Component {
                     <Route path="gallery" element={<Gallery />} />
                     <Route path="instructors" element={<Instructors />} />
                     <Route path="new_seminar" element={<New_seminar />} />
+                    <Route
+                      path="edit_seminar"
+                      element={<New_seminar seminar={seminar_in_edit} />}
+                    />
                     <Route path="verify_email" element={<Verify_email />} />
                     <Route
                       path="forgot_password"

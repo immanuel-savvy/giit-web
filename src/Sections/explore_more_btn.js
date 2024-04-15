@@ -22,7 +22,7 @@ class Explore_more_btn extends React.Component {
               }}
               class="btn btn-md theme-bg-light theme-cl"
             >
-              {text || `Explore More ${title}`}
+              {text || `Explore More ${title || ""}`}
             </Link>
           </div>
         </div>

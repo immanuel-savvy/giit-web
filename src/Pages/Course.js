@@ -13,6 +13,7 @@ import Header from "../Sections/header";
 import Student_reviews from "../Sections/student_reviews";
 import { scroll_to_top } from "./Adminstrator";
 import Latest_news_and_articles from "../Sections/latest_news_and_articles";
+import Upcoming_seminars from "../Sections/upcoming_seminar";
 
 class Course extends React.Component {
   constructor(props) {
@@ -133,6 +134,8 @@ class Course extends React.Component {
             </div>
           </section>
         )}
+
+        <Upcoming_seminars />
 
         <Student_reviews />
 
