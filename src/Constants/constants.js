@@ -5,7 +5,7 @@ const SKILL_LEVEL = new Array(
   "advance"
 );
 
-const DEV = false;
+const DEV = true;
 const ELEARN = false;
 
 const hostname = DEV
@@ -41,7 +41,7 @@ const month_index = new Object({
   11: "dec",
 });
 
-const organisation_name = "Globalstar Innovative Information Technology";
+const organisation_name = "GIIT Africa";
 
 export {
   SKILL_LEVEL,

@@ -6,6 +6,11 @@ import Featured_course from "../Sections/course";
 import Footer from "../Sections/footer";
 import Header from "../Sections/header";
 import { scroll_to_top } from "./Adminstrator";
+import { Logged_user } from "../Contexts";
+import Stretch_button from "../Components/stretch_button";
+import { post_request } from "../Assets/js/utils/services";
+import { client_domain } from "../Constants/constants";
+import Alert_box from "../Components/alert_box";
 
 class Enroll extends React.Component {
   constructor(props) {
@@ -34,109 +39,146 @@ class Enroll extends React.Component {
     return email_regex.test(email) && firstname && lastname;
   };
 
-  proceed = async () => {};
+  proceed = async () => {
+    let { email, firstname, lastname, phone, course } = this.state;
+    this.setState({ loading: true });
+
+    let enrollment = {
+      email,
+      firstname,
+      lastname,
+      phone,
+      course: course?._id,
+      user: this.loggeduser?._id,
+    };
+
+    let res = await post_request("/enroll", enrollment);
+
+    if (!res?._id)
+      this.setState({ message: res?.message || "Err, something went wrong!" });
+    else
+      window.location.assign(
+        `${client_domain}/enrollment_successful/${res._id}`
+      );
+
+    this.setState({ loading: false });
+  };
 
   render() {
     let { navs } = this.props;
-    let { email, firstname, lastname, phone, course } = this.state;
+    let { email, firstname, lastname, message, phone, course, loading } =
+      this.state;
 
     return (
-      <div id="main-wrapper">
-        <Header navs={navs} page="enroll" />
-        <div className="clearfix"></div>
-        <Breadcrumb page_title="Online Registration" page_text="Enroll" />
+      <Logged_user.Consumer>
+        {({ loggeduser }) => {
+          this.loggeduser = loggeduser;
 
-        <section>
-          <div className="container">
-            <div className="row justify-content-between">
-              <div className="col-xl-6 col-lg-6 col-md-7 col-sm-12">
-                <form>
-                  <div class="row">
-                    <h5>Enrollment Form</h5>
-                    <br />
-                    <div class="col-lg-6 col-md-6 col-sm-12">
-                      <div class="form-group">
-                        <label>Name</label>
-                        <input
-                          class="form-control"
-                          type="text"
-                          autoFocus
-                          placeholder="Firstname"
-                          onChange={({ target }) =>
-                            this.setState({ firstname: target.value })
-                          }
-                          value={firstname}
-                        />
-                      </div>
-                    </div>
+          if (!firstname && loggeduser)
+            this.setState({
+              firstname: loggeduser.firstname,
+              lastname: loggeduser.lastname,
+              email: loggeduser.email,
+            });
 
-                    <div class="col-lg-6 col-md-6 col-sm-12">
-                      <div class="form-group">
-                        <label>Lastname*</label>
-                        <input
-                          class="form-control"
-                          type="text"
-                          placeholder="Lastname"
-                          onChange={({ target }) =>
-                            this.setState({ lastname: target.value })
-                          }
-                          value={lastname}
-                        />
-                      </div>
-                    </div>
+          return (
+            <div id="main-wrapper">
+              <Header navs={navs} page="enroll" />
+              <div className="clearfix"></div>
+              <Breadcrumb page_title="Online Registration" page_text="Enroll" />
 
-                    <div class="col-lg-12 col-md-12 col-sm-12">
-                      <div className="form-group smalls">
-                        <label>Email*</label>
-                        <input
-                          type="email"
-                          className="form-control"
-                          onChange={({ target }) =>
-                            this.setState({ email: target.value })
-                          }
-                          value={email}
-                        />
-                      </div>
+              <section>
+                <div className="container">
+                  <div className="row justify-content-between">
+                    <div className="col-xl-6 col-lg-6 col-md-7 col-sm-12">
+                      <form>
+                        <div class="row">
+                          <h5>Enrollment Form</h5>
+                          <br />
+                          <div class="col-lg-6 col-md-6 col-sm-12">
+                            <div class="form-group">
+                              <label>Name</label>
+                              <input
+                                class="form-control"
+                                type="text"
+                                autoFocus
+                                placeholder="Firstname"
+                                onChange={({ target }) =>
+                                  this.setState({ firstname: target.value })
+                                }
+                                value={firstname}
+                              />
+                            </div>
+                          </div>
+
+                          <div class="col-lg-6 col-md-6 col-sm-12">
+                            <div class="form-group">
+                              <label>Lastname*</label>
+                              <input
+                                class="form-control"
+                                type="text"
+                                placeholder="Lastname"
+                                onChange={({ target }) =>
+                                  this.setState({ lastname: target.value })
+                                }
+                                value={lastname}
+                              />
+                            </div>
+                          </div>
+
+                          <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div className="form-group smalls">
+                              <label>Email*</label>
+                              <input
+                                type="email"
+                                className="form-control"
+                                onChange={({ target }) =>
+                                  this.setState({ email: target.value })
+                                }
+                                value={email}
+                              />
+                            </div>
+                          </div>
+                          <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div className="form-group smalls">
+                              <label>Phone Number*</label>
+                              <input
+                                type="number"
+                                className="form-control"
+                                onChange={({ target }) =>
+                                  this.setState({ phone: target.value })
+                                }
+                                value={phone}
+                              />
+                            </div>
+                          </div>
+                        </div>
+
+                        <Alert_box message={message} />
+                        <div className="form-group smalls">
+                          <Stretch_button
+                            title="Proceed to Payment"
+                            action={this.proceed}
+                            loading={loading}
+                            disabled={!this._is_set()}
+                          />
+                        </div>
+                      </form>
                     </div>
-                    <div class="col-lg-12 col-md-12 col-sm-12">
-                      <div className="form-group smalls">
-                        <label>Phone Number*</label>
-                        <input
-                          type="number"
-                          className="form-control"
-                          onChange={({ target }) =>
-                            this.setState({ phone: target.value })
-                          }
-                          value={phone}
-                        />
-                      </div>
-                    </div>
+                    <Featured_course
+                      adminstrator
+                      classname="col-xl-4 col-lg-4 col-md-5 col-sm-12 mb-3"
+                      course={course}
+                    />
                   </div>
-
-                  <div className="form-group smalls">
-                    <button
-                      onClick={this._is_set() && this.proceed}
-                      type="button"
-                      className={`btn full-width ${
-                        this._is_set() ? "theme-bg" : "grey"
-                      } short_description-white`}
-                    >
-                      Proceed to payment
-                    </button>
-                  </div>
-                </form>
-              </div>
-              <Featured_course
-                adminstrator
-                classname="col-xl-4 col-lg-4 col-md-5 col-sm-12 mb-3"
-                course={course}
-              />
+                </div>
+              </section>
+              <Contact_us_today />
+              <Footer />
             </div>
-          </div>
-        </section>
-        <Contact_us_today />
-        <Footer />
-      </div>
+          );
+        }}
+      </Logged_user.Consumer>
     );
   }
 }

@@ -9,6 +9,7 @@ import Footer, { scroll_to_top } from "../Sections/footer";
 import Header from "../Sections/header";
 import Student_reviews from "../Sections/student_reviews";
 import Explore_more_btn from "../Sections/explore_more_btn";
+import { organisation_name } from "../Constants/constants";
 
 class Gallery extends React.Component {
   constructor(props) {
@@ -45,6 +46,7 @@ class Gallery extends React.Component {
 
   componentDidMount = async () => {
     scroll_to_top();
+    document.title = `Gallery | ${organisation_name}`;
 
     this.setState({ hide_nav: true }, () => this.setState({ hide_nav: false }));
     await this.fetch_gallery();

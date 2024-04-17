@@ -27,7 +27,7 @@ class Profile_header extends React.Component {
   render() {
     let { categories, full } = this.state;
 
-    let { loggeduser } = this.props;
+    let { loggeduser, enrollments } = this.props;
 
     if (!loggeduser) return;
 
@@ -88,7 +88,7 @@ class Profile_header extends React.Component {
 
                       <li>
                         <i className="fa fa-video"></i>
-                        {courses || 0} Courses
+                        {enrollments || 0} Courses
                       </li>
 
                       <li>

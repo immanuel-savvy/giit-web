@@ -8,6 +8,7 @@ import Contact_us_today from "../Sections/contact_us_today";
 import Footer from "../Sections/footer";
 import Header from "../Sections/header";
 import { scroll_to_top } from "./Adminstrator";
+import { organisation_name } from "../Constants/constants";
 
 class Blog extends React.Component {
   constructor(props) {
@@ -35,6 +36,7 @@ class Blog extends React.Component {
   };
 
   componentDidMount = async () => {
+    document.title = `Blog | ${organisation_name}`;
     await this.fetch_articles();
   };
 

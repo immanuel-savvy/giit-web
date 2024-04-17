@@ -262,6 +262,7 @@ class Add_new_course extends Handle_image_upload {
       what_you_will_learn_in_edit,
       requirement_in_edit,
       requirement_index,
+      meta_title,
       learn_index,
       instructors,
       instructor: instructor_,
@@ -363,6 +364,19 @@ class Add_new_course extends Handle_image_upload {
             placeholder="Type requirement"
             value={duration}
             onChange={({ target }) => this.setState({ duration: target.value })}
+          />
+        </div>
+
+        <div className="form-group smalls">
+          <label>Meta Title </label>
+          <input
+            type="number"
+            className="form-control"
+            placeholder="Type requirement"
+            value={meta_title}
+            onChange={({ target }) =>
+              this.setState({ meta_title: target.value })
+            }
           />
         </div>
 
@@ -810,6 +824,7 @@ class Add_new_course extends Handle_image_upload {
       skill_level,
       vendors,
       duration,
+      meta_title,
       instructor_full,
     } = this.state;
 
@@ -819,6 +834,7 @@ class Add_new_course extends Handle_image_upload {
       master_courses,
       title,
       description,
+      meta_title,
       price: Number(price),
       video,
       image,

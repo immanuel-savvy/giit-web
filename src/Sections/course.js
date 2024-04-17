@@ -40,7 +40,7 @@ class Featured_course extends React.Component {
     };
     emitter.listen("full_desc", this.full_desc);
 
-    if (!course.image_hash && course.image) {
+    if (!course?.image_hash && course?.image) {
       try {
         let image_hash =
           await new Handle_image_upload().encode_image_to_blurhash(
@@ -91,8 +91,15 @@ class Featured_course extends React.Component {
   render() {
     let { progress, image_hash: img_hash, full_desc, play } = this.state;
 
-    let { course, full, classname, adminstrator, edit_course, delete_course } =
-      this.props;
+    let {
+      course,
+      enrolled,
+      full,
+      classname,
+      adminstrator,
+      edit_course,
+      delete_course,
+    } = this.props;
 
     if (!course) return null;
 
@@ -366,7 +373,7 @@ class Featured_course extends React.Component {
                       </div>
                     </div>
                   </div>
-                ) : (
+                ) : enrolled ? null : (
                   <div className="crs_grid_foot">
                     <div className="crs_flex">
                       <div className="crs_fl_first">

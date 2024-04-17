@@ -9,7 +9,7 @@ class E_banner extends React.Component {
     this.state = {
       heros: new Array(
         {
-          main_text: "E-learning",
+          main_text: "Online-Classes",
           sub_text: "The best online courses you'll find",
           bg: require("../Assets/img/elearning1.webp"),
         },

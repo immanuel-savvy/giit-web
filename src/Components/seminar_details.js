@@ -1,4 +1,7 @@
 import React from "react";
+import { Img_tag } from "../Pages/Article";
+import { P_tag } from "../Sections/course_overview";
+import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 
 class Seminar_details extends React.Component {
   constructor(props) {
@@ -16,7 +19,14 @@ class Seminar_details extends React.Component {
         <div class="edu_wraper">
           <h4 class="edu_title">Seminar Details</h4>
           {description.split("\n").map((d, index) => (
-            <p key={index}>{d}</p>
+            <ReactMarkdown
+              children={d}
+              key={index}
+              components={{
+                img: Img_tag,
+                p: P_tag,
+              }}
+            />
           ))}
 
           {things_to_know && things_to_know.length ? (

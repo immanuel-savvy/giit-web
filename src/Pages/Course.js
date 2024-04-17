@@ -14,6 +14,7 @@ import Student_reviews from "../Sections/student_reviews";
 import { scroll_to_top } from "./Adminstrator";
 import Latest_news_and_articles from "../Sections/latest_news_and_articles";
 import Upcoming_seminars from "../Sections/upcoming_seminar";
+import { organisation_name } from "../Constants/constants";
 
 class Course extends React.Component {
   constructor(props) {
@@ -42,6 +43,10 @@ class Course extends React.Component {
     if (course) {
       course = JSON.parse(course);
 
+      document.title = `${
+        course.meta_title || course.title
+      } | ${organisation_name}`;
+
       this.setState({ course });
 
       if (course.courses) await this.fetch_course_children(course);
@@ -58,6 +63,17 @@ class Course extends React.Component {
     };
 
     emitter.listen("push_course", this.push_course);
+
+    let loggeduser = get_session("loggeduser");
+    if (loggeduser) {
+      let { course } = this.state;
+
+      let is_enrolled = await post_request("is_enrolled", {
+        user: loggeduser._id,
+        course: course._id,
+      });
+      this.setState({ is_enrolled });
+    }
   };
 
   componentWillUnmount = () => {
@@ -78,7 +94,7 @@ class Course extends React.Component {
 
   render() {
     let { navs } = this.props;
-    let { course, courses, cummulative_price } = this.state;
+    let { course, courses, cummulative_price, is_enrolled } = this.state;
 
     let certifications = this.cummulate_certifications(courses);
 
@@ -128,6 +144,7 @@ class Course extends React.Component {
 
                 <Course_sidebar
                   course={course}
+                  is_enrolled={is_enrolled}
                   cummulative_price={cummulative_price}
                 />
               </div>

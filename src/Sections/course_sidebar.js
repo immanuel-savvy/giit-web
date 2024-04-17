@@ -11,6 +11,7 @@ import { Flash_promo } from "../Contexts";
 import { emitter } from "../Giit";
 import { pricey } from "./course";
 import Instructor from "./instructor";
+import { get_session } from "./footer";
 
 class Course_sidebar extends React.Component {
   constructor(props) {
@@ -18,6 +19,8 @@ class Course_sidebar extends React.Component {
 
     this.state = {};
   }
+
+  componentDidMount = async () => {};
 
   toggle_short_description = () =>
     this.setState({ show_full: !this.state.show_full });
@@ -30,7 +33,7 @@ class Course_sidebar extends React.Component {
 
   render() {
     let { show_full } = this.state;
-    let { course, cummulative_price, class_name } = this.props;
+    let { course, cummulative_price, class_name, is_enrolled } = this.props;
     let {
       image,
       video,

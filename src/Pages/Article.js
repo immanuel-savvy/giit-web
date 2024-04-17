@@ -12,6 +12,7 @@ import { scroll_to_top } from "./Adminstrator";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import Preview_image from "../Components/preview_image";
 import Latest_news_and_articles from "../Sections/latest_news_and_articles";
+import { organisation_name } from "../Constants/constants";
 
 const Img_tag = ({ src }) => {
   return (
@@ -36,6 +37,8 @@ class Article extends React.Component {
     let article = window.sessionStorage.getItem("article");
     if (article) {
       article = JSON.parse(article);
+      document.title = `${article.title} | ${organisation_name}`;
+
       this.setState({ article });
 
       scroll_to_top();
@@ -51,6 +54,8 @@ class Article extends React.Component {
       article = await get_request(`article/${article_filter._id}`);
 
       if (!article) return window.location.assign("/");
+
+      document.title = `${article.title} | ${organisation_name}`;
 
       this.setState({ article, fetching_article: false });
     }

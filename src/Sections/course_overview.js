@@ -108,3 +108,4 @@ class Course_overview extends React.Component {
 }
 
 export default Course_overview;
+export { P_tag };

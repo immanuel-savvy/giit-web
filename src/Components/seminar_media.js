@@ -32,51 +32,53 @@ class Seminar_media extends React.Component {
           </div>
         </div>
 
-        <div class="edu_wraper">
-          {date < Date.now() && highlights ? (
-            <h4 class="edu_title">Event Highlights</h4>
-          ) : null}
+        {images.length <= 1 && !video ? null : (
+          <div class="edu_wraper">
+            {date < Date.now() && highlights ? (
+              <h4 class="edu_title">Event Highlights</h4>
+            ) : null}
 
-          {video ? (
-            <span class="bb-video-box">
-              <span
-                class="bb-video-box-inner"
-                style={{
-                  display: "inline",
-                  backgroundColor: "#eee",
-                  padding: 15,
-                  marginRight: 15,
-                  cursor: "pointer",
-                }}
-              >
-                <span class="bb-video-box-innerup">
-                  <a
-                    href={video}
-                    target="_blank"
-                    data-toggle="modal"
-                    data-target="#popup-video"
-                    class="theme-cl"
-                  >
-                    <i style={{ fontSize: 20 }} class="ti-control-play"></i>
-                  </a>
+            {video ? (
+              <span class="bb-video-box">
+                <span
+                  class="bb-video-box-inner"
+                  style={{
+                    display: "inline",
+                    backgroundColor: "#eee",
+                    padding: 15,
+                    marginRight: 15,
+                    cursor: "pointer",
+                  }}
+                >
+                  <span class="bb-video-box-innerup">
+                    <a
+                      href={video}
+                      target="_blank"
+                      data-toggle="modal"
+                      data-target="#popup-video"
+                      class="theme-cl"
+                    >
+                      <i style={{ fontSize: 20 }} class="ti-control-play"></i>
+                    </a>
+                  </span>
                 </span>
               </span>
-            </span>
-          ) : null}
-          {images.map((image, index) => {
-            return (
-              <span key={index} class="thumb mr-3">
-                <Preview_image
-                  image={image.url}
-                  height={70}
-                  style={{ borderRadius: 10, cursor: "pointer" }}
-                  onclick={() => this.set_image(image)}
-                  class_name="pro_img img-fluid img-rounded w100"
-                />
-              </span>
-            );
-          })}
-        </div>
+            ) : null}
+            {images.map((image, index) => {
+              return (
+                <span key={index} class="thumb mr-3">
+                  <Preview_image
+                    image={image.url}
+                    height={70}
+                    style={{ borderRadius: 10, cursor: "pointer" }}
+                    onclick={() => this.set_image(image)}
+                    class_name="pro_img img-fluid img-rounded w100"
+                  />
+                </span>
+              );
+            })}
+          </div>
+        )}
       </>
     );
   }

@@ -48,6 +48,7 @@ import New_seminar from "./Pages/New_seminar";
 import Seminar from "./Pages/Seminar";
 import Seminars from "./Pages/Seminars";
 import { save_to_session } from "./Sections/footer";
+import Enrollment_successful from "./Pages/Enrollment_successful";
 
 let emitter = new Emitter();
 
@@ -366,6 +367,10 @@ class Giit extends React.Component {
                     />
                     <Route path="services" element={<Services_page />} />
                     <Route path="enroll" element={<Enroll />} />
+                    <Route
+                      path="enrollment_successful/:enrollment_id"
+                      element={<Enrollment_successful />}
+                    />
                     <Route
                       path="course_template"
                       element={<Course_template />}
