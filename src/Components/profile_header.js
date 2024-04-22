@@ -48,7 +48,7 @@ class Profile_header extends React.Component {
       >
         <div className="container">
           <div className="row align-items-center mb-5">
-            <div className="col-lg-3 col-md-12 col-sm-12">
+            <div className="col-lg-3 col-md-6 col-sm-8">
               <div className="authi_125">
                 <div className="authi_125_thumb">
                   <Preview_image
@@ -62,7 +62,7 @@ class Profile_header extends React.Component {
               </div>
             </div>
 
-            <div className="col-lg-9 col-md-12 col-sm-12">
+            <div className="col-lg-9 col-md-6 col-sm-4">
               <div className="dlkio_452">
                 <div className="ed_detail_wrap">
                   {categories && categories.length
@@ -76,7 +76,7 @@ class Profile_header extends React.Component {
                   <div className="ed_header_caption">
                     <h2 className="ed_title">
                       {to_title(`${firstname} ${lastname}`)}{" "}
-                      <Link to={`/edit_instructor`}>
+                      <Link to={`/edit_profile`}>
                         <i className="ti-pencil"></i>
                       </Link>
                     </h2>

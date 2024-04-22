@@ -49,6 +49,7 @@ import Seminar from "./Pages/Seminar";
 import Seminars from "./Pages/Seminars";
 import { save_to_session } from "./Sections/footer";
 import Enrollment_successful from "./Pages/Enrollment_successful";
+import Edit_profile from "./Pages/Edit_profile";
 
 let emitter = new Emitter();
 
@@ -302,13 +303,22 @@ class Giit extends React.Component {
 
   login = (user) =>
     this.setState({ loggeduser: user }, () =>
-      window.sessionStorage.setItem("loggeduser", JSON.stringify(user))
+      save_to_session("loggeduser", user)
     );
 
   log_admin = (admin) =>
     this.setState({ admin_logged: admin }, () => {
-      window.sessionStorage.setItem("logged_admin", JSON.stringify(admin));
+      save_to_session("logged_admin", admin);
     });
+
+  update_loggeduser = (update) => {
+    let { loggeduser } = this.state;
+    loggeduser = { ...loggeduser, ...update };
+
+    save_to_session("loggeduser", loggeduser);
+
+    this.setState({ loggeduser });
+  };
 
   render = () => {
     let {
@@ -327,7 +337,13 @@ class Giit extends React.Component {
     } = this.state;
 
     return (
-      <Logged_user.Provider value={{ loggeduser, login: this.login }}>
+      <Logged_user.Provider
+        value={{
+          loggeduser,
+          update_loggeduser: this.update_loggeduser,
+          login: this.login,
+        }}
+      >
         <Logged_admin.Provider
           value={{ admin_logged, log_admin: this.log_admin }}
         >
@@ -382,6 +398,7 @@ class Giit extends React.Component {
                     <Route path="login" element={<Login />} />
                     <Route path="dashboard" element={<Profile />} />
                     <Route path="faqs" element={<FAQS />} />
+                    <Route path="edit_profile" element={<Edit_profile />} />
                     <Route path="students_works" element={<Students_works />} />
                     <Route
                       path="university_progressions"

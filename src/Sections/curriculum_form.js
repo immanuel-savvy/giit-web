@@ -28,7 +28,13 @@ class Curriculum_form extends React.Component {
     this.setState({
       subtopics,
       subtopic_index,
-      subtopic_in_edit: new Object({ text: "" }),
+      subtopic_in_edit: new Object({
+        text: "",
+        duration: "",
+        video: "",
+        quiz: "",
+        book: "",
+      }),
     });
   };
 
@@ -111,37 +117,57 @@ class Curriculum_form extends React.Component {
                   />
                 </div>
 
-                <div className="form-group smalls">
-                  <label>Sub Topics</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Add subtopic"
-                    value={subtopic_in_edit.text}
-                    onChange={({ target }) =>
-                      this.setState({
-                        subtopic_in_edit: {
-                          ...subtopic_in_edit,
-                          text: target.value,
-                        },
-                      })
-                    }
-                  />
-                  {subtopic_in_edit ? (
-                    <a
-                      onClick={this.add_subtopic}
-                      href="#"
-                      class="btn theme-bg text-light mt-2"
-                    >
-                      {subtopic_index === null ? "Add" : "Update"}
-                    </a>
-                  ) : null}
-                </div>
+                <legend>
+                  <div className="form-group smalls">
+                    <label>Sub Topics</label>
+                    <div className="mx-4">
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Add subtopic"
+                        value={subtopic_in_edit.text}
+                        onChange={({ target }) =>
+                          this.setState({
+                            subtopic_in_edit: {
+                              ...subtopic_in_edit,
+                              text: target.value,
+                            },
+                          })
+                        }
+                      />
+
+                      <input
+                        type="text"
+                        className="form-control mt-2"
+                        placeholder="Duration"
+                        value={subtopic_in_edit.duration}
+                        onChange={({ target }) =>
+                          this.setState({
+                            subtopic_in_edit: {
+                              ...subtopic_in_edit,
+                              duration: target.value,
+                            },
+                          })
+                        }
+                      />
+                      {subtopic_in_edit ? (
+                        <a
+                          onClick={this.add_subtopic}
+                          href="#"
+                          class="btn theme-bg text-light mt-2"
+                        >
+                          {subtopic_index === null ? "Add" : "Update"}
+                        </a>
+                      ) : null}
+                    </div>
+                  </div>
+                </legend>
                 {subtopics.length ? (
                   <ul class="simple-list p-0">
                     {subtopics.map((subtopic, i) => (
                       <li key={i}>
-                        {subtopic.text}{" "}
+                        {subtopic.text} {" :: "}
+                        {subtopic.duration || ""}
                         <span
                           className="px-2"
                           onClick={() => this.filter_subtopic_index(i)}

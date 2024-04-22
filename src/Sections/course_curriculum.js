@@ -5,6 +5,11 @@ import Loadindicator from "../Components/loadindicator";
 import { Logged_admin } from "../Contexts";
 import { emitter } from "../Giit";
 import Curriculum_form from "./curriculum_form";
+import { get_session } from "./footer";
+import Small_btn from "../Components/small_btn";
+import { ReactMarkdown } from "react-markdown/lib/react-markdown";
+import { Img_tag } from "../Pages/Article";
+import { P_tag } from "./course_overview";
 
 class Course_curriculum extends React.Component {
   constructor(props) {
@@ -101,7 +106,7 @@ class Course_curriculum extends React.Component {
               aria-controls={`collapse${index}`}
               className="d-block position-relative text-dark py-2"
             >
-              {`Part ${String(index + 1).padStart(2, "0")}: ${topic}`}
+              {`${topic}`}
 
               {this.admin_logged ? (
                 <span>
@@ -132,12 +137,22 @@ class Course_curriculum extends React.Component {
           > */}
           <div className="card-body pl-3 pr-3">
             <ul className="lectures_lists">
-              {subtopics.map(({ text, book, video }, index) => (
+              {subtopics.map(({ text, duration, book, video }, index) => (
                 <li key={index} className={"incomplete" || "complete"}>
                   <div className="lectures_lists_title">
                     <i className="fas fa-check dios"></i>
                   </div>
-                  {text}
+                  <ReactMarkdown
+                    children={text}
+                    components={{
+                      img: Img_tag,
+                      p: P_tag,
+                    }}
+                  />
+
+                  {duration ? (
+                    <span className="cls_timing">{duration || "-"}</span>
+                  ) : null}
                   {video ? (
                     <span className="cls_timing">40:20</span>
                   ) : book ? (
@@ -175,7 +190,7 @@ class Course_curriculum extends React.Component {
     return (
       <Logged_admin.Consumer>
         {({ admin_logged }) => {
-          this.admin_logged = admin_logged;
+          this.admin_logged = admin_logged || get_session("logged_admin");
 
           return (
             <div
@@ -193,10 +208,10 @@ class Course_curriculum extends React.Component {
                 >
                   {in_all
                     ? "Discover our Python for Data Science Modules"
-                    : "Course Circullum"}
+                    : "Course curriculum"}
                 </h4>
 
-                {admin_logged && !show_form ? this.curriculum_btn() : null}
+                {this.admin_logged && !show_form ? this.curriculum_btn() : null}
 
                 {show_form ? (
                   <Curriculum_form

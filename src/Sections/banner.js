@@ -105,14 +105,14 @@ class Banner extends React.Component {
               md={6}
               sm={12}
             >
-              {thumbnail ? (
+              {/* {thumbnail ? (
                 <Video
                   url={video_url || `${domain}/Videos/${video}`}
                   thumbnail={thumbnail}
                   thumbnail_hash={thumbnail_hash}
                   style={{ overflow: "hidden" }}
                 />
-              ) : null}
+              ) : null} */}
             </Col>
           </Row>
         </Container>

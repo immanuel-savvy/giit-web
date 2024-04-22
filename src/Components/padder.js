@@ -1,5 +1,5 @@
 import React from "react";
 
-const Padder = () => <div style={{ height: 80 }} />;
+const Padder = ({ height }) => <div style={{ height: height || 80 }} />;
 
 export default Padder;

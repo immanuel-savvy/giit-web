@@ -102,7 +102,7 @@ class Add_sponsor extends Handle_image_upload {
                           src={
                             logo && logo.startsWith("data")
                               ? logo
-                              : `${domain}/images/${logo}`
+                              : `${domain}/Images/${logo}`
                           }
                         />
                       </span>

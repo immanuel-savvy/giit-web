@@ -57,9 +57,7 @@ class Featured_course extends React.Component {
             image_hash,
           }
         );
-      } catch (e) {
-        console.log(e.message);
-      }
+      } catch (e) {}
     }
   };
 
