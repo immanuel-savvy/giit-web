@@ -28,7 +28,6 @@ class Course_reviews extends React.Component {
       pager: node_id,
       reset_pager: true,
     });
-    console.log(reviews);
 
     this.setState({ reviews });
 

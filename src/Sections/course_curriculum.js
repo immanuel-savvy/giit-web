@@ -1,17 +1,18 @@
 import React from "react";
 import { Accordion } from "react-bootstrap";
-import { get_request, post_request } from "../Assets/js/utils/services";
+import { domain, get_request, post_request } from "../Assets/js/utils/services";
 import Loadindicator from "../Components/loadindicator";
 import { Logged_admin } from "../Contexts";
 import { emitter } from "../Giit";
 import Curriculum_form from "./curriculum_form";
 import { get_session } from "./footer";
-import Small_btn from "../Components/small_btn";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import { Img_tag } from "../Pages/Article";
 import { P_tag } from "./course_overview";
+import Text_btn from "../Components/text_btn";
+import Handle_image_upload from "../Components/handle_image_upload";
 
-class Course_curriculum extends React.Component {
+class Course_curriculum extends Handle_image_upload {
   constructor(props) {
     super(props);
 
@@ -129,15 +130,9 @@ class Course_curriculum extends React.Component {
           </h6>
         </Accordion.Header>
         <Accordion.Body>
-          {/* <div
-            id={`collapse${index}`}
-            aria-labelledby="headingOne"
-            data-parent="#accordionExample"
-            className={`collapse ${current_slide_index === index ? "show" : ""}`}
-          > */}
           <div className="card-body pl-3 pr-3">
             <ul className="lectures_lists">
-              {subtopics.map(({ text, duration, book, video }, index) => (
+              {subtopics.map(({ text, duration, book, video, file }, index) => (
                 <li key={index} className={"incomplete" || "complete"}>
                   <div className="lectures_lists_title">
                     <i className="fas fa-check dios"></i>
@@ -151,18 +146,36 @@ class Course_curriculum extends React.Component {
                   />
 
                   {duration ? (
-                    <span className="cls_timing">{duration || "-"}</span>
+                    <span className="cls_timing">
+                      Duration: {duration || "-"}
+                    </span>
                   ) : null}
                   {video ? (
                     <span className="cls_timing">40:20</span>
                   ) : book ? (
                     <></>
                   ) : null}
+
+                  {file ? (
+                    <a
+                      href={`${domain}/Files/${file}`}
+                      target="_blank"
+                      style={{ visibility: "hidden" }}
+                      className={`file_${index}`}
+                    ></a>
+                  ) : null}
+                  {file ? (
+                    <Text_btn
+                      text="Download Material"
+                      action={() => {
+                        document.querySelector(`.file_${index}`).click();
+                      }}
+                    />
+                  ) : null}
                 </li>
               ))}
             </ul>
           </div>
-          {/* </div> */}
         </Accordion.Body>
       </Accordion.Item>
     );
@@ -171,15 +184,63 @@ class Course_curriculum extends React.Component {
   toggle_curriculum_form = () =>
     this.setState({ show_form: !this.state.show_form });
 
-  curriculum_btn = () => {
+  upload_curriculum_file = async () => {
+    let { course } = this.props;
+    let { file, filename, filetype } = this.state;
+
+    let res = await post_request(`curriculum_file/${course._id}`, {
+      file,
+      filetype,
+      filename,
+    });
+
+    if (res.filename) course.curriculum_file = res.filename;
+  };
+
+  curriculum_btn = (upload) => {
+    let { course } = this.props;
     return (
-      <div className="d-flex align-items-center justify-content-center my-5">
-        <div className="elkios" onClick={this.toggle_curriculum_form}>
-          <a href="#" className="add_new_btn">
-            <i className="fas fa-plus-circle mr-1"></i>Add Curriculum
-          </a>
+      <>
+        {upload ? (
+          <div>
+            <>
+              <a
+                href={`${domain}/Files/${course.curriculum_file}`}
+                target="_blank"
+                style={{ visibility: "hidden" }}
+                className={`curr_${course._id.replace(/~/g, "00")}`}
+              ></a>
+              <Text_btn
+                text={course.curriculum_file}
+                action={() =>
+                  document
+                    .querySelector(`.curr_${course._id.replace(/~/g, "00")}`)
+                    .click()
+                }
+              />
+            </>
+            <input
+              type="file"
+              className="form-control mt-2"
+              placeholder="Material"
+              onChange={this.handle_file}
+            />
+          </div>
+        ) : null}
+        <div className="d-flex align-items-center justify-content-center my-5">
+          <div
+            className="elkios"
+            onClick={
+              upload ? this.upload_curriculum_file : this.toggle_curriculum_form
+            }
+          >
+            <a href="#" className="add_new_btn">
+              <i className="fas fa-plus-circle mr-1"></i>
+              {upload ? "Upload" : `Add`} Curriculum
+            </a>
+          </div>
         </div>
-      </div>
+      </>
     );
   };
 
@@ -211,6 +272,9 @@ class Course_curriculum extends React.Component {
                     : "Course curriculum"}
                 </h4>
 
+                {this.admin_logged && !show_form
+                  ? this.curriculum_btn("Upload")
+                  : null}
                 {this.admin_logged && !show_form ? this.curriculum_btn() : null}
 
                 {show_form ? (

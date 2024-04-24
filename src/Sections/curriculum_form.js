@@ -1,8 +1,9 @@
 import React from "react";
 import { post_request } from "../Assets/js/utils/services";
 import { emitter } from "../Giit";
+import Handle_image_upload from "../Components/handle_image_upload";
 
-class Curriculum_form extends React.Component {
+class Curriculum_form extends Handle_image_upload {
   constructor(props) {
     super(props);
 
@@ -18,7 +19,18 @@ class Curriculum_form extends React.Component {
 
   add_subtopic = (e) => {
     e.preventDefault();
-    let { subtopic_in_edit, subtopic_index, subtopics } = this.state;
+    let {
+      subtopic_in_edit,
+      filename,
+      filetype,
+      file,
+      subtopic_index,
+      subtopics,
+    } = this.state;
+
+    subtopic_in_edit.file = file || subtopic_in_edit.file;
+    subtopic_in_edit.filetype = filetype || subtopic_in_edit.filetype;
+    subtopic_in_edit.filename = filename || subtopic_in_edit.filename;
 
     if (subtopic_index !== null) {
       subtopics[subtopic_index] = subtopic_in_edit;
@@ -27,6 +39,7 @@ class Curriculum_form extends React.Component {
 
     this.setState({
       subtopics,
+      file: null,
       subtopic_index,
       subtopic_in_edit: new Object({
         text: "",
@@ -34,6 +47,9 @@ class Curriculum_form extends React.Component {
         video: "",
         quiz: "",
         book: "",
+        file: "",
+        filename: "",
+        filetype: "",
       }),
     });
   };
@@ -81,7 +97,7 @@ class Curriculum_form extends React.Component {
 
   render() {
     let { toggle } = this.props;
-    let { topic, _id, subtopics, subtopic_in_edit, subtopic_index } =
+    let { topic, _id, subtopics, subtopic_in_edit, filename, subtopic_index } =
       this.state;
 
     return (
@@ -150,6 +166,18 @@ class Curriculum_form extends React.Component {
                           })
                         }
                       />
+
+                      <label>
+                        Material - (
+                        {`${filename || subtopic_in_edit?.filename}`})
+                      </label>
+                      <input
+                        type="file"
+                        className="form-control mt-2"
+                        placeholder="Material"
+                        onChange={this.handle_file}
+                      />
+
                       {subtopic_in_edit ? (
                         <a
                           onClick={this.add_subtopic}

@@ -8,7 +8,7 @@ import Featured_course from "../Sections/course";
 import Course_banner from "../Sections/course_banner";
 import Course_details from "../Sections/course_details";
 import Course_sidebar from "../Sections/course_sidebar";
-import Footer from "../Sections/footer";
+import Footer, { get_session } from "../Sections/footer";
 import Header from "../Sections/header";
 import Student_reviews from "../Sections/student_reviews";
 import { scroll_to_top } from "./Adminstrator";
@@ -37,14 +37,12 @@ class Course extends React.Component {
   };
 
   componentDidMount = async () => {
-    let course = window.sessionStorage.getItem("course");
+    let course = get_session("course");
     scroll_to_top();
 
     if (course) {
-      course = JSON.parse(course);
-
       document.title = `${
-        course.meta_title || course.title
+        course.meta_title || course.title.replace(/_/g, " ")
       } | ${organisation_name}`;
 
       this.setState({ course });
@@ -65,12 +63,11 @@ class Course extends React.Component {
     emitter.listen("push_course", this.push_course);
 
     let loggeduser = get_session("loggeduser");
-    if (loggeduser) {
-      let { course } = this.state;
-
+    if (loggeduser && course) {
       let is_enrolled = await post_request("is_enrolled", {
         user: loggeduser._id,
         course: course._id,
+        masters: course.master_courses,
       });
       this.setState({ is_enrolled });
     }

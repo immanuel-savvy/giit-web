@@ -13,6 +13,10 @@ class Signup extends React.Component {
     this.state = { password: "" };
   }
 
+  componentDidMount = () => {
+    document.title = `Signup | ${organisation_name}`;
+  };
+
   toggle_reavel_password = () =>
     this.setState({ reveal_password: !this.state.reveal_password });
 

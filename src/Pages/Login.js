@@ -7,6 +7,7 @@ import { Logged_user } from "../Contexts";
 import Footer from "../Sections/footer";
 import Header from "../Sections/header";
 import Login_with_social from "../Components/login_with_social";
+import { organisation_name } from "../Constants/constants";
 
 class Login extends React.Component {
   constructor(props) {
@@ -14,6 +15,10 @@ class Login extends React.Component {
 
     this.state = {};
   }
+
+  componentDidMount = () => {
+    document.title = `Login | ${organisation_name}`;
+  };
 
   proceed = async () => {
     let { email, password, logging_in } = this.state;

@@ -12,6 +12,7 @@ import { emitter } from "../Giit";
 import { pricey } from "./course";
 import Instructor from "./instructor";
 import { get_session } from "./footer";
+import Stretch_button from "../Components/stretch_button";
 
 class Course_sidebar extends React.Component {
   constructor(props) {
@@ -146,14 +147,35 @@ class Course_sidebar extends React.Component {
                 </div>
 
                 <div className="ed_view_link">
-                  <Link to="/enroll" style={{ textDecorationLine: "none" }}>
-                    <span
-                      onClick={this.handle_enroll}
-                      className="btn theme-bg enroll-btn"
-                    >
-                      Enroll Now<i className="ti-angle-right"></i>
-                    </span>
-                  </Link>
+                  {is_enrolled ? (
+                    <>
+                      <a
+                        href={`${domain}/Files/${course.curriculum_file}`}
+                        target="_blank"
+                        style={{ visibility: "hidden" }}
+                        className={`curr_${course._id.replace(/~/g, "00")}`}
+                      ></a>
+                      <Stretch_button
+                        title="Download Curriculum"
+                        action={() =>
+                          document
+                            .querySelector(
+                              `.curr_${course._id.replace(/~/g, "00")}`
+                            )
+                            .click()
+                        }
+                      />
+                    </>
+                  ) : (
+                    <Link to="/enroll" style={{ textDecorationLine: "none" }}>
+                      <span
+                        onClick={this.handle_enroll}
+                        className="btn theme-bg enroll-btn"
+                      >
+                        Enroll Now<i className="ti-angle-right"></i>
+                      </span>
+                    </Link>
+                  )}
                 </div>
                 <div className="ed_view_link">
                   <Link to="/contact_us" style={{ textDecorationLine: "none" }}>

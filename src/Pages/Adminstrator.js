@@ -15,7 +15,7 @@ import Manage_admins from "../Sections/dashboard/manage_admins";
 import Manage_courses from "../Sections/dashboard/manage_courses";
 import Manage_instructors from "../Sections/dashboard/manage_instructors";
 import Manage_students from "../Sections/dashboard/manage_students";
-import Footer from "../Sections/footer";
+import Footer, { get_session } from "../Sections/footer";
 import Header from "../Sections/header";
 import Add_certification from "../Sections/dashboard/add_certification";
 import Manage_flash_promo from "../Sections/dashboard/manage_flash_promo";
@@ -44,7 +44,6 @@ import Manage_vacancies from "../Sections/dashboard/manage_vacancies";
 import University_progression_page_stuff from "../Sections/dashboard/university_progression_page_stuff";
 import Manage_universities from "../Sections/dashboard/manage_universities";
 import About_statement from "../Sections/dashboard/about_statement";
-import { organisation_name } from "../Constants/constants";
 import Video_reviews from "../Sections/dashboard/manage_video_reviews";
 import Manage_student_works from "../Sections/dashboard/manage_student_works";
 import Manage_vendors from "../Sections/dashboard/manage_vendors";
@@ -75,7 +74,7 @@ class Adminstrator extends React.Component {
   };
 
   componentDidMount = () => {
-    this.script_paths.map((script_path) => this.append_script(script_path));
+    !this.admin_logged && this.log_admin(get_session("logged_admin"));
 
     this.dash_nav_click = (nav_title) =>
       this.setState(
@@ -164,6 +163,9 @@ class Adminstrator extends React.Component {
     return (
       <Logged_admin.Consumer>
         {({ admin_logged, log_admin }) => {
+          this.admin_logged = admin_logged;
+          this.log_admin = log_admin;
+
           return admin_logged ? (
             <div id="main-wrapper">
               <Header page="dashboard" />

@@ -6179,8 +6179,8 @@ ul.lectures_lists li {
   border-bottom: 1px solid #e5e8ef;
   position: relative;
   width: 100%;
-  display: flex;
-  align-items: center;
+  /* display: flex; */
+  /* align-items: center; */
   font-weight: 600;
   cursor: pointer;
 }
