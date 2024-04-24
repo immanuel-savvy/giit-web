@@ -232,14 +232,17 @@ class Giit extends React.Component {
     if (master_courses && master_courses.map) {
       master_courses = master_courses
         .sort((m1, m2) => {
-          let m1_index = master_course_alignment.findIndex((m) =>
-              m1.title.toLowerCase().includes(m)
-            ),
-            m2_index = master_course_alignment.findIndex((m) =>
-              m2.title.toLowerCase().includes(m)
-            );
-          if (m1_index === -1) m1_index = 200;
-          if (m2_index === -1) m2_index = 200;
+          let m1_index = master_course_alignment.findIndex((m) => {
+              let t = m1.title.toLowerCase().replace(/_/g, " ");
+              return t.includes(m) || m.includes(t);
+            }),
+            m2_index = master_course_alignment.findIndex((m) => {
+              let t = m2.title.toLowerCase().replace(/_/g, " ");
+
+              return t.includes(m) || m.includes(t);
+            });
+          if (m1_index === -1) return 200;
+          if (m2_index === -1) return -1;
 
           return m1_index - m2_index;
         })

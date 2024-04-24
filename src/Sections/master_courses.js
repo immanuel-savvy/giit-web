@@ -10,10 +10,10 @@ import { Autoplay, Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 let master_course_alignment = new Array(
-  "science",
-  "cyber",
+  "data",
   "cloud",
-  "software",
+  "fullstack",
+  "cyber",
   "web",
   "graphic",
   "digital",

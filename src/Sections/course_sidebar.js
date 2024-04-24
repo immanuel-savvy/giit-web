@@ -11,7 +11,6 @@ import { Flash_promo } from "../Contexts";
 import { emitter } from "../Giit";
 import { pricey } from "./course";
 import Instructor from "./instructor";
-import { get_session } from "./footer";
 import Stretch_button from "../Components/stretch_button";
 
 class Course_sidebar extends React.Component {
